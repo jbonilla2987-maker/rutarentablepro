@@ -1,4 +1,4 @@
-const CACHE_NAME = "rutarentable-firebase-v4";
+const CACHE_NAME = "rutarentable-firebase-v6";
 const APP_SHELL = [
   "./",
   "./index.html",
