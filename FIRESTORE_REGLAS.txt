@@ -1,0 +1,59 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && request.auth.token.email == "jbonilla2987@gmail.com";
+    }
+
+    function isApproved(userId) {
+      return isAdmin()
+        || (
+          signedIn()
+          && request.auth.uid == userId
+          && exists(/databases/$(database)/documents/accessRequests/$(userId))
+          && get(/databases/$(database)/documents/accessRequests/$(userId)).data.status == "approved"
+        );
+    }
+
+    // Solicitudes y control de acceso.
+    // Javier (administrador) puede ver y modificar todas las solicitudes.
+    // Cada usuario normal solo puede crear y leer SU propia solicitud.
+    match /accessRequests/{userId} {
+      allow list: if isAdmin();
+      allow get: if isAdmin() || (signedIn() && request.auth.uid == userId);
+
+      allow create: if isAdmin() || (
+        signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.status == "pending"
+        && request.resource.data.role == "user"
+        && request.resource.data.email == request.auth.token.email
+      );
+
+      allow update, delete: if isAdmin();
+    }
+
+    // Datos privados de RutaRentable de cada usuario.
+    // Un usuario solo puede entrar a sus datos si ya fue aprobado.
+    match /users/{userId} {
+      allow read, create, update, delete:
+        if signedIn()
+        && request.auth.uid == userId
+        && isApproved(userId);
+
+      match /{document=**} {
+        allow read, create, update, delete:
+          if signedIn()
+          && request.auth.uid == userId
+          && isApproved(userId);
+      }
+    }
+  }
+}
