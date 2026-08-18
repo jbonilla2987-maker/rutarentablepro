@@ -5286,3 +5286,11 @@ table td{font-weight:490!important;letter-spacing:-.006em!important}
   .kpi b,.kpi strong,.kpi-value,.stat-value,.metric-value{letter-spacing:-.028em!important}
 }
 </style>
+<style id="fase11-border-adjustment">
+/* Fase 11: borde lateral ligeramente más grueso, sin alterar lógica ni layout */
+#dashboard .kpi{border-left-width:5px!important;}
+#expenses .expense-kpi{border-left-width:5px!important;}
+@media(max-width:620px){
+  #dashboard .kpi,#expenses .expense-kpi{border-left-width:4px!important;}
+}
+</style>
