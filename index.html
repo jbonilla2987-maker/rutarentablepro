@@ -5294,3 +5294,44 @@ table td{font-weight:490!important;letter-spacing:-.006em!important}
   #dashboard .kpi,#expenses .expense-kpi{border-left-width:4px!important;}
 }
 </style>
+
+<!-- RutaRentable Premium Fase 12: consistencia visual final -->
+<style id="fase12-premium-consistency">
+/* Jerarquia KPI sin cambiar datos ni calculos */
+#dashboard .kpi strong{font-size:31px!important;line-height:1.05!important;margin-top:15px!important}
+#dashboard .kpi span{font-size:10.5px!important;line-height:1.25!important}
+#dashboard .kpi small{font-size:10.5px!important;line-height:1.4!important}
+#dashboard .kpi{display:flex;flex-direction:column;justify-content:flex-start;min-height:148px!important}
+#dashboard .kpi-grid{gap:16px!important;align-items:stretch}
+
+/* Iconos consistentes */
+#dashboard .kpi span::before{width:36px!important;height:36px!important;flex-basis:36px!important;border-radius:12px!important;font-size:16px!important;box-shadow:0 6px 14px rgba(20,35,60,.07)}
+
+/* Navegacion: activo mas claro y grupos mas respirados */
+.sidebar nav{gap:6px!important}
+.nav-button{min-height:46px!important;border-radius:12px!important}
+.nav-button.active{box-shadow:inset 3px 0 0 #36d98b,0 8px 18px rgba(0,0,0,.10)!important}
+
+/* Botones uniformes */
+.button,.btn,button:not(.nav-button):not(.delete-button){border-radius:12px!important;min-height:42px}
+.button.primary,.btn.primary{box-shadow:0 8px 18px rgba(57,124,255,.14)}
+
+/* Formularios premium y consistentes */
+input,select,textarea{border-radius:12px!important;border:1px solid #dfe7f0!important;transition:border-color .16s ease,box-shadow .16s ease,background .16s ease}
+input:focus,select:focus,textarea:focus{border-color:#79a7ff!important;box-shadow:0 0 0 4px rgba(57,124,255,.10)!important;background:#fff!important}
+
+/* Estados */
+.badge,.user-status,.tracking-status,.maintenance-status{border-radius:999px!important;font-weight:760!important;letter-spacing:.01em!important}
+
+/* Tablas */
+table th{background:#f8fafc!important;color:#617188!important}
+table tbody tr{transition:background .15s ease}
+table tbody tr:hover{background:#f8fbff}
+
+@media(max-width:620px){
+  #dashboard .kpi{min-height:132px!important;padding:16px!important}
+  #dashboard .kpi strong{font-size:26px!important}
+  #dashboard .kpi span::before{width:34px!important;height:34px!important;flex-basis:34px!important}
+  .button,.btn,button:not(.nav-button):not(.delete-button){min-height:44px}
+}
+</style>
