@@ -43,7 +43,7 @@ input,select{min-height:42px;padding:10px 12px;border:1px solid var(--line);bord
 .dashboard-grid{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:15px;margin-top:15px}.profitability-card{grid-column:span 2}.chart-panel{grid-column:span 2}.recent-panel{grid-column:span 1}
 .profitability-content{display:flex;justify-content:space-between;gap:16px;align-items:center}.profitability-badge{padding:10px 14px;border-radius:999px;font-weight:900}.profitability-badge.excellent{color:#087444;background:#dff8eb}.profitability-badge.good{color:#24519c;background:#e7efff}.profitability-badge.low{color:#815b00;background:#fff4d3}.profitability-badge.loss{color:#b52d3e;background:#ffe7eb}
 .summary-list{display:grid;gap:13px;margin-top:20px}.summary-row{display:grid;grid-template-columns:1fr auto;gap:8px}.summary-name{display:flex;gap:8px;align-items:center;font-weight:750}.summary-dot{width:10px;height:10px;border-radius:50%}.summary-bar{grid-column:1/-1;height:8px;border-radius:999px;overflow:hidden;background:#edf1f6}.summary-bar div{height:100%}
-.bar-chart{height:290px;display:flex;align-items:flex-end;gap:11px;margin-top:22px;padding:0 8px 30px;border-bottom:1px solid var(--line)}.bar-item{position:relative;flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:7px}.bar{width:min(54px,82%);min-height:3px;border-radius:10px 10px 3px 3px;background:linear-gradient(180deg,#3cdb8d,#11aa61)}.bar.negative{background:linear-gradient(180deg,#ff7b89,#ef4659)}.bar-value{font-size:11px;font-weight:800}.bar-label{position:absolute;bottom:-23px;color:var(--muted);font-size:11px}
+.bar-chart{height:290px;display:flex;align-items:flex-end;gap:11px;margin-top:22px;padding:0 8px 30px;border-bottom:0}.bar-item{position:relative;flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:7px}.bar{width:min(54px,82%);min-height:3px;border-radius:10px 10px 3px 3px;background:linear-gradient(180deg,#3cdb8d,#11aa61)}.bar.negative{background:linear-gradient(180deg,#ff7b89,#ef4659)}.bar-value{font-size:11px;font-weight:800}.bar-label{position:absolute;bottom:-23px;color:var(--muted);font-size:11px}
 .recent-list{display:grid;gap:4px;margin-top:13px}.recent-item{display:grid;grid-template-columns:auto 1fr auto;gap:11px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}.recent-item:last-child{border-bottom:0}.recent-icon{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:var(--green);background:#e7f8ef;font-weight:900}.recent-item strong{display:block}.recent-item small{color:var(--muted)}.positive{color:var(--green2);font-weight:850}.negative{color:var(--red);font-weight:850}
 .section-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}.section-heading h2{margin:0;font-size:27px;letter-spacing:-.7px}.section-heading p{margin:5px 0 0;color:var(--muted)}
 .table-panel{padding:0;overflow:hidden}.table-toolbar{display:flex;gap:9px;padding:15px;border-bottom:1px solid var(--line)}.table-toolbar input{flex:1}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:980px}th,td{padding:13px 15px;border-bottom:1px solid var(--line);text-align:left}th{font-size:11px;text-transform:uppercase;color:var(--muted);background:#fbfcfe}td{font-size:14px}.badge{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:850}.badge.active{color:#805b00;background:#fff4d3}.badge.closed{color:#087444;background:#dff8eb}.delete-button{border:0;background:transparent;color:var(--red);font-size:17px}
@@ -778,6 +778,35 @@ input,select{min-height:42px;padding:10px 12px;border:1px solid var(--line);bord
 @media(max-width:1000px){.tracking-layout{grid-template-columns:1fr}.tracking-map{height:440px}.tracking-list{max-height:none}}
 @media(max-width:620px){.tracking-map{height:360px}.tracking-link-box{flex-direction:column;align-items:stretch}.tracking-actions,.tracking-actions .button{width:100%}}
 
+  
+/* RutaRentable 3.8.16 · acabado premium */
+.rr-hidden-mobile-mode{display:none!important}
+:root{--bg:#f6f8fc;--card:#fff;--line:#e7ebf2;--shadow:0 10px 30px rgba(25,42,70,.07)}
+body{background:linear-gradient(180deg,#f8faff 0,#f3f6fb 100%)}
+.sidebar{padding:24px 18px;background:linear-gradient(180deg,#0a1a31 0%,#061326 100%);box-shadow:18px 0 50px rgba(8,23,46,.06)}
+.brand{padding:2px 8px 22px}.brand .logo{box-shadow:0 10px 24px rgba(20,184,107,.24)}.brand strong{font-size:23px}.brand small{display:none!important}
+.profile{margin:0 -2px;padding:15px 10px;border-radius:14px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.035)}
+nav{gap:6px;margin-top:17px}.nav-button{padding:12px 13px;border-radius:12px;transition:.18s}.nav-button:hover{transform:translateX(2px)}.nav-button.active{color:#42e99d;background:linear-gradient(90deg,rgba(52,225,145,.13),rgba(255,255,255,.045));box-shadow:inset 3px 0 0 #35df91}
+.main{padding:26px 30px 46px}.topbar{padding:4px 0 5px;margin-bottom:22px}.heading h1{font-size:30px;font-weight:850}.heading p{font-size:14px}
+.panel,.kpi,.report-filter-bar{border:1px solid rgba(221,228,239,.86);box-shadow:0 12px 34px rgba(25,42,70,.065)}
+.panel{border-radius:20px;padding:22px}.kpi{border-radius:20px;min-height:142px;background:linear-gradient(145deg,#fff,#fbfcff)}
+.kpi strong{font-size:30px}.kpi::before{content:"";position:absolute;left:0;top:0;width:100%;height:3px;background:currentColor;opacity:.72}
+.active-session.empty-state{border:1px solid #e4eaf2;background:linear-gradient(135deg,#fff 0%,#f8fbff 100%)}
+.button{border-radius:12px}.button.primary{background:linear-gradient(135deg,#26c878,#10a961);box-shadow:0 10px 22px rgba(20,184,107,.2)}
+input,select,textarea{border-radius:12px;border-color:#e2e8f0}.bar-chart{border-bottom:0!important;padding-bottom:30px}.bar{box-shadow:0 8px 16px rgba(17,170,97,.16)}
+.dashboard-grid{gap:18px;margin-top:18px}.kpi-grid{gap:18px}
+.sync-sidebar,.mode-card{border-color:rgba(255,255,255,.09)!important}
+.support-layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,.75fr);gap:18px;align-items:start}
+.support-chat-card{padding:0;overflow:hidden}.support-chat-head{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fff,#fbfcff)}
+.support-avatar{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#2bd280,#0ea85e);font-weight:900;box-shadow:0 8px 20px rgba(20,184,107,.2)}
+.support-chat-head h3{margin:0;font-size:17px}.support-chat-head p{margin:4px 0 0;color:var(--muted);font-size:12px}.support-online{margin-left:auto;display:inline-flex;gap:6px;align-items:center;padding:7px 10px;border-radius:999px;background:#eaf9f1;color:#15754a;font-size:11px;font-weight:850}.support-online i{width:7px;height:7px;border-radius:50%;background:#1fc977}
+.support-messages{height:420px;overflow:auto;padding:22px;background:linear-gradient(180deg,#f8fafc,#fff);display:flex;flex-direction:column;gap:12px}
+.support-message{max-width:min(76%,560px);padding:11px 13px;border-radius:16px;line-height:1.45;box-shadow:0 6px 16px rgba(25,42,70,.05)}.support-message small{display:block;margin-top:5px;font-size:10px;opacity:.68}.support-agent{align-self:flex-start;background:#fff;border:1px solid #e6ebf2;border-bottom-left-radius:5px}.support-user{align-self:flex-end;color:#fff;background:linear-gradient(135deg,#21bf70,#0b9e58);border-bottom-right-radius:5px}.support-user small{color:rgba(255,255,255,.78);text-align:right}
+.support-composer{display:grid;grid-template-columns:1fr auto;gap:10px;padding:15px;border-top:1px solid var(--line);background:#fff}.support-composer textarea{min-height:50px;max-height:130px;resize:vertical;padding:13px}.support-composer .button{align-self:end;min-height:50px;padding-inline:20px}.support-status{padding:0 17px 15px;color:var(--muted);font-size:11px;background:#fff}
+.support-info-card{background:linear-gradient(145deg,#fff,#f9fbff)}.support-info-icon{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:#eef4ff;color:#397cff;font-size:22px;font-weight:900}.support-info-card h3{margin:14px 0 7px}.support-info-card p{margin:0;color:var(--muted);line-height:1.55}.support-quick-title{margin-top:20px;font-size:12px;font-weight:850;color:#48566a}.support-quick-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.support-quick-list button{padding:10px;border:1px solid #dfe6ef;border-radius:11px;background:#fff;color:#314056;text-align:left;font-weight:700}.support-quick-list button:hover{border-color:#7bd6aa;background:#f0fbf6}.support-private-note{margin-top:17px;padding:11px;border-radius:11px;background:#eef8f3;color:#34624f;font-size:11px;line-height:1.45}
+@media(max-width:900px){.support-layout{grid-template-columns:1fr}.support-messages{height:360px}}
+@media(max-width:620px){.main{padding:16px}.panel{border-radius:17px}.kpi-grid{gap:12px}.support-composer{grid-template-columns:1fr}.support-composer .button{width:100%}.support-quick-list{grid-template-columns:1fr}.support-message{max-width:88%}}
+
   </style>
 </head>
 <body>
@@ -861,7 +890,7 @@ input,select{min-height:42px;padding:10px 12px;border:1px solid var(--line);bord
         <div class="logo">↗</div>
         <div>
           <strong>Ruta<span>Rentable</span></strong>
-          <small>PRO · Beta segura 3.6</small>
+          
         </div>
       </div>
 
@@ -880,6 +909,7 @@ input,select{min-height:42px;padding:10px 12px;border:1px solid var(--line);bord
         <button class="nav-button" data-view="expenses"><span>💵</span> Gastos</button>
         <button class="nav-button" data-view="maintenance"><span>🛠</span> Mantenimiento</button>
         <button class="nav-button" data-view="reports"><span>▤</span> Reportes</button>
+        <button class="nav-button" data-view="support"><span>◌</span> Soporte</button>
         <button class="nav-button admin-nav-button" id="adminUsersNavButton" data-view="adminUsers" hidden><span>👥</span> Usuarios</button>
         <button class="nav-button admin-nav-button" id="trackingNavButton" data-view="tracking" hidden><span>📍</span> Rastreo</button>
         <button class="nav-button" data-view="settings"><span>⚙</span> Configuración</button>
@@ -1375,6 +1405,52 @@ input,select{min-height:42px;padding:10px 12px;border:1px solid var(--line);bord
         </div>
       </section>
 
+      <section class="view" id="support">
+        <div class="section-heading">
+          <div>
+            <h2>Soporte interno</h2>
+            <p>Comunícate con soporte directamente desde RutaRentable, sin WhatsApp.</p>
+          </div>
+        </div>
+        <div class="support-layout">
+          <article class="panel support-chat-card">
+            <div class="support-chat-head">
+              <div class="support-avatar">RR</div>
+              <div>
+                <h3>Chat de soporte</h3>
+                <p>Canal interno de RutaRentable</p>
+              </div>
+              <span class="support-online"><i></i> Interno</span>
+            </div>
+            <div class="support-messages" id="supportMessages" aria-live="polite">
+              <div class="support-message support-agent">
+                <div>¡Hola! 👋 ¿En qué podemos ayudarte?</div>
+                <small>Soporte RutaRentable</small>
+              </div>
+            </div>
+            <form class="support-composer" id="supportForm">
+              <textarea id="supportMessageInput" maxlength="600" placeholder="Escribe tu mensaje…" required></textarea>
+              <button class="button primary" type="submit">Enviar</button>
+            </form>
+            <div class="support-status" id="supportStatus">Los mensajes se guardan dentro de tu cuenta de RutaRentable.</div>
+          </article>
+
+          <aside class="panel support-info-card">
+            <div class="support-info-icon">?</div>
+            <h3>¿Necesitas ayuda?</h3>
+            <p>Describe el problema con el mayor detalle posible. El mensaje queda asociado a tu cuenta para facilitar el seguimiento.</p>
+            <div class="support-quick-title">Puedes escribir sobre:</div>
+            <div class="support-quick-list">
+              <button type="button" data-support-quick="Tengo una duda sobre una jornada.">Jornadas</button>
+              <button type="button" data-support-quick="Necesito ayuda con mis datos o sincronización.">Datos y sincronización</button>
+              <button type="button" data-support-quick="Quiero reportar un problema en RutaRentable.">Reportar problema</button>
+              <button type="button" data-support-quick="Tengo una sugerencia para RutaRentable.">Sugerencia</button>
+            </div>
+            <div class="support-private-note">🔒 Este canal es interno. No abre WhatsApp ni servicios externos.</div>
+          </aside>
+        </div>
+      </section>
+
       <section class="view" id="settings">
         <div class="section-heading">
           <div>
@@ -1479,7 +1555,7 @@ input,select{min-height:42px;padding:10px 12px;border:1px solid var(--line);bord
             </div>
           </article>
 
-          <article class="panel phone-mode-card">
+          <article class="panel phone-mode-card rr-hidden-mobile-mode" aria-hidden="true">
             <div class="phone-mode-header">
               <div class="phone-icon">📱</div>
               <div>
@@ -2848,6 +2924,25 @@ function renderSettings() {
   renderDashboardCardSettings();
   updateDeviceStatus();
 }
+const SUPPORT_LOCAL_KEY = "rutaRentableSupportMessagesV1";
+function readSupportMessagesLocal(){
+  try { const rows=JSON.parse(localStorage.getItem(SUPPORT_LOCAL_KEY)||"[]"); return Array.isArray(rows)?rows:[]; }
+  catch { return []; }
+}
+function writeSupportMessagesLocal(rows){
+  try { localStorage.setItem(SUPPORT_LOCAL_KEY,JSON.stringify(rows.slice(-100))); } catch {}
+}
+function renderSupportMessagesLocal(){
+  const box=document.getElementById("supportMessages"); if(!box) return;
+  const rows=readSupportMessagesLocal();
+  const welcome=`<div class="support-message support-agent"><div>¡Hola! 👋 ¿En qué podemos ayudarte?</div><small>Soporte RutaRentable</small></div>`;
+  box.innerHTML=welcome+rows.map(m=>`<div class="support-message ${m.role==="agent"?"support-agent":"support-user"}"><div>${escapeHtml(String(m.text||""))}</div><small>${m.role==="agent"?"Soporte RutaRentable":"Tú"} · ${new Date(m.at||Date.now()).toLocaleString("es-PA",{dateStyle:"short",timeStyle:"short"})}</small></div>`).join("");
+  box.scrollTop=box.scrollHeight;
+}
+function addSupportLocalMessage(text,role="user"){
+  const rows=readSupportMessagesLocal(); rows.push({id:`m_${Date.now()}_${Math.random().toString(36).slice(2,7)}`,text,role,at:Date.now()}); writeSupportMessagesLocal(rows); renderSupportMessagesLocal(); return rows.at(-1);
+}
+
 function showView(id) {
   if (id === "adminUsers" && document.getElementById("adminUsersNavButton")?.hidden) id = "dashboard";
   if (id === "tracking" && document.getElementById("trackingNavButton")?.hidden) id = "dashboard";
@@ -2860,6 +2955,7 @@ function showView(id) {
     expenses:["Gastos","Registra recargas, lavado y otros gastos manuales."],
     maintenance:["Mantenimiento","Configura recordatorios opcionales por kilometraje."],
     reports:["Reportes","Compara ingresos, horas y kilómetros."],
+    support:["Soporte","Chat interno para consultas y seguimiento."],
     adminUsers:["Usuarios","Administra solicitudes y accesos a RutaRentable."],
     tracking:["Rastreo","Visualiza en el mapa los celulares que comparten su ubicación."],
     settings:["Configuración","Define tus mínimos de rentabilidad."]
@@ -3083,6 +3179,29 @@ function exportSessionsCsv() {
 }
 
 document.querySelectorAll(".nav-button").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
+document.getElementById("supportForm")?.addEventListener("submit", async e=>{
+  e.preventDefault();
+  const input=document.getElementById("supportMessageInput");
+  const text=String(input?.value||"").trim();
+  if(!text) return;
+  const message=addSupportLocalMessage(text,"user");
+  input.value="";
+  const status=document.getElementById("supportStatus");
+  if(status) status.textContent="Mensaje guardado. Sincronizando con tu cuenta…";
+  try {
+    if(window.RutaRentableSupport?.send) await window.RutaRentableSupport.send(message);
+    if(status) status.textContent="Mensaje enviado por el canal interno de RutaRentable.";
+  } catch(err) {
+    console.warn("Soporte interno pendiente:",err);
+    if(status) status.textContent="Mensaje guardado en este dispositivo. Se intentará sincronizar al volver a conectarte.";
+  }
+});
+document.querySelectorAll("[data-support-quick]").forEach(b=>b.addEventListener("click",()=>{
+  const input=document.getElementById("supportMessageInput"); if(!input) return; input.value=b.dataset.supportQuick||""; input.focus();
+}));
+renderSupportMessagesLocal();
+window.addEventListener("rutarentable:support-updated", renderSupportMessagesLocal);
+
 document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.go)));
 document.getElementById("menuButton").addEventListener("click",()=>document.getElementById("sidebar").classList.toggle("open"));
 document.getElementById("periodFilter").addEventListener("change",()=>{updateDashboardPeriodControls();renderDashboard();});
@@ -3466,7 +3585,7 @@ renderAll();
     const PRECLOUD_BACKUP_KEY = "rutaRentablePreCloudBackupV1";
     const APP_LOCAL_KEYS = [
       "rutaRentableSessionsV1", "rutaRentableActiveSessionBackupV1", "rutaRentableFinishDraftV1",
-      LOCAL_MODIFIED_KEY, LINKED_UID_KEY, PRECLOUD_BACKUP_KEY
+      "rutaRentableSupportMessagesV1", LOCAL_MODIFIED_KEY, LINKED_UID_KEY, PRECLOUD_BACKUP_KEY
     ];
 
     let appBridge = window.RutaRentableApp || null;
@@ -3477,6 +3596,7 @@ renderAll();
     let unsubscribeAccess = null;
     let unsubscribeAdminUsers = null;
     let unsubscribeTrackingLocations = null;
+    let unsubscribeSupportMessages = null;
     let trackingMap = null;
     let trackingLayer = null;
     let trackingLeafletPromise = null;
@@ -4085,6 +4205,7 @@ renderAll();
       userDocRef = doc(db, CLOUD_COLLECTION, user.uid);
       shadowInitialized = false;
       startAdminUserListener();
+      startSupportMessageListener();
       updateUserUi(user);
       setSyncStatus("saving", "Conectando…", "Buscando tus datos en Firebase.");
 
@@ -4214,6 +4335,7 @@ Cancelar: subir los datos de este dispositivo.`
       if (unsubscribeAccess) { unsubscribeAccess(); unsubscribeAccess = null; }
       if (unsubscribeAdminUsers) { unsubscribeAdminUsers(); unsubscribeAdminUsers = null; }
       if (unsubscribeTrackingLocations) { unsubscribeTrackingLocations(); unsubscribeTrackingLocations = null; }
+      if (unsubscribeSupportMessages) { unsubscribeSupportMessages(); unsubscribeSupportMessages = null; }
       setTrackingNavVisible(false);
       currentAccessStatus = null;
       userDocRef = null;
@@ -4280,6 +4402,46 @@ Cancelar: subir los datos de este dispositivo.`
       } catch {}
     });
 
+    function startSupportMessageListener() {
+      if (unsubscribeSupportMessages) { unsubscribeSupportMessages(); unsubscribeSupportMessages = null; }
+      if (!currentUser) return;
+      const ref = collection(db, CLOUD_COLLECTION, currentUser.uid, "supportMessages");
+      unsubscribeSupportMessages = onSnapshot(ref, snapshot => {
+        const local = (() => { try { return JSON.parse(localStorage.getItem("rutaRentableSupportMessagesV1") || "[]"); } catch { return []; } })();
+        const byId = new Map((Array.isArray(local) ? local : []).map(item => [item.id, item]));
+        snapshot.docs.forEach(item => {
+          const data = item.data() || {};
+          byId.set(item.id, {
+            id: item.id,
+            text: String(data.text || ""),
+            role: data.role === "agent" ? "agent" : "user",
+            at: Number(data.createdAtMs || Date.now())
+          });
+        });
+        const rows = [...byId.values()].sort((a,b)=>Number(a.at||0)-Number(b.at||0)).slice(-100);
+        localStorage.setItem("rutaRentableSupportMessagesV1", JSON.stringify(rows));
+        window.dispatchEvent(new CustomEvent("rutarentable:support-updated"));
+      }, error => console.warn("Chat interno no pudo sincronizar:", error));
+    }
+
+    window.RutaRentableSupport = {
+      async send(message) {
+        if (!currentUser) throw new Error("Inicia sesión para enviar mensajes a soporte.");
+        const id = String(message?.id || `m_${Date.now()}_${Math.random().toString(36).slice(2,7)}`);
+        const ref = doc(db, CLOUD_COLLECTION, currentUser.uid, "supportMessages", id);
+        await setDoc(ref, {
+          text: String(message?.text || "").slice(0,600),
+          role: "user",
+          senderUid: currentUser.uid,
+          senderName: currentUser.displayName || currentUser.email || "Usuario",
+          senderEmail: currentUser.email || "",
+          createdAtMs: Number(message?.at || Date.now()),
+          createdAt: serverTimestamp(),
+          channel: "internal"
+        }, { merge: true });
+      }
+    };
+
     window.addEventListener("rutarentable:state-saved", () => {
       if (applyingCloud) return;
       scheduleCloudWrite("cambio-en-aplicacion");
@@ -4300,6 +4462,7 @@ onAuthStateChanged(auth, async user => {
         if (unsubscribeAccess) { unsubscribeAccess(); unsubscribeAccess = null; }
         if (unsubscribeAdminUsers) { unsubscribeAdminUsers(); unsubscribeAdminUsers = null; }
         if (unsubscribeTrackingLocations) { unsubscribeTrackingLocations(); unsubscribeTrackingLocations = null; }
+        if (unsubscribeSupportMessages) { unsubscribeSupportMessages(); unsubscribeSupportMessages = null; }
         if ($("adminUsersCard")) $("adminUsersCard").hidden = true;
         if ($("adminUsersNavButton")) $("adminUsersNavButton").hidden = true;
         setTrackingNavVisible(false);

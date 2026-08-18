@@ -41,3 +41,11 @@ Si no publicas estas reglas, la aprobación de usuarios puede fallar o quedar in
 ## Firebase Hosting
 
 La carpeta `public` contiene la misma versión. Puedes publicar con el archivo `firebase.json` incluido.
+
+
+## Ajuste visual premium 3.8.16
+- Se retiró visualmente el bloque **Modo celular** de Configuración.
+- Se eliminó la línea horizontal inferior del gráfico **Ganancia neta por jornada**.
+- El logo lateral queda como **RutaRentable**, sin la leyenda “PRO · Beta segura 3.6”.
+- Se añadió **Soporte interno** dentro de RutaRentable; no abre ni utiliza WhatsApp.
+- Se aplicó un acabado visual premium al panel, tarjetas, menú y controles sin cambiar la lógica financiera existente.

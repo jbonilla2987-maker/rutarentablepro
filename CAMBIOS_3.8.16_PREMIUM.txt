@@ -1,0 +1,10 @@
+RutaRentable WEB 3.8.16 · AJUSTE PREMIUM
+
+CAMBIOS VISUALES SOLICITADOS:
+1. Modo celular oculto de la interfaz.
+2. Línea horizontal del gráfico Ganancia neta por jornada eliminada.
+3. Leyenda PRO · Beta segura 3.6 eliminada del logo lateral.
+4. Soporte interno agregado dentro de la aplicación, sin WhatsApp.
+5. Panel, menú, tarjetas y controles con acabado premium.
+
+Se conserva la base funcional de la versión 3.8.16 y su configuración Firebase existente.
