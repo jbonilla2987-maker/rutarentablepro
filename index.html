@@ -1170,215 +1170,157 @@ table tbody tr:hover{background:#fbfefc}
 
 
 /* =========================================================
-   RutaRentable 3.8.16 Premium - FASE 5
-   Enfoque: Iniciar / Finalizar jornada (solo presentación)
+   FASE 7 PREMIUM — Vehículos + Usuarios + Rastreo
+   Solo presentación y contadores visuales; no altera cálculos.
    ========================================================= */
+#vehicles .section-heading,
+#adminUsers .section-heading,
+#tracking .section-heading{
+  position:relative;overflow:hidden;padding:22px 24px;border:1px solid #e4eaf2;
+  border-radius:20px;background:linear-gradient(135deg,#ffffff 0%,#f7fafc 62%,#eef7f2 100%);
+  box-shadow:0 14px 34px rgba(28,45,74,.07);margin-bottom:18px
+}
+#vehicles .section-heading:after,#adminUsers .section-heading:after,#tracking .section-heading:after{
+  content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-72px;top:-90px;
+  background:radial-gradient(circle,rgba(45,156,104,.12),rgba(45,156,104,0) 70%);pointer-events:none
+}
+#vehicles .section-heading h2,#adminUsers .section-heading h2,#tracking .section-heading h2{font-size:25px;letter-spacing:-.4px}
+#vehicles .section-heading p,#adminUsers .section-heading p,#tracking .section-heading p{max-width:700px}
 
-/* La función se conserva en el código, pero la tarjeta "Modo celular" no se muestra. */
-article:has(#installAppButton){display:none !important;}
+.vehicle-grid{grid-template-columns:repeat(auto-fit,minmax(270px,1fr))!important}
+.vehicle-card{min-height:238px;border:1px solid #e3e9f1!important;border-radius:19px!important;
+  background:linear-gradient(145deg,#fff 0%,#fbfcfe 68%,#f1f8f5 100%)!important;
+  box-shadow:0 12px 32px rgba(24,42,69,.075)!important;padding:20px!important}
+.vehicle-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(#33a06f,#65c397);opacity:.9}
+.vehicle-card:after{font-size:105px!important;right:-6px!important;bottom:-27px!important;opacity:.055!important}
+.vehicle-card-header h3{font-size:19px!important;letter-spacing:-.2px}
+.vehicle-meta{font-size:12px!important;line-height:1.55;margin-top:6px!important}
+.vehicle-stats{gap:12px!important}
+.vehicle-stat{padding:14px!important;border-radius:14px!important;background:#fff!important;box-shadow:0 6px 16px rgba(28,45,74,.045)}
+.vehicle-stat span{font-size:10px!important;text-transform:uppercase;letter-spacing:.45px;font-weight:800}
+.vehicle-stat strong{font-size:16px;margin-top:6px!important;color:#102039}
+.vehicle-card-footer{display:flex;align-items:center;gap:7px;color:#5c6f84!important}
+.vehicle-card-footer:before{content:"●";color:#35a36e;font-size:10px}
+.vehicle-delete-button{border-radius:12px!important;box-shadow:0 5px 14px rgba(168,40,57,.08)}
 
-/* Modales de jornada: apariencia de aplicación premium */
-#startModal, #finishModal{
-  background:rgba(8,18,35,.62);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-}
-#startModal .modal, #finishModal .modal{
-  border:1px solid rgba(148,163,184,.22);
-  border-radius:26px;
-  box-shadow:0 32px 90px rgba(2,8,23,.28),0 8px 24px rgba(15,23,42,.12);
-  overflow:hidden;
-  background:linear-gradient(180deg,#ffffff 0%,#fbfdff 100%);
-}
-#startModal .modal{max-width:760px;}
-#finishModal .modal.large{max-width:1120px;}
-#startModal .modal-header, #finishModal .modal-header{
-  margin:-24px -24px 22px;
-  padding:24px 28px;
-  background:linear-gradient(135deg,#0b1f35 0%,#123456 58%,#155f52 100%);
-  color:#fff;
-  border-bottom:0;
-  align-items:center;
-}
-#startModal .modal-header h2, #finishModal .modal-header h2{
-  color:#fff;
-  font-size:25px;
-  letter-spacing:-.02em;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin:0 0 5px;
-}
-#startModal .modal-header h2::before,
-#finishModal .modal-header h2::before{
-  width:42px;height:42px;border-radius:13px;display:grid;place-items:center;
-  background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.16);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
-  font-size:20px;flex:none;
-}
-#startModal .modal-header h2::before{content:'▶';}
-#finishModal .modal-header h2::before{content:'✓';}
-#startModal .modal-header p, #finishModal .modal-header p{color:rgba(255,255,255,.76);margin:0 0 0 54px;}
-#startModal .modal-header .icon-button, #finishModal .modal-header .icon-button{
-  color:#fff;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);
-  width:40px;height:40px;border-radius:12px;
-}
-#startModal .modal-header .icon-button:hover, #finishModal .modal-header .icon-button:hover{background:rgba(255,255,255,.18);}
+.admin-overview,.tracking-overview{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 16px}
+.admin-mini-card,.tracking-mini-card{position:relative;overflow:hidden;padding:16px 17px;border-radius:16px;border:1px solid #e4eaf2;background:#fff;box-shadow:0 9px 24px rgba(28,45,74,.055)}
+.admin-mini-card span,.tracking-mini-card span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.5px;font-weight:850;color:#77879a}
+.admin-mini-card strong,.tracking-mini-card strong{display:block;margin-top:7px;font-size:24px;color:#102039;letter-spacing:-.5px}
+.admin-mini-card small,.tracking-mini-card small{display:block;margin-top:4px;color:#8a98a8;font-size:11px}
+.admin-mini-card.pending strong{color:#a8750a}.admin-mini-card.approved strong{color:#267a50}.admin-mini-card.blocked strong{color:#a83a4d}
+.tracking-mini-card.live strong{color:#267a50}.tracking-mini-card.recent strong{color:#9a6b08}.tracking-mini-card.offline strong{color:#6b7888}
+.admin-users-card{border-radius:20px!important;border:1px solid #e3e9f1!important;box-shadow:0 14px 34px rgba(28,45,74,.07)!important}
+.admin-users-header{padding-bottom:14px;border-bottom:1px solid #edf1f5}
+.admin-users-table thead th{background:#f7f9fc;color:#64758a;font-size:10px;text-transform:uppercase;letter-spacing:.45px}
+.admin-users-table tbody tr{transition:background .18s ease}.admin-users-table tbody tr:hover{background:#fbfcfe}
+.user-status{border:1px solid transparent}.user-status.pending{border-color:#f7e0a5}.user-status.approved{border-color:#cbe9d8}.user-status.rejected,.user-status.blocked{border-color:#f4c8cf}
 
-/* Campos */
-#startModal .form-grid, #finishModal .form-grid{gap:15px 16px;}
-#startModal label, #finishModal label{font-weight:700;color:#334155;font-size:13px;letter-spacing:.005em;}
-#startModal input, #startModal select,
-#finishModal input, #finishModal select{
-  margin-top:7px;
-  min-height:46px;
-  border-radius:13px;
-  border:1px solid #dbe3ec;
-  background:#fff;
-  box-shadow:0 1px 2px rgba(15,23,42,.03);
-  transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease;
-}
-#startModal input:focus, #startModal select:focus,
-#finishModal input:focus, #finishModal select:focus{
-  border-color:#3aa981;
-  box-shadow:0 0 0 4px rgba(58,169,129,.12);
-  outline:none;
-}
-#startModal label.full, #finishModal label.full{
-  padding:14px;border-radius:16px;background:#f8fafc;border:1px solid #eef2f7;
-}
-#finishModal .important-field{
-  padding:14px;border-radius:16px;
-  background:linear-gradient(180deg,#effbf6,#f8fffb);
-  border:1px solid #ccecdc;
-}
-#finishModal .important-field small{color:#5b7469;font-weight:500;}
+.tracking-layout{grid-template-columns:minmax(0,1.7fr) minmax(300px,.72fr)!important;gap:18px!important}
+.tracking-panel,#tracking .tracking-layout>.panel{border-radius:20px!important;border:1px solid #e3e9f1!important;box-shadow:0 14px 34px rgba(28,45,74,.07)!important}
+.tracking-toolbar{padding-bottom:12px;border-bottom:1px solid #edf1f5}
+.tracking-link-box{padding:10px;border:1px solid #e5ebf2;border-radius:15px;background:#f8fafc}
+.tracking-link-box input{background:#fff;border-color:#e1e7ef!important;font-size:12px}
+.tracking-map{height:550px!important;border-radius:18px!important;border:1px solid #dfe6ee!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.5)}
+.tracking-user-card{border-radius:15px!important;padding:15px!important;box-shadow:0 7px 18px rgba(28,45,74,.045);transition:transform .18s ease,box-shadow .18s ease}
+.tracking-user-card:hover{transform:translateY(-1px);box-shadow:0 11px 22px rgba(28,45,74,.075)}
+.tracking-meta{background:#f8fafc;border-radius:11px;padding:10px!important;border-top:0!important;margin-top:12px!important}
+.tracking-status{padding:6px 9px!important}
+.tracking-empty{border:1px dashed #d8e0e9;border-radius:14px;background:#fafbfd}
 
-/* Resumen inicial de la jornada */
-#finishModal .finish-summary{
-  border:1px solid #dce8f1;
-  border-radius:18px;
-  background:linear-gradient(135deg,#f8fbff,#f1f8f6);
-  padding:16px 18px;
-  box-shadow:0 5px 18px rgba(15,23,42,.04);
+@media(max-width:1050px){.admin-overview,.tracking-overview{grid-template-columns:repeat(2,minmax(0,1fr))}.tracking-layout{grid-template-columns:1fr!important}.tracking-map{height:450px!important}}
+@media(max-width:620px){
+  #vehicles .section-heading,#adminUsers .section-heading,#tracking .section-heading{padding:18px;border-radius:17px}
+  #vehicles .section-heading h2,#adminUsers .section-heading h2,#tracking .section-heading h2{font-size:22px}
+  .admin-overview,.tracking-overview{grid-template-columns:1fr 1fr;gap:9px}
+  .admin-mini-card,.tracking-mini-card{padding:13px}.admin-mini-card strong,.tracking-mini-card strong{font-size:20px}
+  .vehicle-grid{grid-template-columns:1fr!important}.vehicle-card{min-height:auto}
+  .tracking-map{height:370px!important}.tracking-link-box{padding:8px}
 }
-#finishModal .draft-status{
-  border-radius:12px;
-  border:1px solid #e6edf4;
-  background:#f8fafc;
-  color:#64748b;
-  padding:10px 13px;
-  margin:10px 0 18px;
-  font-size:12px;
-}
+</style>
 
-/* Ingresos por plataforma */
-#finishModal .earnings-grid{gap:16px;margin-top:22px;align-items:stretch;}
-#finishModal .earning-box{
-  border:1px solid #e2e8f0;
-  border-radius:20px;
-  padding:18px;
-  background:#fff;
-  box-shadow:0 8px 26px rgba(15,23,42,.055);
-  position:relative;overflow:hidden;
+<style id="premium-fase6">
+/* RutaRentable 3.8.16 · Fase 6 visual — Gastos, Mantenimiento y Reportes */
+#expenses,#maintenance,#reports{--rr-ink:#152033;--rr-sub:#758198;--rr-line:#e9eef5;--rr-soft:#f7f9fc}
+#expenses>.section-heading,#maintenance>.section-heading,#reports>.section-heading{
+  position:relative;overflow:hidden;border:1px solid rgba(220,228,239,.9);border-radius:24px;
+  padding:24px 26px;margin-bottom:18px;background:linear-gradient(135deg,#ffffff 0%,#f8fbff 58%,#f4fff9 100%);
+  box-shadow:0 18px 45px rgba(26,45,76,.07)
 }
-#finishModal .earning-box::before{
-  content:'';position:absolute;inset:0 0 auto 0;height:4px;background:#94a3b8;
+#expenses>.section-heading:after,#maintenance>.section-heading:after,#reports>.section-heading:after{
+  content:"";position:absolute;right:-55px;top:-72px;width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,rgba(54,211,141,.14),rgba(54,211,141,0) 68%);pointer-events:none
 }
-#finishModal .earning-box.uber::before{background:linear-gradient(90deg,#1f2937,#64748b);}
-#finishModal .earning-box.indrive::before{background:linear-gradient(90deg,#22a36a,#6acb93);}
-#finishModal .earning-box.outside::before{background:linear-gradient(90deg,#3569d4,#76a7ff);}
-#finishModal .earning-box h3{font-size:18px;margin:2px 0 14px;color:#162033;}
-#finishModal .earning-box.uber h3::before{content:'●';margin-right:8px;color:#111827;font-size:12px;}
-#finishModal .earning-box.indrive h3::before{content:'●';margin-right:8px;color:#22a36a;font-size:12px;}
-#finishModal .earning-box.outside h3::before{content:'●';margin-right:8px;color:#3569d4;font-size:12px;}
-#finishModal .commission-toggle{
-  border:1px solid #d9ece2;background:#f2fbf6;border-radius:999px;padding:6px 10px;font-size:11px;
-}
-#finishModal .indrive-calculation{
-  margin-top:14px;padding:12px;border-radius:14px;background:#f7fbf9;border:1px solid #dfeee7;
-}
-#finishModal .indrive-calculation>div{padding:7px 0;border-bottom:1px dashed #dce7e1;}
-#finishModal .indrive-calculation>div:last-child{border-bottom:0;}
+#reports>.section-heading:after{background:radial-gradient(circle,rgba(84,132,255,.15),rgba(84,132,255,0) 68%)}
+#expenses>.section-heading h2,#maintenance>.section-heading h2,#reports>.section-heading h2{font-size:24px;letter-spacing:-.45px;margin-bottom:6px;color:var(--rr-ink)}
+#expenses>.section-heading p,#maintenance>.section-heading p,#reports>.section-heading p{color:var(--rr-sub);max-width:720px}
 
 /* Gastos */
-#finishModal .expense-section{
-  margin-top:22px;
-  padding:20px;
-  border-radius:20px;
-  border:1px solid #e6e9ef;
-  background:linear-gradient(180deg,#fff,#fbfcfe);
-  box-shadow:0 8px 28px rgba(15,23,42,.04);
-}
-#finishModal .expense-section h3{margin:0 0 5px;font-size:18px;color:#172033;}
-#finishModal .expense-section>p{margin:0 0 16px;color:#64748b;font-size:13px;line-height:1.55;}
-#finishModal .reimbursed-field{
-  padding:12px;border:1px solid #d6eadf;border-radius:15px;background:#f4fbf7;
-}
+#expenses .expense-kpi-grid{gap:14px;margin-bottom:18px}
+#expenses .expense-kpi{position:relative;overflow:hidden;min-height:132px;padding:20px 20px 18px;border:1px solid var(--rr-line);border-radius:21px;box-shadow:0 12px 32px rgba(26,45,76,.055);background:#fff}
+#expenses .expense-kpi:before{display:grid;place-items:center;width:42px;height:42px;margin-bottom:15px;border-radius:13px;font-size:19px;background:#f1f5ff}
+#expenses .expense-kpi:nth-child(1):before{content:"↘";color:#5f6f88;background:#f0f3f7}
+#expenses .expense-kpi:nth-child(2):before{content:"↻";color:#507df5;background:#eef3ff}
+#expenses .expense-kpi:nth-child(3):before{content:"✦";color:#a46a12;background:#fff7e6}
+#expenses .expense-kpi:nth-child(4):before{content:"＋";color:#7758d7;background:#f4efff}
+#expenses .expense-kpi span{font-size:12px;font-weight:850;color:#69768a;letter-spacing:.01em}
+#expenses .expense-kpi strong{display:block;margin:7px 0 5px;font-size:25px;letter-spacing:-.6px;color:#172238}
+#expenses .expense-kpi small{font-size:11px;line-height:1.35;color:#8a95a7}
+#expenses .expense-kpi:after{content:"";position:absolute;right:-28px;bottom:-42px;width:100px;height:100px;border-radius:50%;background:rgba(76,132,255,.05)}
+#expenses .table-panel{border:1px solid var(--rr-line);border-radius:22px;overflow:hidden;box-shadow:0 14px 40px rgba(26,45,76,.055)}
+#expenses .table-toolbar{padding:17px;background:linear-gradient(180deg,#fff,#fafcff);border-bottom:1px solid #edf1f6;gap:10px}
+#expenses .table-toolbar input,#expenses .table-toolbar select{min-height:44px;border-radius:12px;border-color:#e2e8f1;background:#fff}
+#expenses table thead th{background:#f7f9fc;color:#66748b;font-size:11px;letter-spacing:.025em;text-transform:uppercase}
+#expenses table tbody tr:hover{background:#fbfdfc}
 
-/* Resultado en vivo: cierre financiero */
-#finishModal .live-result.expanded{
-  margin-top:22px;
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:10px;
-  padding:14px;
-  border-radius:22px;
-  background:#0d2138;
-  border:1px solid #193b5d;
-  box-shadow:0 16px 36px rgba(13,33,56,.17);
-}
-#finishModal .live-result.expanded>div{
-  min-height:76px;
-  border-radius:15px;
-  padding:12px 14px;
-  background:rgba(255,255,255,.075);
-  border:1px solid rgba(255,255,255,.08);
-  display:flex;flex-direction:column;justify-content:center;gap:5px;
-}
-#finishModal .live-result.expanded span{color:#aebfd0;font-size:11px;text-transform:uppercase;letter-spacing:.055em;font-weight:700;}
-#finishModal .live-result.expanded strong{color:#fff;font-size:18px;}
-#finishModal .live-result.expanded .reimbursed-summary{background:rgba(72,187,120,.10);}
-#finishModal .live-result.expanded .highlight{
-  grid-column:span 2;
-  background:linear-gradient(135deg,#167c5a,#22a36a);
-  border-color:rgba(255,255,255,.14);
-}
-#finishModal .live-result.expanded .highlight span{color:#d9f9e9;}
-#finishModal .live-result.expanded .highlight strong{font-size:27px;letter-spacing:-.02em;}
+/* Mantenimiento */
+#maintenance .maintenance-list{display:grid;gap:16px}
+#maintenance .maintenance-card,#maintenance .maintenance-item,#maintenance .panel{border-radius:22px!important;border:1px solid var(--rr-line)!important;box-shadow:0 14px 38px rgba(26,45,76,.055)!important;background:linear-gradient(145deg,#fff,#fbfcff)!important}
+#maintenance .maintenance-list>div{position:relative;overflow:hidden}
+#maintenance .maintenance-list>div:before{content:"🛠";position:absolute;right:18px;top:17px;width:44px;height:44px;display:grid;place-items:center;border-radius:14px;background:#eef5ff;font-size:20px}
+#maintenance input,#maintenance select{border-radius:12px!important;min-height:43px}
+#maintenance .button{border-radius:12px}
 
-/* Acciones */
-#startModal .modal-actions, #finishModal .modal-actions{
-  margin:24px -24px -24px;
-  padding:17px 24px;
-  background:#f8fafc;
-  border-top:1px solid #e8edf3;
-  position:sticky;bottom:0;z-index:3;
-}
-#startModal .modal-actions .button, #finishModal .modal-actions .button{
-  min-height:46px;border-radius:13px;font-weight:800;padding-inline:20px;
-}
-#startModal .modal-actions .button.primary,
-#finishModal .modal-actions .button.primary{
-  background:linear-gradient(135deg,#15795a,#22a36a);
-  border-color:#15795a;
-  box-shadow:0 8px 20px rgba(34,163,106,.20);
-}
+/* Reportes */
+#reports .report-filter-bar{border:1px solid #e3eaf5;border-radius:19px;padding:17px 19px;margin-bottom:16px;background:linear-gradient(135deg,#f9fbff,#f7fffb);box-shadow:0 10px 28px rgba(26,45,76,.045)}
+#reports .report-filter-bar strong{color:#263650;font-size:14px}
+#reports .report-filter-bar select{min-height:43px;border-radius:12px;background:#fff}
+#reports .report-sheet{border:1px solid #e2e8f1;border-radius:25px;overflow:hidden;box-shadow:0 20px 55px rgba(25,43,72,.075);background:#fff}
+#reports .report-header{margin:-1px -1px 20px;padding:25px 26px;background:linear-gradient(125deg,#15223a 0%,#213454 62%,#244b58 100%);color:#fff;border-radius:24px 24px 18px 18px;position:relative;overflow:hidden}
+#reports .report-header:after{content:"";position:absolute;right:-60px;top:-95px;width:220px;height:220px;border-radius:50%;background:rgba(77,224,154,.11)}
+#reports .report-header h2{color:#fff!important;font-size:22px;margin-bottom:5px}
+#reports .report-header p{color:rgba(255,255,255,.68)!important;margin:0}
+#reports .report-header>span{position:relative;z-index:1;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.10);padding:8px 12px;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:.12em}
+#reports .report-kpis{gap:12px;margin:0 0 22px}
+#reports .report-kpis>*{border:1px solid #e9edf4!important;border-radius:18px!important;background:linear-gradient(145deg,#fff,#fbfcff)!important;box-shadow:0 9px 24px rgba(26,45,76,.045)!important}
+#reports .platform-profit-section{border:1px solid #e8edf4;border-radius:21px;padding:21px;margin:18px 0 25px;background:linear-gradient(145deg,#fff,#fbfdff);box-shadow:0 12px 32px rgba(26,45,76,.045)}
+#reports .platform-profit-title h3{font-size:17px;color:#263650;margin-bottom:5px}
+#reports .platform-profit-title p{color:#7b8799}
+#reports .donut-stage{padding:10px}
+#reports .donut-chart{filter:drop-shadow(0 12px 18px rgba(35,59,92,.08))}
+#reports .platform-profit-legend>*{border-radius:13px!important;border:1px solid #edf1f6!important;background:#fff!important}
+#reports .report-sheet>h3{margin:26px 0 11px;padding-top:3px;font-size:15px;color:#2d3a50;letter-spacing:-.15px}
+#reports .report-sheet .table-wrap{border:1px solid #edf1f6;border-radius:16px;overflow:auto}
+#reports .report-sheet table{margin:0}
+#reports .report-sheet thead th{position:sticky;top:0;z-index:1;background:#f6f8fb;color:#69768a;font-size:10px;text-transform:uppercase;letter-spacing:.04em}
+#reports .report-sheet tbody tr:hover{background:#fbfdfc}
 
-/* Móvil */
-@media (max-width:760px){
-  #startModal .modal, #finishModal .modal.large{border-radius:20px 20px 0 0;max-width:none;}
-  #startModal .modal-header, #finishModal .modal-header{margin:-18px -18px 18px;padding:20px;}
-  #startModal .modal-header h2, #finishModal .modal-header h2{font-size:21px;}
-  #startModal .modal-header p, #finishModal .modal-header p{margin-left:0;margin-top:8px;}
-  #finishModal .live-result.expanded{grid-template-columns:repeat(2,minmax(0,1fr));padding:10px;}
-  #finishModal .live-result.expanded .highlight{grid-column:span 2;}
-  #startModal .modal-actions, #finishModal .modal-actions{margin:20px -18px -18px;padding:14px 18px;}
-  #startModal .modal-actions .button, #finishModal .modal-actions .button{flex:1;}
-  #finishModal .expense-section{padding:15px;}
+@media(max-width:760px){
+  #expenses>.section-heading,#maintenance>.section-heading,#reports>.section-heading{padding:20px;border-radius:20px}
+  #expenses .expense-kpi-grid{grid-template-columns:1fr 1fr}
+  #expenses .expense-kpi{min-height:122px;padding:17px}
+  #reports .report-header{padding:21px 19px}
+  #reports .platform-profit-section{padding:16px}
 }
-
+@media(max-width:520px){
+  #expenses .expense-kpi-grid{grid-template-columns:1fr}
+  #expenses .expense-kpi{min-height:auto}
+  #reports .section-heading .button-row{width:100%;display:grid;grid-template-columns:1fr 1fr}
+  #reports .section-heading .button{width:100%}
+  #reports .report-filter-bar{align-items:stretch}
+}
 </style>
+
 </head>
 <body>
   <div class="auth-gate" id="authGate">
@@ -1903,6 +1845,13 @@ article:has(#installAppButton){display:none !important;}
           <span class="admin-badge">🔐 Solo administrador</span>
         </div>
 
+        <div class="admin-overview" id="adminUsersOverview" hidden>
+          <article class="admin-mini-card"><span>Total usuarios</span><strong id="adminCountTotal">0</strong><small>Registros de acceso</small></article>
+          <article class="admin-mini-card pending"><span>Pendientes</span><strong id="adminCountPending">0</strong><small>Esperando aprobación</small></article>
+          <article class="admin-mini-card approved"><span>Aprobados</span><strong id="adminCountApproved">0</strong><small>Con acceso activo</small></article>
+          <article class="admin-mini-card blocked"><span>Bloqueados</span><strong id="adminCountBlocked">0</strong><small>Acceso restringido</small></article>
+        </div>
+
         <article class="panel admin-users-card" id="adminUsersCard" hidden>
             <div class="admin-users-header">
               <div>
@@ -1938,6 +1887,13 @@ article:has(#installAppButton){display:none !important;}
             <p>Visualiza en el mapa los celulares que comparten su ubicación con RutaRentable.</p>
           </div>
           <span class="admin-badge">🔐 Solo administrador</span>
+        </div>
+
+        <div class="tracking-overview" id="trackingOverview">
+          <article class="tracking-mini-card"><span>Celulares</span><strong id="trackingCountTotal">0</strong><small>Con ubicación registrada</small></article>
+          <article class="tracking-mini-card live"><span>En línea</span><strong id="trackingCountLive">0</strong><small>Señal en últimos 90 s</small></article>
+          <article class="tracking-mini-card recent"><span>Recientes</span><strong id="trackingCountRecent">0</strong><small>Señal en últimos 10 min</small></article>
+          <article class="tracking-mini-card offline"><span>Sin señal</span><strong id="trackingCountOffline">0</strong><small>Más de 10 min</small></article>
         </div>
 
         <div class="tracking-layout">
@@ -4277,6 +4233,12 @@ renderAll();
       if (navButton) navButton.hidden = false;
       const rows = [];
       snapshot.forEach(item => rows.push({ uid:item.id, ...(item.data() || {}) }));
+      const overview = $("adminUsersOverview");
+      if (overview) overview.hidden = false;
+      if ($("adminCountTotal")) $("adminCountTotal").textContent = rows.length;
+      if ($("adminCountPending")) $("adminCountPending").textContent = rows.filter(row => (row.status || "pending") === "pending").length;
+      if ($("adminCountApproved")) $("adminCountApproved").textContent = rows.filter(row => row.status === "approved").length;
+      if ($("adminCountBlocked")) $("adminCountBlocked").textContent = rows.filter(row => row.status === "blocked" || row.status === "rejected").length;
       rows.sort((a,b) => {
         const rank = { pending:0, approved:1, rejected:2, blocked:3 };
         const r = (rank[a.status] ?? 9) - (rank[b.status] ?? 9);
@@ -4313,6 +4275,7 @@ renderAll();
       const card = $("adminUsersCard");
       const navButton = $("adminUsersNavButton");
       if (!isAdminUser()) {
+        if ($("adminUsersOverview")) $("adminUsersOverview").hidden = true;
         if (card) card.hidden = true;
         if (navButton) navButton.hidden = true;
         setTrackingNavVisible(false);
@@ -4384,6 +4347,12 @@ renderAll();
       if (!list || !summary) return;
       const activeRows = rows.filter(row => row.active !== false && Number.isFinite(Number(row.lat)) && Number.isFinite(Number(row.lng)));
       const liveCount = activeRows.filter(row => trackingAgeInfo(row.updatedAtClient).key === "live").length;
+      const recentCount = activeRows.filter(row => trackingAgeInfo(row.updatedAtClient).key === "recent").length;
+      const offlineCount = activeRows.filter(row => trackingAgeInfo(row.updatedAtClient).key === "offline").length;
+      if ($("trackingCountTotal")) $("trackingCountTotal").textContent = activeRows.length;
+      if ($("trackingCountLive")) $("trackingCountLive").textContent = liveCount;
+      if ($("trackingCountRecent")) $("trackingCountRecent").textContent = recentCount;
+      if ($("trackingCountOffline")) $("trackingCountOffline").textContent = offlineCount;
       summary.textContent = activeRows.length
         ? `${activeRows.length} celular${activeRows.length === 1 ? "" : "es"} con ubicación · ${liveCount} en línea`
         : "Todavía no hay ubicaciones compartidas.";

@@ -1,9 +1,3 @@
-# RutaRentable WEB 3.8.16 PREMIUM — FASE 5
-
-Esta fase mejora exclusivamente la presentación de **Iniciar jornada** y **Finalizar jornada**. No cambia Firebase, autenticación, cálculos, reglas de InDrive/Uber, gastos, jornadas ni estructura de datos.
-
-Cambios visuales: cabeceras premium, formularios más limpios, tarjetas de plataformas, bloque de gastos, resumen financiero en vivo, botones y adaptación móvil. Se mantiene oculto el bloque visual de “Modo celular”.
-
 # RutaRentable PRO 3.4 — Aprobación de usuarios desde la aplicación
 
 Versión preparada para **GitHub Pages** y **Firebase Hosting**.
