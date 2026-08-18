@@ -1168,6 +1168,109 @@ table tbody tr:hover{background:#fbfefc}
   #dashboard .bar-chart{height:250px;padding-inline:4px}
 }
 </style>
+
+<style id="fase8-premium-final">
+/* =========================================================
+   FASE 8 PREMIUM — Acabado visual general
+   Unifica tipografías, botones, tarjetas, formularios, modales
+   y microinteracciones sin cambiar lógica ni Firebase.
+   ========================================================= */
+:root{
+  --rr-radius-xl:22px;
+  --rr-radius-lg:17px;
+  --rr-radius-md:13px;
+  --rr-border:#e3e9f1;
+  --rr-shadow:0 14px 36px rgba(28,45,74,.075);
+  --rr-shadow-hover:0 18px 42px rgba(28,45,74,.11);
+}
+html{scroll-behavior:smooth}
+body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+button,input,select,textarea{font:inherit}
+button{transition:transform .16s ease,box-shadow .16s ease,background .16s ease,border-color .16s ease,opacity .16s ease}
+button:not(:disabled):active{transform:translateY(1px) scale(.995)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{
+  outline:3px solid rgba(47,165,113,.18)!important;outline-offset:2px!important
+}
+.panel,.card,.section-card,.form-card,.report-card,.maintenance-card,.expense-card{
+  border-color:var(--rr-border)!important;border-radius:var(--rr-radius-xl)!important;
+  box-shadow:var(--rr-shadow)!important
+}
+.panel:hover,.card:hover,.section-card:hover{box-shadow:var(--rr-shadow-hover)}
+input,select,textarea{
+  border-radius:12px!important;border-color:#dfe6ee!important;background:#fff!important;
+  transition:border-color .16s ease,box-shadow .16s ease,background .16s ease
+}
+input:hover,select:hover,textarea:hover{border-color:#ccd7e3!important}
+input:focus,select:focus,textarea:focus{border-color:#4cae7d!important;box-shadow:0 0 0 4px rgba(60,169,116,.10)!important}
+.primary-button,.secondary-button,.danger-button,.ghost-button,.action-button,.small-button,
+button[class*="button"],.btn{
+  border-radius:12px!important;font-weight:800!important;letter-spacing:.01em
+}
+.primary-button{box-shadow:0 8px 20px rgba(35,146,91,.18)!important}
+.primary-button:hover{box-shadow:0 11px 24px rgba(35,146,91,.24)!important;transform:translateY(-1px)}
+.secondary-button:hover,.ghost-button:hover{transform:translateY(-1px)}
+.section-heading{align-items:center}
+.section-heading h2{letter-spacing:-.45px}
+.section-heading p{line-height:1.55}
+.table-wrap,table{border-radius:14px}
+table tbody tr{transition:background .16s ease}
+table tbody tr:hover{background:#fafcfe}
+.badge,.status-badge,.chip,.pill,.user-status,.tracking-status{font-weight:850;letter-spacing:.02em}
+
+/* Navegación: sensación de app premium */
+.sidebar{box-shadow:10px 0 34px rgba(10,25,46,.06)}
+.nav-button{border-radius:13px!important;margin-block:2px;transition:background .16s ease,transform .16s ease,color .16s ease}
+.nav-button:hover{transform:translateX(2px)}
+.nav-button.active{box-shadow:inset 0 0 0 1px rgba(70,224,154,.08)}
+
+/* Barra superior */
+.topbar,.app-header,.main-header{backdrop-filter:saturate(125%) blur(8px);-webkit-backdrop-filter:saturate(125%) blur(8px)}
+
+/* Tarjetas KPI con interacción discreta */
+.kpi,.admin-mini-card,.tracking-mini-card,.vehicle-card{
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease
+}
+.kpi:hover,.admin-mini-card:hover,.tracking-mini-card:hover,.vehicle-card:hover{
+  transform:translateY(-2px);box-shadow:var(--rr-shadow-hover)!important;border-color:#d7e0ea!important
+}
+
+/* Modales */
+.modal,.modal-card,.dialog,.dialog-card,[role="dialog"]{
+  border-radius:22px!important;box-shadow:0 28px 80px rgba(14,29,50,.22)!important
+}
+.modal-backdrop,.dialog-backdrop{backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+
+/* Chat interno */
+#support .support-chat-card,#support .panel{border-radius:22px!important;overflow:hidden}
+#support .support-message{border-radius:14px!important;box-shadow:0 4px 12px rgba(28,45,74,.045)}
+#support .support-composer textarea,#support .support-composer input{border-radius:14px!important}
+
+/* Scrollbars discretas en escritorio */
+@media (pointer:fine){
+  *{scrollbar-width:thin;scrollbar-color:#c8d2dc transparent}
+  *::-webkit-scrollbar{width:9px;height:9px}
+  *::-webkit-scrollbar-thumb{background:#c8d2dc;border-radius:20px;border:2px solid transparent;background-clip:padding-box}
+  *::-webkit-scrollbar-track{background:transparent}
+}
+
+/* Animación de entrada suave sin afectar funcionalidad */
+.view.active .panel,.view.active .card,.view.active .section-heading,.view.active .kpi{
+  animation:rrPremiumIn .24s ease both
+}
+@keyframes rrPremiumIn{from{opacity:.72;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+
+/* Móvil */
+@media(max-width:620px){
+  .panel,.card,.section-card,.form-card{border-radius:17px!important}
+  .primary-button,.secondary-button,.danger-button,.ghost-button,.action-button,.small-button,button[class*="button"]{min-height:42px}
+  input,select,textarea{min-height:44px}
+  .section-heading{padding-left:17px!important;padding-right:17px!important}
+}
+</style>
+
 </head>
 <body>
   <div class="auth-gate" id="authGate">
