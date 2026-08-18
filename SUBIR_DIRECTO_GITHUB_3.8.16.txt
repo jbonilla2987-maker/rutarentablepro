@@ -1,0 +1,27 @@
+RUTARENTABLE WEB 3.8.16 - LOGIN PREMIUM + ICONO EMBEBIDO
+
+SOLO CAMBIA LA PRESENTACIÓN DEL LOGIN WEB.
+
+NUEVO:
+- El icono del carro + billete/dólar está EMBEBIDO dentro de index.html y 404.html.
+- No depende de una carpeta /assets ni de archivos externos.
+- Diseño más premium: hero visual, indicadores de confianza, tarjetas de funciones,
+  panel de acceso con mejor profundidad, sombras y acabado.
+- Responsive para escritorio y celular.
+
+NO CAMBIA:
+- Google Sign-In
+- Firebase / Firestore
+- acceso administrador
+- reglas
+- iPhone
+- Android
+- GPS
+- jornadas
+- reportes
+
+SUBIR:
+1. Reemplaza el contenido del repositorio Apps_Rentable con TODO este ZIP.
+2. Commit changes.
+3. Espera GitHub Pages.
+4. Abre la web y pulsa Ctrl+F5 una vez.
