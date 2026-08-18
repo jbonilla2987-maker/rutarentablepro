@@ -5198,3 +5198,91 @@ onAuthStateChanged(auth, async user => {
 
 </body>
 </html>
+
+<!-- RutaRentable Premium Fase 10: tipografia refinada -->
+<style id="premium-fase10-typography">
+:root{
+  --rr-font-display:"Segoe UI Variable Display","Segoe UI",Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --rr-font-text:"Segoe UI Variable Text","Segoe UI",Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;
+}
+html,body,button,input,select,textarea{font-family:var(--rr-font-text)!important;font-feature-settings:"kern" 1,"liga" 1,"calt" 1;font-kerning:normal}
+body{font-weight:450;letter-spacing:-.006em;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+
+/* Titulos principales */
+h1,h2,h3,.page-title,.section-title,.dashboard-title,.modal-title,.card-title{
+  font-family:var(--rr-font-display)!important;
+  font-weight:760!important;
+  letter-spacing:-.032em!important;
+  line-height:1.12!important;
+}
+
+/* Encabezados y subtitulos */
+.topbar strong,.brand-name,.welcome-title,.panel-title,.premium-section-title{
+  font-family:var(--rr-font-display)!important;
+  font-weight:780!important;
+  letter-spacing:-.028em!important;
+}
+.subtitle,.muted,.helper,.hint,.card-subtitle,.section-subtitle{
+  font-weight:470!important;
+  letter-spacing:-.008em!important;
+  line-height:1.45!important;
+}
+
+/* KPIs: numeros mas elegantes */
+.kpi b,.kpi strong,.kpi-value,.stat-value,.metric-value,[data-kpi-value],.money,.amount{
+  font-family:var(--rr-font-display)!important;
+  font-weight:790!important;
+  letter-spacing:-.035em!important;
+  font-variant-numeric:tabular-nums lining-nums;
+}
+.kpi small,.kpi-label,.stat-label,.metric-label{
+  font-weight:700!important;
+  letter-spacing:.045em!important;
+  text-transform:uppercase;
+}
+
+/* Navegacion */
+.sidebar a,.sidebar button,.nav-item,.menu-item{
+  font-weight:590!important;
+  letter-spacing:-.012em!important;
+}
+.sidebar .section-label,.nav-section-title{
+  font-weight:720!important;
+  letter-spacing:.075em!important;
+  text-transform:uppercase;
+}
+
+/* Botones y controles */
+button,.btn,.button,[role="button"]{
+  font-weight:680!important;
+  letter-spacing:-.012em!important;
+}
+input,select,textarea{
+  font-weight:500!important;
+  letter-spacing:-.006em!important;
+}
+label,.field-label{
+  font-weight:650!important;
+  letter-spacing:-.008em!important;
+}
+
+/* Tablas */
+table th,.table-header{
+  font-weight:720!important;
+  letter-spacing:.028em!important;
+  text-transform:uppercase;
+}
+table td{font-weight:490!important;letter-spacing:-.006em!important}
+
+/* Marca */
+.brand,.logo-text,.app-name{
+  font-family:var(--rr-font-display)!important;
+  font-weight:800!important;
+  letter-spacing:-.038em!important;
+}
+
+@media(max-width:700px){
+  h1,h2,h3,.page-title,.section-title,.dashboard-title{letter-spacing:-.025em!important}
+  .kpi b,.kpi strong,.kpi-value,.stat-value,.metric-value{letter-spacing:-.028em!important}
+}
+</style>
