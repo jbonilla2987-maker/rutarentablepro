@@ -1,0 +1,32 @@
+RUTARENTABLE WEB 3.8.13 - SUBIR DIRECTO A LA MISMA PAGINA GITHUB
+
+Preparado para reemplazar directamente los archivos del repositorio que publica:
+https://jbonilla2987-maker.github.io/Apps_Rentable/
+
+NO requiere BAT ni Firebase CLI.
+
+CAMBIOS
+- Mantiene la misma URL de GitHub Pages.
+- Firebase Web SDK actualizado a 12.17.1.
+- Login Google usa signInWithPopup solamente.
+- Se elimina signInWithRedirect en GitHub Pages.
+- Se desregistran Service Workers y se elimina caché vieja.
+- Mensajes claros si Chrome bloquea popup o si falta autorizar el dominio.
+- NO cambia Firestore Rules.
+- NO cambia iPhone ni Android.
+
+COMO SUBIR
+1. Abre el repositorio Apps_Rentable en GitHub.
+2. Borra/reemplaza los archivos actuales con TODO el contenido de este ZIP.
+3. Los archivos deben quedar en la raíz del repositorio.
+4. Commit changes.
+5. Espera 1-3 minutos.
+6. Abre:
+   https://jbonilla2987-maker.github.io/Apps_Rentable/
+7. Presiona Ctrl+F5 una sola vez.
+8. Prueba Continuar con Google.
+
+IMPORTANTE
+En Firebase Console > Authentication > Settings > Authorized domains
+debe existir:
+jbonilla2987-maker.github.io
