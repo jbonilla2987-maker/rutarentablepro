@@ -807,7 +807,165 @@ input,select,textarea{border-radius:12px;border-color:#e2e8f0}.bar-chart{border-
 @media(max-width:900px){.support-layout{grid-template-columns:1fr}.support-messages{height:360px}}
 @media(max-width:620px){.main{padding:16px}.panel{border-radius:17px}.kpi-grid{gap:12px}.support-composer{grid-template-columns:1fr}.support-composer .button{width:100%}.support-quick-list{grid-template-columns:1fr}.support-message{max-width:88%}}
 
-  </style>
+  
+
+/* ===== RutaRentable 3.8.16 · Premium fase 2 ===== */
+.view:not(#dashboard)>.section-heading{
+  position:relative;
+  overflow:hidden;
+  padding:20px 22px;
+  margin-bottom:18px;
+  border:1px solid rgba(221,228,239,.88);
+  border-radius:20px;
+  background:linear-gradient(135deg,#ffffff 0%,#fbfdff 72%,#f3fbf7 100%);
+  box-shadow:0 12px 34px rgba(25,42,70,.055);
+}
+.view:not(#dashboard)>.section-heading::after{
+  content:"";
+  position:absolute;
+  width:180px;height:180px;
+  right:-85px;top:-95px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(38,200,120,.14),rgba(38,200,120,0) 70%);
+  pointer-events:none;
+}
+.view:not(#dashboard)>.section-heading h2{font-size:25px;color:#0c1b31}
+.view:not(#dashboard)>.section-heading p{max-width:720px;line-height:1.5}
+
+.table-panel{
+  border:1px solid rgba(221,228,239,.9)!important;
+  border-radius:20px!important;
+  box-shadow:0 14px 38px rgba(25,42,70,.065)!important;
+}
+.table-toolbar{
+  padding:16px 18px;
+  gap:10px;
+  background:linear-gradient(180deg,#ffffff,#fafcff);
+}
+.table-toolbar input,.table-toolbar select{
+  background:#fff;
+  border-color:#dfe6ef;
+  box-shadow:0 4px 12px rgba(25,42,70,.035);
+}
+table thead th{
+  position:sticky;top:0;z-index:1;
+  background:#f7f9fc;
+  color:#607086;
+  letter-spacing:.45px;
+  border-bottom:1px solid #e1e7ef;
+}
+table tbody tr{transition:background .16s ease}
+table tbody tr:hover{background:#fbfefc}
+
+#sessions .table-panel::before,
+#expenses .table-panel::before,
+#reports .report-sheet::before{
+  content:"";display:block;height:3px;
+  background:linear-gradient(90deg,#21bf70,#62d99d,#dff6ea);
+}
+
+.vehicle-grid{gap:18px}
+.vehicle-card{
+  padding:22px!important;
+  border:1px solid #e2e8f0!important;
+  border-radius:20px!important;
+  background:linear-gradient(145deg,#fff 0%,#fbfdff 58%,#f4fbf7 100%)!important;
+  box-shadow:0 14px 36px rgba(25,42,70,.07)!important;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.vehicle-card:hover{transform:translateY(-2px);box-shadow:0 18px 42px rgba(25,42,70,.10)!important}
+.vehicle-card h3{font-size:18px;color:#102039}
+.vehicle-stat{border:1px solid #e8edf4;background:rgba(255,255,255,.84)}
+.vehicle-card-footer{font-size:12px}
+
+.expense-kpi-grid{gap:14px}
+.expense-kpi{
+  position:relative;overflow:hidden;
+  min-height:126px;
+  border-radius:18px!important;
+  background:linear-gradient(145deg,#fff,#fbfcff)!important;
+}
+.expense-kpi::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:#28c67a}
+.expense-kpi.recharge::before{background:#397cff}
+.expense-kpi.wash::before{background:#9b63e6}
+.expense-kpi.other::before{background:#f0a320}
+.expense-kpi strong{font-size:24px;letter-spacing:-.5px}
+
+#maintenance .maintenance-card{
+  border:1px solid #e2e8f0;
+  border-radius:20px;
+  padding:18px;
+  background:linear-gradient(145deg,#fff,#fbfdff);
+  box-shadow:0 12px 30px rgba(25,42,70,.055);
+}
+.maintenance-overview{border-radius:16px;background:#f8fafc}
+.maintenance-form{padding:4px}
+
+.report-filter-bar{
+  padding:18px 20px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#fff,#fbfdff 65%,#f3fbf7);
+}
+.report-sheet{
+  position:relative;overflow:hidden;
+  border-radius:22px!important;
+  border:1px solid #e1e7ef!important;
+  box-shadow:0 16px 42px rgba(25,42,70,.07)!important;
+}
+.report-header{
+  align-items:center;
+  padding:2px 2px 20px;
+  border-bottom:1px solid #dfe6ef;
+}
+.report-header h2{font-size:24px;color:#0b1b31}
+.report-header span{
+  border-radius:999px;
+  background:linear-gradient(135deg,#0a1a31,#16365e);
+  box-shadow:0 8px 18px rgba(10,26,49,.16);
+}
+.report-kpi{
+  padding:15px;
+  border-radius:14px;
+  background:linear-gradient(145deg,#fff,#f8fbff);
+  box-shadow:0 7px 18px rgba(25,42,70,.04);
+}
+.platform-profit-section{
+  border-radius:20px;
+  background:linear-gradient(145deg,#ffffff,#f7fbff 62%,#f2fbf6);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.55);
+}
+.profit-legend-row{box-shadow:0 5px 14px rgba(25,42,70,.035)}
+
+#support>.section-heading{background:linear-gradient(135deg,#fff,#f7fcf9)}
+.support-chat-card,.support-info-card{border-radius:20px!important}
+
+.topbar{
+  border:1px solid rgba(221,228,239,.76);
+  border-radius:18px;
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(14px);
+  box-shadow:0 10px 28px rgba(25,42,70,.055);
+  padding:14px 16px;
+  margin-bottom:18px;
+}
+.heading h1{font-size:24px;letter-spacing:-.5px}
+.header-actions label{font-size:11px;font-weight:800;color:#65748a}
+
+@media(max-width:850px){
+  .view:not(#dashboard)>.section-heading{padding:17px}
+  .table-toolbar{flex-wrap:wrap}
+  .table-toolbar input{flex:1 1 100%}
+  .table-toolbar select,.table-toolbar .button{flex:1 1 calc(50% - 8px)}
+  .topbar{border-radius:16px}
+}
+@media(max-width:620px){
+  .view:not(#dashboard)>.section-heading{border-radius:17px}
+  .view:not(#dashboard)>.section-heading h2{font-size:22px}
+  .table-toolbar select,.table-toolbar .button{flex:1 1 100%;width:100%}
+  .vehicle-card{padding:18px!important}
+  .report-sheet{padding:18px!important}
+}
+</style>
 </head>
 <body>
   <div class="auth-gate" id="authGate">

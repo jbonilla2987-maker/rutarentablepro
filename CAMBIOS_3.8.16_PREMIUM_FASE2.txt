@@ -1,0 +1,12 @@
+RutaRentable WEB 3.8.16 · PREMIUM FASE 2
+
+AJUSTES APLICADOS SIN CAMBIAR LA LÓGICA:
+- Jornadas: encabezado premium, filtros y tabla modernizados.
+- Vehículos: tarjetas premium con mejor jerarquía visual.
+- Gastos: KPIs, filtros y tabla con acabado premium.
+- Mantenimiento: tarjetas y formularios visualmente refinados.
+- Reportes: hoja, KPIs, filtros y leyendas con acabado premium.
+- Soporte: se mantiene 100% interno, sin WhatsApp.
+- Barra superior y controles refinados para escritorio y móvil.
+
+Se mantiene Firebase, cálculos, jornadas, usuarios, gastos, reportes y sincronización de la versión 3.8.16.
