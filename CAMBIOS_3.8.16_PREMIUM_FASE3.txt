@@ -1,0 +1,12 @@
+RutaRentable WEB 3.8.16 · Premium Fase 3
+
+Cambios visuales únicamente:
+- Nuevo encabezado premium en Panel principal.
+- Tarjetas KPI más modernas con iconos, mejor jerarquía y efecto hover.
+- Panel principal reorganizado para que gráfico y jornadas recientes aprovechen mejor el espacio.
+- Paneles, resumen de ingresos y actividad reciente con acabado más limpio.
+- Menú lateral refinado visualmente.
+- Se mantiene oculto Modo celular.
+- Se mantiene eliminado el texto PRO / Beta bajo el logo.
+- Soporte continúa como chat interno, sin WhatsApp.
+- No se modificaron cálculos, Firebase, jornadas, usuarios ni estructura de datos.
