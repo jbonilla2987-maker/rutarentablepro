@@ -965,6 +965,208 @@ table tbody tr:hover{background:#fbfefc}
   .vehicle-card{padding:18px!important}
   .report-sheet{padding:18px!important}
 }
+
+
+/* ===== RutaRentable 3.8.16 · Premium fase 4 ===== */
+#dashboard{
+  position:relative;
+}
+#dashboard>.active-session{
+  position:relative;
+  overflow:hidden;
+  min-height:104px;
+  border-radius:22px;
+}
+#dashboard>.active-session::after{
+  content:"";
+  position:absolute;
+  right:-45px;top:-70px;
+  width:230px;height:230px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(57,124,255,.12),rgba(57,124,255,0) 70%);
+  pointer-events:none;
+}
+#dashboard .active-session.empty-state .button.primary{
+  min-width:170px;
+  min-height:44px;
+}
+
+#dashboard .kpi-grid{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+}
+#dashboard .kpi{
+  min-height:148px;
+  padding:20px 20px 18px;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+#dashboard .kpi:hover{
+  transform:translateY(-3px);
+  box-shadow:0 18px 42px rgba(25,42,70,.10);
+  border-color:#dbe5f1;
+}
+#dashboard .kpi::after{
+  width:112px;height:112px;
+  right:-34px;bottom:-40px;
+  opacity:.075;
+}
+#dashboard .kpi span{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:#68788e;
+  font-size:11px;
+  letter-spacing:.45px;
+}
+#dashboard .kpi span::before{
+  content:"$";
+  width:34px;height:34px;
+  display:grid;place-items:center;
+  flex:0 0 34px;
+  border-radius:11px;
+  color:currentColor;
+  background:color-mix(in srgb,currentColor 10%,white);
+  font-size:15px;
+  font-weight:950;
+}
+#dashboard .kpi:nth-child(2) span::before{content:"✓"}
+#dashboard .kpi:nth-child(3) span::before{content:"◷"}
+#dashboard .kpi:nth-child(4) span::before{content:"↗"}
+#dashboard .kpi:nth-child(5) span::before{content:"◎"}
+#dashboard .kpi:nth-child(6) span::before{content:"$"}
+#dashboard .kpi:nth-child(7) span::before{content:"▦"}
+#dashboard .kpi:nth-child(8) span::before{content:"◆"}
+#dashboard .kpi strong{
+  margin:14px 0 5px;
+  font-size:29px;
+}
+#dashboard .kpi small{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:11px;
+}
+
+#dashboard .dashboard-grid{
+  grid-template-columns:minmax(0,1.55fr) minmax(300px,.75fr);
+  align-items:start;
+}
+#dashboard .profitability-card,
+#dashboard .chart-panel{
+  grid-column:1;
+}
+#dashboard .recent-panel{
+  grid-column:2;
+  grid-row:1 / span 2;
+  position:sticky;
+  top:18px;
+}
+#dashboard .profitability-card,
+#dashboard .chart-panel,
+#dashboard .recent-panel{
+  border-radius:22px;
+  overflow:hidden;
+}
+#dashboard .profitability-card::before,
+#dashboard .chart-panel::before,
+#dashboard .recent-panel::before{
+  content:"";
+  display:block;
+  height:3px;
+  margin:-22px -22px 18px;
+  background:linear-gradient(90deg,#1fc977,#4e8dff,#9e6be8);
+}
+#dashboard .chart-panel::before{background:linear-gradient(90deg,#2acb7d,#9be0bc)}
+#dashboard .recent-panel::before{background:linear-gradient(90deg,#397cff,#a9c2ff)}
+#dashboard .panel-header h2{
+  font-size:19px;
+  color:#102039;
+}
+#dashboard .bar-chart{
+  height:320px;
+  margin-top:18px;
+  padding:16px 10px 32px;
+  border-radius:16px;
+  background:linear-gradient(180deg,#fbfdff,#f7f9fc);
+  box-shadow:inset 0 0 0 1px #edf1f6;
+}
+#dashboard .bar{
+  border-radius:12px 12px 4px 4px;
+}
+#dashboard .recent-list{gap:0}
+#dashboard .recent-item{
+  margin:0 -5px;
+  padding:13px 6px;
+  border-radius:12px;
+  border-bottom:1px solid #edf1f5;
+  transition:.16s ease;
+}
+#dashboard .recent-item:hover{
+  background:#f8fbff;
+  transform:translateX(2px);
+}
+#dashboard .recent-icon{
+  width:40px;height:40px;
+  border-radius:13px;
+  box-shadow:inset 0 0 0 1px rgba(20,184,107,.08);
+}
+
+.sidebar .profile{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+}
+.sidebar nav::before{
+  content:"NAVEGACIÓN";
+  display:block;
+  padding:0 12px 6px;
+  color:#6f8198;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.2px;
+}
+.nav-button span{
+  width:28px;height:28px;
+  display:grid;place-items:center;
+  border-radius:9px;
+  background:rgba(255,255,255,.04);
+}
+.nav-button.active span{
+  color:#3ee598;
+  background:rgba(53,223,145,.11);
+}
+
+#support .support-chat-head{
+  background:linear-gradient(135deg,#ffffff 0%,#fbfffd 70%,#f0fbf5 100%);
+}
+#support .support-messages{
+  background:
+    radial-gradient(circle at 15% 10%,rgba(57,124,255,.05),transparent 22%),
+    radial-gradient(circle at 85% 90%,rgba(20,184,107,.06),transparent 26%),
+    linear-gradient(180deg,#f8fafc,#fff);
+}
+#support .support-composer{
+  box-shadow:0 -10px 24px rgba(25,42,70,.035);
+}
+
+@media(max-width:1280px){
+  #dashboard .kpi-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:1050px){
+  #dashboard .dashboard-grid{grid-template-columns:1fr}
+  #dashboard .profitability-card,#dashboard .chart-panel,#dashboard .recent-panel{grid-column:1;grid-row:auto}
+  #dashboard .recent-panel{position:static}
+}
+@media(max-width:850px){
+  #dashboard .kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #dashboard .bar-chart{height:280px}
+}
+@media(max-width:520px){
+  #dashboard .kpi-grid{grid-template-columns:1fr 1fr;gap:10px}
+  #dashboard .kpi{min-height:128px;padding:15px}
+  #dashboard .kpi span{font-size:9px;gap:6px}
+  #dashboard .kpi span::before{width:29px;height:29px;flex-basis:29px;border-radius:9px}
+  #dashboard .kpi strong{font-size:23px}
+  #dashboard .kpi small{font-size:9px}
+  #dashboard .bar-chart{height:250px;padding-inline:4px}
+}
 </style>
 </head>
 <body>
