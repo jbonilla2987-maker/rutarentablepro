@@ -1,0 +1,25 @@
+RUTARENTABLE WEB 3.8.14 - FIX ACCESO ADMINISTRADOR
+
+Confirmado:
+- correo admin: jbonilla2987@gmail.com
+- accessRequests status: approved
+- role: admin
+- UID en Authentication y Firestore: zaMLdw32YuRJvyEq7B37E5MojcY2
+
+CAMBIOS
+- La web ya NO reescribe accessRequests del administrador en cada login.
+- Lee el registro aprobado existente.
+- Si Google autentica y el acceso está approved, un error posterior de Firestore
+  ya NO cambia visualmente la cuenta a pending.
+- El administrador puede entrar a la interfaz aunque una sincronización puntual
+  de Firebase falle; el error se mostrará como error de sincronización.
+- No cambia reglas de Firestore.
+- No cambia iPhone ni Android.
+- Mantiene el login Google por popup de 3.8.13.
+
+SUBIR
+1. Reemplaza el contenido del repositorio Apps_Rentable con TODO este ZIP.
+2. Commit changes.
+3. Espera GitHub Pages.
+4. Abre la página y pulsa Ctrl+F5 una vez.
+5. Inicia sesión con jbonilla2987@gmail.com.

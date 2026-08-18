@@ -1,0 +1,26 @@
+RUTARENTABLE WEB 3.8.15 - LOGIN PROFESIONAL
+
+SOLO CAMBIA LA PANTALLA DE INICIO DE SESION DE LA WEB.
+NO CAMBIA:
+- Google Sign-In
+- Firebase / Firestore
+- permisos y aprobación
+- Android
+- iPhone
+- GPS
+- jornadas
+- reportes
+
+NUEVO DISEÑO
+- Logo del carro + billete/dólar.
+- Pantalla profesional dividida en escritorio.
+- Propuesta de valor y funciones a la izquierda.
+- Acceso limpio y moderno a la derecha.
+- En celular se adapta a una sola tarjeta.
+- Se eliminan los 3 cuadros numerados del login antiguo.
+
+SUBIR
+1. Reemplaza el contenido del repositorio Apps_Rentable con TODO este ZIP.
+2. Commit changes.
+3. Espera GitHub Pages.
+4. Abre la web y pulsa Ctrl+F5 una vez.
