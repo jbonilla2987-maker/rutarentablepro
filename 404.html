@@ -1507,6 +1507,15 @@ table tbody tr:hover{background:#fafcfe}
 #expenses .expense-kpi:nth-child(4){color:#7b4bd1} #expenses .expense-kpi:nth-child(4):before{content:"⚙";background:#f4efff}
 #expenses .expense-kpi span{color:#53627a} #expenses .expense-kpi strong{color:currentColor}
 @media(max-width:620px){#dashboard .kpi{padding-left:84px}#dashboard .kpi>span::before{left:17px;width:50px;height:50px}#expenses .expense-kpi{padding-left:78px}}
+
+/* Ajuste WEB: filtros superiores más amplios y columnas de jornadas alineadas */
+@media (min-width:851px){
+  .header-actions label{min-width:168px}
+  .header-actions #periodFilter{width:168px;min-width:168px}
+  .header-actions #dashboardMonthLabel{min-width:178px}
+  .header-actions #dashboardMonthFilter{width:178px;min-width:178px}
+}
+#sessions .reimbursed-value{color:#18a05e;font-weight:750}
 </style>
 
 </head>
@@ -3363,11 +3372,15 @@ function renderSessionsTable() {
     .filter(s => !query || [getVehicleName(s.vehicleId), s.startNote, s.finishNote, s.startDate].join(" ").toLowerCase().includes(query))
     .sort((a,b) => new Date(`${b.startDate}T${b.startTime}`) - new Date(`${a.startDate}T${a.startTime}`));
   const tbody = document.getElementById("sessionsTable");
-  if (!rows.length) { tbody.innerHTML = `<tr><td colspan="11" class="empty">No se encontraron jornadas.</td></tr>`; return; }
+  if (!rows.length) { tbody.innerHTML = `<tr><td colspan="14" class="empty">No se encontraron jornadas.</td></tr>`; return; }
   tbody.innerHTML = rows.map(s => {
     const closed = s.status === "closed";
     const net = closed ? sessionNet(s) : 0;
     const evalResult = closed ? evaluate(hoursBetween(s)?net/hoursBetween(s):0, sessionKm(s)?net/sessionKm(s):0, net) : null;
+    const indriveCommission = closed ? getInDriveCommission(s) : 0;
+    const reimbursedTolls = closed ? getReimbursedTolls(s) : 0;
+    const discountedExpenses = closed ? sessionExpenses(s) : Number(s.startFuel || 0);
+    const rechargePending = closed ? getRechargePending(s) : 0;
     return `<tr>
       <td>${formatDate(s.startDate)}</td>
       <td><span class="badge ${s.status}">${closed?"Finalizada":"Activa"}</span></td>
@@ -3376,7 +3389,10 @@ function renderSessionsTable() {
       <td>${closed?Number(s.endKm).toLocaleString("es-PA"):"—"}</td>
       <td>${closed?sessionKm(s)+" km":"—"}</td>
       <td>${closed?money(sessionIncome(s)):"—"}</td>
-      <td title="Incluye comisión InDrive: ${money(getInDriveCommission(s))}">${closed?money(sessionExpenses(s)):money(s.startFuel)}</td>
+      <td>${closed?money(indriveCommission):"—"}</td>
+      <td class="reimbursed-value">${closed?money(reimbursedTolls):"—"}</td>
+      <td>${closed?money(discountedExpenses):money(discountedExpenses)}</td>
+      <td>${closed?money(rechargePending):"—"}</td>
       <td class="${net>=0?"positive":"negative"}">${closed?money(net):"—"}</td>
       <td>${closed?evalResult.label:"En curso"}</td>
       <td>${closed?`<button class="delete-button" data-delete-session="${s.id}">🗑</button>`:`<button class="text-button" data-finish-session>Finalizar</button>`}</td>
