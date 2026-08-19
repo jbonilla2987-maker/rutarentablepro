@@ -1050,15 +1050,22 @@ table tbody tr:hover{background:#fbfefc}
   grid-template-columns:minmax(0,1.55fr) minmax(300px,.75fr);
   align-items:start;
 }
-#dashboard .profitability-card,
-#dashboard .chart-panel{
+#dashboard .profitability-card{
   grid-column:1;
+  grid-row:1;
+}
+#dashboard .dashboard-grid > .panel:not(.profitability-card):not(.chart-panel):not(.recent-panel){
+  grid-column:1;
+  grid-row:2;
 }
 #dashboard .recent-panel{
   grid-column:2;
-  grid-row:1 / span 2;
-  position:sticky;
-  top:18px;
+  grid-row:1;
+  position:static;
+}
+#dashboard .chart-panel{
+  grid-column:2;
+  grid-row:2;
 }
 #dashboard .profitability-card,
 #dashboard .chart-panel,
@@ -1082,15 +1089,55 @@ table tbody tr:hover{background:#fbfefc}
   color:#102039;
 }
 #dashboard .bar-chart{
-  height:320px;
+  height:auto;
+  min-height:190px;
   margin-top:18px;
-  padding:16px 10px 32px;
+  padding:14px;
   border-radius:16px;
   background:linear-gradient(180deg,#fbfdff,#f7f9fc);
   box-shadow:inset 0 0 0 1px #edf1f6;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:flex-start;
+  gap:10px;
+}
+#dashboard .bar-item{
+  display:grid;
+  grid-template-columns:58px minmax(0,1fr) auto;
+  align-items:center;
+  gap:10px;
+  width:100%;
+  height:auto;
+}
+#dashboard .bar-label{
+  position:static;
+  grid-column:1;
+  grid-row:1;
+  font-size:10px;
+  color:var(--muted);
+  white-space:nowrap;
 }
 #dashboard .bar{
-  border-radius:12px 12px 4px 4px;
+  grid-column:2;
+  grid-row:1;
+  width:var(--bar-width,3%);
+  height:18px!important;
+  min-height:18px;
+  border-radius:999px;
+  background:linear-gradient(90deg,#20b968,#5bd58f);
+  box-shadow:0 5px 12px rgba(17,170,97,.13);
+}
+#dashboard .bar.negative{
+  background:linear-gradient(90deg,#ef4659,#ff7b89);
+}
+#dashboard .bar-value{
+  grid-column:3;
+  grid-row:1;
+  font-size:10px;
+  font-weight:900;
+  white-space:nowrap;
+  color:#213047;
 }
 #dashboard .recent-list{gap:0}
 #dashboard .recent-item{
@@ -1156,7 +1203,7 @@ table tbody tr:hover{background:#fbfefc}
 }
 @media(max-width:850px){
   #dashboard .kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  #dashboard .bar-chart{height:280px}
+  #dashboard .bar-chart{min-height:180px}
 }
 @media(max-width:520px){
   #dashboard .kpi-grid{grid-template-columns:1fr 1fr;gap:10px}
@@ -1165,7 +1212,9 @@ table tbody tr:hover{background:#fbfefc}
   #dashboard .kpi span::before{width:29px;height:29px;flex-basis:29px;border-radius:9px}
   #dashboard .kpi strong{font-size:23px}
   #dashboard .kpi small{font-size:9px}
-  #dashboard .bar-chart{height:250px;padding-inline:4px}
+  #dashboard .bar-chart{min-height:160px;padding:10px}
+  #dashboard .bar-item{grid-template-columns:52px minmax(0,1fr);gap:7px}
+  #dashboard .bar-value{grid-column:2;grid-row:2;justify-self:end;margin-top:-5px}
 }
 
 
@@ -3289,9 +3338,9 @@ function renderChart(sessions) {
   if (!rows.length) { chart.innerHTML = `<div class="empty">No hay jornadas cerradas en este periodo.</div>`; return; }
   chart.innerHTML = rows.map(s => {
     const net = sessionNet(s);
-    const height = Math.max(Math.abs(net)/max*205,3);
-    return `<div class="bar-item"><div class="bar-value">${money(net)}</div><div class="bar ${net<0?"negative":""}" style="height:${height}px"></div>
-      <div class="bar-label">${formatDate(s.endDate).slice(0,6)}</div></div>`;
+    const width = Math.max(Math.abs(net)/max*100,3);
+    return `<div class="bar-item"><div class="bar-label">${formatDate(s.endDate).slice(0,6)}</div>
+      <div class="bar ${net<0?"negative":""}" style="--bar-width:${width}%"></div><div class="bar-value">${money(net)}</div></div>`;
   }).join("");
 }
 function renderRecent(sessions) {
