@@ -1261,6 +1261,9 @@ table tbody tr:hover{background:#fbfefc}
 .tracking-mini-card.live strong{color:#267a50}.tracking-mini-card.recent strong{color:#9a6b08}.tracking-mini-card.offline strong{color:#6b7888}
 .admin-users-card{border-radius:20px!important;border:1px solid #e3e9f1!important;box-shadow:0 14px 34px rgba(28,45,74,.07)!important}
 .admin-users-header{padding-bottom:14px;border-bottom:1px solid #edf1f5}
+.admin-users-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.admin-json-button{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.admin-json-button svg{width:14px;height:14px}
 .admin-users-table thead th{background:#f7f9fc;color:#64758a;font-size:10px;text-transform:uppercase;letter-spacing:.45px}
 .admin-users-table tbody tr{transition:background .18s ease}.admin-users-table tbody tr:hover{background:#fbfcfe}
 .user-status{border:1px solid transparent}.user-status.pending{border-color:#f7e0a5}.user-status.approved{border-color:#cbe9d8}.user-status.rejected,.user-status.blocked{border-color:#f4c8cf}
@@ -2046,7 +2049,10 @@ table tbody tr:hover{background:#fafcfe}
                 <h3>Solicitudes y accesos</h3>
                 <p class="muted">Gestiona desde aquí quién puede utilizar RutaRentable.</p>
               </div>
-              <span class="admin-badge">🔐 Solo administrador</span>
+              <div class="admin-users-tools">
+                <button class="button secondary admin-json-button" id="downloadAllUsersJsonButton" type="button" title="Descargar un respaldo JSON de todos los usuarios">⬇ JSON de todos</button>
+                <span class="admin-badge">🔐 Solo administrador</span>
+              </div>
             </div>
             <div class="table-wrap" style="margin-top:14px">
               <table class="admin-users-table">
@@ -4449,8 +4455,10 @@ renderAll();
       body.innerHTML = rows.map(user => {
         const status = user.status || "pending";
         const isSelf = normalizeEmail(user.email) === ADMIN_EMAIL;
-        const buttons = isSelf ? '<span class="muted">Administrador</span>' : `
+        const jsonButton = `<button class="button secondary admin-download-json" data-uid="${escapeHtml(user.uid)}" data-email="${escapeHtml(user.email || "")}" data-name="${escapeHtml(user.displayName || "Usuario")}" title="Descargar respaldo JSON de este usuario">⬇ JSON</button>`;
+        const buttons = isSelf ? `<div class="user-actions">${jsonButton}<span class="muted">Administrador</span></div>` : `
           <div class="user-actions">
+            ${jsonButton}
             <button class="button primary admin-user-action" data-uid="${escapeHtml(user.uid)}" data-action="approved">Aprobar</button>
             <button class="button secondary admin-user-action" data-uid="${escapeHtml(user.uid)}" data-action="rejected">Rechazar</button>
             <button class="button secondary danger-button admin-user-action" data-uid="${escapeHtml(user.uid)}" data-action="blocked">Bloquear</button>
@@ -4463,6 +4471,103 @@ renderAll();
           <td>${buttons}</td>
         </tr>`;
       }).join("");
+    }
+
+    function safeFilePart(value, fallback = "usuario") {
+      const cleaned = String(value || "").trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9._-]+/g, "_").replace(/^_+|_+$/g, "");
+      return cleaned || fallback;
+    }
+
+    function downloadJsonFile(filename, payload) {
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type:"application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    async function readUserBackupForAdmin(uid) {
+      if (!isAdminUser()) throw new Error("Esta función es exclusiva del administrador.");
+      const rootRef = doc(db, CLOUD_COLLECTION, uid);
+      const settingsRef = doc(db, CLOUD_COLLECTION, uid, "settings", "app");
+      const [rootSnap, settingsSnap, sessionsSnap, expensesSnap, vehiclesSnap] = await Promise.all([
+        getDoc(rootRef),
+        getDoc(settingsRef),
+        getDocs(collection(db, CLOUD_COLLECTION, uid, "sessions")),
+        getDocs(collection(db, CLOUD_COLLECTION, uid, "expenses")),
+        getDocs(collection(db, CLOUD_COLLECTION, uid, "vehicles"))
+      ]);
+      const root = rootSnap.exists() ? (rootSnap.data() || {}) : {};
+      const settings = settingsSnap.exists() ? (settingsSnap.data() || {}) : {};
+      return {
+        exportInfo: {
+          product:"RutaRentable PRO",
+          webBuild:WEB_BUILD,
+          exportedAt:new Date().toISOString(),
+          exportedBy:currentUser?.email || "",
+          uid
+        },
+        account: {
+          uid,
+          displayName:root.displayName || "",
+          email:root.email || "",
+          photoURL:root.photoURL || "",
+          storageVersion:Number(root.storageVersion || 0),
+          schemaVersion:Number(root.schemaVersion || settings.schemaVersion || 0),
+          clientUpdatedAt:Number(root.clientUpdatedAt || 0)
+        },
+        data: {
+          schemaVersion:Number(settings.schemaVersion || root.schemaVersion || 3),
+          profile:clone(settings.profile || {}),
+          sessions:sessionsSnap.docs.map(item => ({ ...item.data(), id:item.data()?.id || item.id })),
+          expenses:expensesSnap.docs.map(item => ({ ...item.data(), id:item.data()?.id || item.id })),
+          vehicles:vehiclesSnap.docs.map(item => ({ ...item.data(), id:item.data()?.id || item.id }))
+        }
+      };
+    }
+
+    async function downloadSingleUserJson(uid, email = "", displayName = "Usuario") {
+      const payload = await readUserBackupForAdmin(uid);
+      const accountEmail = payload.account.email || email;
+      const label = safeFilePart(accountEmail || displayName || uid);
+      const date = new Date().toISOString().slice(0,10);
+      downloadJsonFile(`RutaRentable_${label}_${date}.json`, payload);
+    }
+
+    async function downloadAllUsersJson() {
+      if (!isAdminUser()) throw new Error("Esta función es exclusiva del administrador.");
+      const accessSnap = await getDocs(collection(db, ACCESS_COLLECTION));
+      const users = accessSnap.docs.map(item => ({ uid:item.id, ...(item.data() || {}) }));
+      if (!users.some(user => user.uid === currentUser?.uid) && currentUser?.uid) {
+        users.unshift({ uid:currentUser.uid, email:currentUser.email || "", displayName:currentUser.displayName || "Administrador", status:"approved" });
+      }
+      const backups = [];
+      const failures = [];
+      for (const user of users) {
+        try {
+          const backup = await readUserBackupForAdmin(user.uid);
+          backup.access = { status:user.status || "pending", requestedAtClient:Number(user.requestedAtClient || 0) };
+          backups.push(backup);
+        } catch (error) {
+          failures.push({ uid:user.uid, email:user.email || "", error:error?.message || String(error) });
+        }
+      }
+      if (!backups.length) {
+        const firstError = failures[0]?.error || "No se pudieron leer los datos de los usuarios.";
+        throw new Error(firstError);
+      }
+      const date = new Date().toISOString().slice(0,10);
+      downloadJsonFile(`RutaRentable_TODOS_USUARIOS_${date}.json`, {
+        exportInfo:{ product:"RutaRentable PRO", webBuild:WEB_BUILD, exportedAt:new Date().toISOString(), exportedBy:currentUser?.email || "", total:backups.length },
+        users:backups,
+        failures
+      });
+      return { downloaded:backups.length, failures:failures.length };
     }
 
     function startAdminUserListener() {
@@ -5082,6 +5187,23 @@ Cancelar: subir los datos de este dispositivo.`
     $("deleteAccountButton")?.addEventListener("click", deleteCurrentAccount);
 
     $("adminUsersBody")?.addEventListener("click", async event => {
+      const jsonButton = event.target.closest(".admin-download-json");
+      if (jsonButton) {
+        jsonButton.disabled = true;
+        const original = jsonButton.textContent;
+        jsonButton.textContent = "Preparando…";
+        try {
+          await downloadSingleUserJson(jsonButton.dataset.uid, jsonButton.dataset.email, jsonButton.dataset.name);
+          appBridge.notify("Respaldo JSON del usuario descargado.");
+        } catch (error) {
+          console.error("No se pudo descargar el JSON del usuario:", error);
+          appBridge.notify(error.message || "No se pudo descargar el JSON. Revisa los permisos de Firestore.");
+        } finally {
+          jsonButton.disabled = false;
+          jsonButton.textContent = original;
+        }
+        return;
+      }
       const button = event.target.closest(".admin-user-action");
       if (!button) return;
       const uid = button.dataset.uid;
@@ -5092,6 +5214,25 @@ Cancelar: subir los datos de este dispositivo.`
       try { await setAccessStatus(uid, action); }
       catch (error) { console.error(error); appBridge.notify(error.message || "No se pudo actualizar el usuario."); }
       finally { button.disabled = false; }
+    });
+
+    $("downloadAllUsersJsonButton")?.addEventListener("click", async () => {
+      const button = $("downloadAllUsersJsonButton");
+      if (!button || !isAdminUser()) return;
+      if (!window.confirm("¿Deseas descargar un respaldo JSON con los datos de todos los usuarios?")) return;
+      button.disabled = true;
+      const original = button.textContent;
+      button.textContent = "Preparando respaldos…";
+      try {
+        const result = await downloadAllUsersJson();
+        appBridge.notify(result.failures ? `JSON descargado: ${result.downloaded} usuarios. ${result.failures} no pudieron leerse.` : `JSON descargado con ${result.downloaded} usuarios.`);
+      } catch (error) {
+        console.error("No se pudo descargar el JSON general:", error);
+        appBridge.notify(error.message || "No se pudo descargar el JSON general. Revisa los permisos de Firestore.");
+      } finally {
+        button.disabled = false;
+        button.textContent = original;
+      }
     });
 
 
