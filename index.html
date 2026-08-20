@@ -2071,6 +2071,28 @@ table tbody tr:hover{background:#fafcfe}
               </table>
             </div>
         </article>
+
+        <article class="panel admin-json-viewer" id="adminJsonViewer" hidden>
+          <div class="admin-json-viewer-header">
+            <div>
+              <button class="button secondary" id="adminJsonBackButton" type="button">← Volver a usuarios</button>
+              <h3 id="adminJsonViewerTitle">Datos del usuario</h3>
+              <p class="muted" id="adminJsonViewerSubtitle">Vista de solo lectura del respaldo JSON.</p>
+            </div>
+            <button class="button secondary" id="adminJsonViewerDownloadButton" type="button">⬇ Descargar JSON</button>
+          </div>
+          <div class="admin-json-summary" id="adminJsonSummary"></div>
+          <div class="admin-json-tabs" role="tablist" aria-label="Secciones de datos del usuario">
+            <button class="admin-json-tab active" type="button" data-json-section="all">JSON completo</button>
+            <button class="admin-json-tab" type="button" data-json-section="sessions">Jornadas</button>
+            <button class="admin-json-tab" type="button" data-json-section="expenses">Gastos</button>
+            <button class="admin-json-tab" type="button" data-json-section="vehicles">Vehículos</button>
+            <button class="admin-json-tab" type="button" data-json-section="profile">Perfil</button>
+          </div>
+          <div class="admin-json-code-wrap">
+            <pre id="adminJsonCode" class="admin-json-code">Selecciona un usuario para ver sus datos.</pre>
+          </div>
+        </article>
       </section>
 
 
@@ -4456,8 +4478,10 @@ renderAll();
         const status = user.status || "pending";
         const isSelf = normalizeEmail(user.email) === ADMIN_EMAIL;
         const jsonButton = `<button class="button secondary admin-download-json" data-uid="${escapeHtml(user.uid)}" data-email="${escapeHtml(user.email || "")}" data-name="${escapeHtml(user.displayName || "Usuario")}" title="Descargar respaldo JSON de este usuario">⬇ JSON</button>`;
-        const buttons = isSelf ? `<div class="user-actions">${jsonButton}<span class="muted">Administrador</span></div>` : `
+        const viewJsonButton = `<button class="button secondary admin-view-json" data-uid="${escapeHtml(user.uid)}" data-email="${escapeHtml(user.email || "")}" data-name="${escapeHtml(user.displayName || "Usuario")}" title="Ver los datos JSON de este usuario">👁 Ver datos</button>`;
+        const buttons = isSelf ? `<div class="user-actions">${viewJsonButton}${jsonButton}<span class="muted">Administrador</span></div>` : `
           <div class="user-actions">
+            ${viewJsonButton}
             ${jsonButton}
             <button class="button primary admin-user-action" data-uid="${escapeHtml(user.uid)}" data-action="approved">Aprobar</button>
             <button class="button secondary admin-user-action" data-uid="${escapeHtml(user.uid)}" data-action="rejected">Rechazar</button>
@@ -4529,6 +4553,68 @@ renderAll();
           vehicles:vehiclesSnap.docs.map(item => ({ ...item.data(), id:item.data()?.id || item.id }))
         }
       };
+    }
+
+    let adminJsonViewerPayload = null;
+    let adminJsonViewerUser = null;
+
+    function adminJsonViewerSectionPayload(section = "all") {
+      if (!adminJsonViewerPayload) return null;
+      if (section === "sessions") return adminJsonViewerPayload.data?.sessions || [];
+      if (section === "expenses") return adminJsonViewerPayload.data?.expenses || [];
+      if (section === "vehicles") return adminJsonViewerPayload.data?.vehicles || [];
+      if (section === "profile") return { account:adminJsonViewerPayload.account || {}, profile:adminJsonViewerPayload.data?.profile || {} };
+      return adminJsonViewerPayload;
+    }
+
+    function renderAdminJsonViewerSection(section = "all") {
+      const code = $("adminJsonCode");
+      if (!code) return;
+      const payload = adminJsonViewerSectionPayload(section);
+      code.textContent = JSON.stringify(payload, null, 2);
+      document.querySelectorAll(".admin-json-tab").forEach(tab => tab.classList.toggle("active", tab.dataset.jsonSection === section));
+    }
+
+    function closeAdminJsonViewer() {
+      const viewer = $("adminJsonViewer");
+      const card = $("adminUsersCard");
+      const overview = $("adminUsersOverview");
+      if (viewer) viewer.hidden = true;
+      if (card) card.hidden = false;
+      if (overview) overview.hidden = false;
+      adminJsonViewerPayload = null;
+      adminJsonViewerUser = null;
+    }
+
+    async function openAdminJsonViewer(uid, email = "", displayName = "Usuario") {
+      if (!isAdminUser()) throw new Error("Esta función es exclusiva del administrador.");
+      const viewer = $("adminJsonViewer");
+      const card = $("adminUsersCard");
+      const overview = $("adminUsersOverview");
+      const code = $("adminJsonCode");
+      if (viewer) viewer.hidden = false;
+      if (card) card.hidden = true;
+      if (overview) overview.hidden = true;
+      if (code) code.textContent = "Cargando datos del usuario…";
+      if ($("adminJsonViewerTitle")) $("adminJsonViewerTitle").textContent = `Datos de ${displayName || "Usuario"}`;
+      if ($("adminJsonViewerSubtitle")) $("adminJsonViewerSubtitle").textContent = `${email || "Sin correo"} · Vista de solo lectura`;
+      try {
+        const payload = await readUserBackupForAdmin(uid);
+        adminJsonViewerPayload = payload;
+        adminJsonViewerUser = { uid, email, displayName };
+        const sessions = payload.data?.sessions?.length || 0;
+        const expenses = payload.data?.expenses?.length || 0;
+        const vehicles = payload.data?.vehicles?.length || 0;
+        if ($("adminJsonSummary")) $("adminJsonSummary").innerHTML = `
+          <div><span>Jornadas</span><strong>${sessions}</strong></div>
+          <div><span>Gastos</span><strong>${expenses}</strong></div>
+          <div><span>Vehículos</span><strong>${vehicles}</strong></div>
+          <div><span>UID</span><strong class="uid-value">${escapeHtml(uid)}</strong></div>`;
+        renderAdminJsonViewerSection("all");
+      } catch (error) {
+        if (code) code.textContent = `No se pudieron leer los datos.\n\n${error?.message || error}`;
+        throw error;
+      }
     }
 
     async function downloadSingleUserJson(uid, email = "", displayName = "Usuario") {
@@ -5187,6 +5273,22 @@ Cancelar: subir los datos de este dispositivo.`
     $("deleteAccountButton")?.addEventListener("click", deleteCurrentAccount);
 
     $("adminUsersBody")?.addEventListener("click", async event => {
+      const viewJsonButton = event.target.closest(".admin-view-json");
+      if (viewJsonButton) {
+        viewJsonButton.disabled = true;
+        const original = viewJsonButton.textContent;
+        viewJsonButton.textContent = "Cargando…";
+        try {
+          await openAdminJsonViewer(viewJsonButton.dataset.uid, viewJsonButton.dataset.email, viewJsonButton.dataset.name);
+        } catch (error) {
+          console.error("No se pudieron mostrar los datos del usuario:", error);
+          appBridge.notify(error.message || "No se pudieron leer los datos. Revisa los permisos de Firestore.");
+        } finally {
+          viewJsonButton.disabled = false;
+          viewJsonButton.textContent = original;
+        }
+        return;
+      }
       const jsonButton = event.target.closest(".admin-download-json");
       if (jsonButton) {
         jsonButton.disabled = true;
@@ -5235,6 +5337,15 @@ Cancelar: subir los datos de este dispositivo.`
       }
     });
 
+
+    $("adminJsonBackButton")?.addEventListener("click", closeAdminJsonViewer);
+    document.querySelectorAll(".admin-json-tab").forEach(tab => tab.addEventListener("click", () => renderAdminJsonViewerSection(tab.dataset.jsonSection || "all")));
+    $("adminJsonViewerDownloadButton")?.addEventListener("click", async () => {
+      if (!adminJsonViewerPayload || !adminJsonViewerUser) return;
+      const label = safeFilePart(adminJsonViewerPayload.account?.email || adminJsonViewerUser.email || adminJsonViewerUser.displayName || adminJsonViewerUser.uid);
+      const date = new Date().toISOString().slice(0,10);
+      downloadJsonFile(`RutaRentable_${label}_${date}.json`, adminJsonViewerPayload);
+    });
 
     $("trackingCopyLinkButton")?.addEventListener("click", async () => {
       const url = trackingShareUrl();
@@ -5541,3 +5652,22 @@ table tbody tr:hover{background:#f8fbff}
 }
 #sessions .reimbursed-value{color:#18a05e;font-weight:750}
 </style>
+<style id="admin-json-viewer-premium">
+.admin-json-viewer{margin-top:18px;padding:22px}
+.admin-json-viewer-header{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:18px}
+.admin-json-viewer-header h3{margin:14px 0 4px;font-size:24px}
+.admin-json-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0 18px}
+.admin-json-summary>div{background:#f8fafc;border:1px solid #e6edf5;border-radius:14px;padding:14px 16px;min-width:0}
+.admin-json-summary span{display:block;color:#738196;font-size:11px;font-weight:750;text-transform:uppercase;letter-spacing:.05em}
+.admin-json-summary strong{display:block;margin-top:6px;font-size:20px;color:#182437;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.admin-json-summary .uid-value{font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.admin-json-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.admin-json-tab{border:1px solid #dfe7f0;background:#fff;color:#415067;border-radius:10px;padding:9px 13px;min-height:38px;font-weight:700;cursor:pointer}
+.admin-json-tab.active{background:#10243f;color:#fff;border-color:#10243f;box-shadow:0 7px 16px rgba(16,36,63,.13)}
+.admin-json-code-wrap{border:1px solid #dfe7f0;border-radius:14px;overflow:hidden;background:#0f1724}
+.admin-json-code{margin:0;max-height:58vh;overflow:auto;padding:18px;color:#dbe8f7;background:#0f1724;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word}
+.admin-view-json{white-space:nowrap}
+@media(max-width:850px){.admin-json-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.admin-json-viewer-header{flex-direction:column}.admin-json-viewer-header .button{width:100%}}
+@media(max-width:520px){.admin-json-summary{grid-template-columns:1fr}.admin-json-tab{flex:1 1 45%}.admin-json-viewer{padding:15px}}
+</style>
+

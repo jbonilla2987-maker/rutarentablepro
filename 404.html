@@ -1261,6 +1261,9 @@ table tbody tr:hover{background:#fbfefc}
 .tracking-mini-card.live strong{color:#267a50}.tracking-mini-card.recent strong{color:#9a6b08}.tracking-mini-card.offline strong{color:#6b7888}
 .admin-users-card{border-radius:20px!important;border:1px solid #e3e9f1!important;box-shadow:0 14px 34px rgba(28,45,74,.07)!important}
 .admin-users-header{padding-bottom:14px;border-bottom:1px solid #edf1f5}
+.admin-users-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.admin-json-button{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.admin-json-button svg{width:14px;height:14px}
 .admin-users-table thead th{background:#f7f9fc;color:#64758a;font-size:10px;text-transform:uppercase;letter-spacing:.45px}
 .admin-users-table tbody tr{transition:background .18s ease}.admin-users-table tbody tr:hover{background:#fbfcfe}
 .user-status{border:1px solid transparent}.user-status.pending{border-color:#f7e0a5}.user-status.approved{border-color:#cbe9d8}.user-status.rejected,.user-status.blocked{border-color:#f4c8cf}
@@ -1507,15 +1510,6 @@ table tbody tr:hover{background:#fafcfe}
 #expenses .expense-kpi:nth-child(4){color:#7b4bd1} #expenses .expense-kpi:nth-child(4):before{content:"⚙";background:#f4efff}
 #expenses .expense-kpi span{color:#53627a} #expenses .expense-kpi strong{color:currentColor}
 @media(max-width:620px){#dashboard .kpi{padding-left:84px}#dashboard .kpi>span::before{left:17px;width:50px;height:50px}#expenses .expense-kpi{padding-left:78px}}
-
-/* Ajuste WEB: filtros superiores más amplios y columnas de jornadas alineadas */
-@media (min-width:851px){
-  .header-actions label{min-width:168px}
-  .header-actions #periodFilter{width:168px;min-width:168px}
-  .header-actions #dashboardMonthLabel{min-width:178px}
-  .header-actions #dashboardMonthFilter{width:178px;min-width:178px}
-}
-#sessions .reimbursed-value{color:#18a05e;font-weight:750}
 </style>
 
 </head>
@@ -2055,7 +2049,10 @@ table tbody tr:hover{background:#fafcfe}
                 <h3>Solicitudes y accesos</h3>
                 <p class="muted">Gestiona desde aquí quién puede utilizar RutaRentable.</p>
               </div>
-              <span class="admin-badge">🔐 Solo administrador</span>
+              <div class="admin-users-tools">
+                <button class="button secondary admin-json-button" id="downloadAllUsersJsonButton" type="button" title="Descargar un respaldo JSON de todos los usuarios">⬇ JSON de todos</button>
+                <span class="admin-badge">🔐 Solo administrador</span>
+              </div>
             </div>
             <div class="table-wrap" style="margin-top:14px">
               <table class="admin-users-table">
@@ -2073,6 +2070,28 @@ table tbody tr:hover{background:#fafcfe}
                 </tbody>
               </table>
             </div>
+        </article>
+
+        <article class="panel admin-json-viewer" id="adminJsonViewer" hidden>
+          <div class="admin-json-viewer-header">
+            <div>
+              <button class="button secondary" id="adminJsonBackButton" type="button">← Volver a usuarios</button>
+              <h3 id="adminJsonViewerTitle">Datos del usuario</h3>
+              <p class="muted" id="adminJsonViewerSubtitle">Vista de solo lectura del respaldo JSON.</p>
+            </div>
+            <button class="button secondary" id="adminJsonViewerDownloadButton" type="button">⬇ Descargar JSON</button>
+          </div>
+          <div class="admin-json-summary" id="adminJsonSummary"></div>
+          <div class="admin-json-tabs" role="tablist" aria-label="Secciones de datos del usuario">
+            <button class="admin-json-tab active" type="button" data-json-section="all">JSON completo</button>
+            <button class="admin-json-tab" type="button" data-json-section="sessions">Jornadas</button>
+            <button class="admin-json-tab" type="button" data-json-section="expenses">Gastos</button>
+            <button class="admin-json-tab" type="button" data-json-section="vehicles">Vehículos</button>
+            <button class="admin-json-tab" type="button" data-json-section="profile">Perfil</button>
+          </div>
+          <div class="admin-json-code-wrap">
+            <pre id="adminJsonCode" class="admin-json-code">Selecciona un usuario para ver sus datos.</pre>
+          </div>
         </article>
       </section>
 
@@ -4458,8 +4477,12 @@ renderAll();
       body.innerHTML = rows.map(user => {
         const status = user.status || "pending";
         const isSelf = normalizeEmail(user.email) === ADMIN_EMAIL;
-        const buttons = isSelf ? '<span class="muted">Administrador</span>' : `
+        const jsonButton = `<button class="button secondary admin-download-json" data-uid="${escapeHtml(user.uid)}" data-email="${escapeHtml(user.email || "")}" data-name="${escapeHtml(user.displayName || "Usuario")}" title="Descargar respaldo JSON de este usuario">⬇ JSON</button>`;
+        const viewJsonButton = `<button class="button secondary admin-view-json" data-uid="${escapeHtml(user.uid)}" data-email="${escapeHtml(user.email || "")}" data-name="${escapeHtml(user.displayName || "Usuario")}" title="Ver los datos JSON de este usuario">👁 Ver datos</button>`;
+        const buttons = isSelf ? `<div class="user-actions">${viewJsonButton}${jsonButton}<span class="muted">Administrador</span></div>` : `
           <div class="user-actions">
+            ${viewJsonButton}
+            ${jsonButton}
             <button class="button primary admin-user-action" data-uid="${escapeHtml(user.uid)}" data-action="approved">Aprobar</button>
             <button class="button secondary admin-user-action" data-uid="${escapeHtml(user.uid)}" data-action="rejected">Rechazar</button>
             <button class="button secondary danger-button admin-user-action" data-uid="${escapeHtml(user.uid)}" data-action="blocked">Bloquear</button>
@@ -4472,6 +4495,165 @@ renderAll();
           <td>${buttons}</td>
         </tr>`;
       }).join("");
+    }
+
+    function safeFilePart(value, fallback = "usuario") {
+      const cleaned = String(value || "").trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9._-]+/g, "_").replace(/^_+|_+$/g, "");
+      return cleaned || fallback;
+    }
+
+    function downloadJsonFile(filename, payload) {
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type:"application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    async function readUserBackupForAdmin(uid) {
+      if (!isAdminUser()) throw new Error("Esta función es exclusiva del administrador.");
+      const rootRef = doc(db, CLOUD_COLLECTION, uid);
+      const settingsRef = doc(db, CLOUD_COLLECTION, uid, "settings", "app");
+      const [rootSnap, settingsSnap, sessionsSnap, expensesSnap, vehiclesSnap] = await Promise.all([
+        getDoc(rootRef),
+        getDoc(settingsRef),
+        getDocs(collection(db, CLOUD_COLLECTION, uid, "sessions")),
+        getDocs(collection(db, CLOUD_COLLECTION, uid, "expenses")),
+        getDocs(collection(db, CLOUD_COLLECTION, uid, "vehicles"))
+      ]);
+      const root = rootSnap.exists() ? (rootSnap.data() || {}) : {};
+      const settings = settingsSnap.exists() ? (settingsSnap.data() || {}) : {};
+      return {
+        exportInfo: {
+          product:"RutaRentable PRO",
+          webBuild:WEB_BUILD,
+          exportedAt:new Date().toISOString(),
+          exportedBy:currentUser?.email || "",
+          uid
+        },
+        account: {
+          uid,
+          displayName:root.displayName || "",
+          email:root.email || "",
+          photoURL:root.photoURL || "",
+          storageVersion:Number(root.storageVersion || 0),
+          schemaVersion:Number(root.schemaVersion || settings.schemaVersion || 0),
+          clientUpdatedAt:Number(root.clientUpdatedAt || 0)
+        },
+        data: {
+          schemaVersion:Number(settings.schemaVersion || root.schemaVersion || 3),
+          profile:clone(settings.profile || {}),
+          sessions:sessionsSnap.docs.map(item => ({ ...item.data(), id:item.data()?.id || item.id })),
+          expenses:expensesSnap.docs.map(item => ({ ...item.data(), id:item.data()?.id || item.id })),
+          vehicles:vehiclesSnap.docs.map(item => ({ ...item.data(), id:item.data()?.id || item.id }))
+        }
+      };
+    }
+
+    let adminJsonViewerPayload = null;
+    let adminJsonViewerUser = null;
+
+    function adminJsonViewerSectionPayload(section = "all") {
+      if (!adminJsonViewerPayload) return null;
+      if (section === "sessions") return adminJsonViewerPayload.data?.sessions || [];
+      if (section === "expenses") return adminJsonViewerPayload.data?.expenses || [];
+      if (section === "vehicles") return adminJsonViewerPayload.data?.vehicles || [];
+      if (section === "profile") return { account:adminJsonViewerPayload.account || {}, profile:adminJsonViewerPayload.data?.profile || {} };
+      return adminJsonViewerPayload;
+    }
+
+    function renderAdminJsonViewerSection(section = "all") {
+      const code = $("adminJsonCode");
+      if (!code) return;
+      const payload = adminJsonViewerSectionPayload(section);
+      code.textContent = JSON.stringify(payload, null, 2);
+      document.querySelectorAll(".admin-json-tab").forEach(tab => tab.classList.toggle("active", tab.dataset.jsonSection === section));
+    }
+
+    function closeAdminJsonViewer() {
+      const viewer = $("adminJsonViewer");
+      const card = $("adminUsersCard");
+      const overview = $("adminUsersOverview");
+      if (viewer) viewer.hidden = true;
+      if (card) card.hidden = false;
+      if (overview) overview.hidden = false;
+      adminJsonViewerPayload = null;
+      adminJsonViewerUser = null;
+    }
+
+    async function openAdminJsonViewer(uid, email = "", displayName = "Usuario") {
+      if (!isAdminUser()) throw new Error("Esta función es exclusiva del administrador.");
+      const viewer = $("adminJsonViewer");
+      const card = $("adminUsersCard");
+      const overview = $("adminUsersOverview");
+      const code = $("adminJsonCode");
+      if (viewer) viewer.hidden = false;
+      if (card) card.hidden = true;
+      if (overview) overview.hidden = true;
+      if (code) code.textContent = "Cargando datos del usuario…";
+      if ($("adminJsonViewerTitle")) $("adminJsonViewerTitle").textContent = `Datos de ${displayName || "Usuario"}`;
+      if ($("adminJsonViewerSubtitle")) $("adminJsonViewerSubtitle").textContent = `${email || "Sin correo"} · Vista de solo lectura`;
+      try {
+        const payload = await readUserBackupForAdmin(uid);
+        adminJsonViewerPayload = payload;
+        adminJsonViewerUser = { uid, email, displayName };
+        const sessions = payload.data?.sessions?.length || 0;
+        const expenses = payload.data?.expenses?.length || 0;
+        const vehicles = payload.data?.vehicles?.length || 0;
+        if ($("adminJsonSummary")) $("adminJsonSummary").innerHTML = `
+          <div><span>Jornadas</span><strong>${sessions}</strong></div>
+          <div><span>Gastos</span><strong>${expenses}</strong></div>
+          <div><span>Vehículos</span><strong>${vehicles}</strong></div>
+          <div><span>UID</span><strong class="uid-value">${escapeHtml(uid)}</strong></div>`;
+        renderAdminJsonViewerSection("all");
+      } catch (error) {
+        if (code) code.textContent = `No se pudieron leer los datos.\n\n${error?.message || error}`;
+        throw error;
+      }
+    }
+
+    async function downloadSingleUserJson(uid, email = "", displayName = "Usuario") {
+      const payload = await readUserBackupForAdmin(uid);
+      const accountEmail = payload.account.email || email;
+      const label = safeFilePart(accountEmail || displayName || uid);
+      const date = new Date().toISOString().slice(0,10);
+      downloadJsonFile(`RutaRentable_${label}_${date}.json`, payload);
+    }
+
+    async function downloadAllUsersJson() {
+      if (!isAdminUser()) throw new Error("Esta función es exclusiva del administrador.");
+      const accessSnap = await getDocs(collection(db, ACCESS_COLLECTION));
+      const users = accessSnap.docs.map(item => ({ uid:item.id, ...(item.data() || {}) }));
+      if (!users.some(user => user.uid === currentUser?.uid) && currentUser?.uid) {
+        users.unshift({ uid:currentUser.uid, email:currentUser.email || "", displayName:currentUser.displayName || "Administrador", status:"approved" });
+      }
+      const backups = [];
+      const failures = [];
+      for (const user of users) {
+        try {
+          const backup = await readUserBackupForAdmin(user.uid);
+          backup.access = { status:user.status || "pending", requestedAtClient:Number(user.requestedAtClient || 0) };
+          backups.push(backup);
+        } catch (error) {
+          failures.push({ uid:user.uid, email:user.email || "", error:error?.message || String(error) });
+        }
+      }
+      if (!backups.length) {
+        const firstError = failures[0]?.error || "No se pudieron leer los datos de los usuarios.";
+        throw new Error(firstError);
+      }
+      const date = new Date().toISOString().slice(0,10);
+      downloadJsonFile(`RutaRentable_TODOS_USUARIOS_${date}.json`, {
+        exportInfo:{ product:"RutaRentable PRO", webBuild:WEB_BUILD, exportedAt:new Date().toISOString(), exportedBy:currentUser?.email || "", total:backups.length },
+        users:backups,
+        failures
+      });
+      return { downloaded:backups.length, failures:failures.length };
     }
 
     function startAdminUserListener() {
@@ -5091,6 +5273,39 @@ Cancelar: subir los datos de este dispositivo.`
     $("deleteAccountButton")?.addEventListener("click", deleteCurrentAccount);
 
     $("adminUsersBody")?.addEventListener("click", async event => {
+      const viewJsonButton = event.target.closest(".admin-view-json");
+      if (viewJsonButton) {
+        viewJsonButton.disabled = true;
+        const original = viewJsonButton.textContent;
+        viewJsonButton.textContent = "Cargando…";
+        try {
+          await openAdminJsonViewer(viewJsonButton.dataset.uid, viewJsonButton.dataset.email, viewJsonButton.dataset.name);
+        } catch (error) {
+          console.error("No se pudieron mostrar los datos del usuario:", error);
+          appBridge.notify(error.message || "No se pudieron leer los datos. Revisa los permisos de Firestore.");
+        } finally {
+          viewJsonButton.disabled = false;
+          viewJsonButton.textContent = original;
+        }
+        return;
+      }
+      const jsonButton = event.target.closest(".admin-download-json");
+      if (jsonButton) {
+        jsonButton.disabled = true;
+        const original = jsonButton.textContent;
+        jsonButton.textContent = "Preparando…";
+        try {
+          await downloadSingleUserJson(jsonButton.dataset.uid, jsonButton.dataset.email, jsonButton.dataset.name);
+          appBridge.notify("Respaldo JSON del usuario descargado.");
+        } catch (error) {
+          console.error("No se pudo descargar el JSON del usuario:", error);
+          appBridge.notify(error.message || "No se pudo descargar el JSON. Revisa los permisos de Firestore.");
+        } finally {
+          jsonButton.disabled = false;
+          jsonButton.textContent = original;
+        }
+        return;
+      }
       const button = event.target.closest(".admin-user-action");
       if (!button) return;
       const uid = button.dataset.uid;
@@ -5103,6 +5318,34 @@ Cancelar: subir los datos de este dispositivo.`
       finally { button.disabled = false; }
     });
 
+    $("downloadAllUsersJsonButton")?.addEventListener("click", async () => {
+      const button = $("downloadAllUsersJsonButton");
+      if (!button || !isAdminUser()) return;
+      if (!window.confirm("¿Deseas descargar un respaldo JSON con los datos de todos los usuarios?")) return;
+      button.disabled = true;
+      const original = button.textContent;
+      button.textContent = "Preparando respaldos…";
+      try {
+        const result = await downloadAllUsersJson();
+        appBridge.notify(result.failures ? `JSON descargado: ${result.downloaded} usuarios. ${result.failures} no pudieron leerse.` : `JSON descargado con ${result.downloaded} usuarios.`);
+      } catch (error) {
+        console.error("No se pudo descargar el JSON general:", error);
+        appBridge.notify(error.message || "No se pudo descargar el JSON general. Revisa los permisos de Firestore.");
+      } finally {
+        button.disabled = false;
+        button.textContent = original;
+      }
+    });
+
+
+    $("adminJsonBackButton")?.addEventListener("click", closeAdminJsonViewer);
+    document.querySelectorAll(".admin-json-tab").forEach(tab => tab.addEventListener("click", () => renderAdminJsonViewerSection(tab.dataset.jsonSection || "all")));
+    $("adminJsonViewerDownloadButton")?.addEventListener("click", async () => {
+      if (!adminJsonViewerPayload || !adminJsonViewerUser) return;
+      const label = safeFilePart(adminJsonViewerPayload.account?.email || adminJsonViewerUser.email || adminJsonViewerUser.displayName || adminJsonViewerUser.uid);
+      const date = new Date().toISOString().slice(0,10);
+      downloadJsonFile(`RutaRentable_${label}_${date}.json`, adminJsonViewerPayload);
+    });
 
     $("trackingCopyLinkButton")?.addEventListener("click", async () => {
       const url = trackingShareUrl();
@@ -5263,3 +5506,168 @@ onAuthStateChanged(auth, async user => {
 
 </body>
 </html>
+
+<!-- RutaRentable Premium Fase 10: tipografia refinada -->
+<style id="premium-fase10-typography">
+:root{
+  --rr-font-display:"Segoe UI Variable Display","Segoe UI",Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --rr-font-text:"Segoe UI Variable Text","Segoe UI",Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;
+}
+html,body,button,input,select,textarea{font-family:var(--rr-font-text)!important;font-feature-settings:"kern" 1,"liga" 1,"calt" 1;font-kerning:normal}
+body{font-weight:450;letter-spacing:-.006em;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+
+/* Titulos principales */
+h1,h2,h3,.page-title,.section-title,.dashboard-title,.modal-title,.card-title{
+  font-family:var(--rr-font-display)!important;
+  font-weight:760!important;
+  letter-spacing:-.032em!important;
+  line-height:1.12!important;
+}
+
+/* Encabezados y subtitulos */
+.topbar strong,.brand-name,.welcome-title,.panel-title,.premium-section-title{
+  font-family:var(--rr-font-display)!important;
+  font-weight:780!important;
+  letter-spacing:-.028em!important;
+}
+.subtitle,.muted,.helper,.hint,.card-subtitle,.section-subtitle{
+  font-weight:470!important;
+  letter-spacing:-.008em!important;
+  line-height:1.45!important;
+}
+
+/* KPIs: numeros mas elegantes */
+.kpi b,.kpi strong,.kpi-value,.stat-value,.metric-value,[data-kpi-value],.money,.amount{
+  font-family:var(--rr-font-display)!important;
+  font-weight:790!important;
+  letter-spacing:-.035em!important;
+  font-variant-numeric:tabular-nums lining-nums;
+}
+.kpi small,.kpi-label,.stat-label,.metric-label{
+  font-weight:700!important;
+  letter-spacing:.045em!important;
+  text-transform:uppercase;
+}
+
+/* Navegacion */
+.sidebar a,.sidebar button,.nav-item,.menu-item{
+  font-weight:590!important;
+  letter-spacing:-.012em!important;
+}
+.sidebar .section-label,.nav-section-title{
+  font-weight:720!important;
+  letter-spacing:.075em!important;
+  text-transform:uppercase;
+}
+
+/* Botones y controles */
+button,.btn,.button,[role="button"]{
+  font-weight:680!important;
+  letter-spacing:-.012em!important;
+}
+input,select,textarea{
+  font-weight:500!important;
+  letter-spacing:-.006em!important;
+}
+label,.field-label{
+  font-weight:650!important;
+  letter-spacing:-.008em!important;
+}
+
+/* Tablas */
+table th,.table-header{
+  font-weight:720!important;
+  letter-spacing:.028em!important;
+  text-transform:uppercase;
+}
+table td{font-weight:490!important;letter-spacing:-.006em!important}
+
+/* Marca */
+.brand,.logo-text,.app-name{
+  font-family:var(--rr-font-display)!important;
+  font-weight:800!important;
+  letter-spacing:-.038em!important;
+}
+
+@media(max-width:700px){
+  h1,h2,h3,.page-title,.section-title,.dashboard-title{letter-spacing:-.025em!important}
+  .kpi b,.kpi strong,.kpi-value,.stat-value,.metric-value{letter-spacing:-.028em!important}
+}
+</style>
+<style id="fase11-border-adjustment">
+/* Fase 11: borde lateral ligeramente más grueso, sin alterar lógica ni layout */
+#dashboard .kpi{border-left-width:5px!important;}
+#expenses .expense-kpi{border-left-width:5px!important;}
+@media(max-width:620px){
+  #dashboard .kpi,#expenses .expense-kpi{border-left-width:4px!important;}
+}
+</style>
+
+<!-- RutaRentable Premium Fase 12: consistencia visual final -->
+<style id="fase12-premium-consistency">
+/* Jerarquia KPI sin cambiar datos ni calculos */
+#dashboard .kpi strong{font-size:31px!important;line-height:1.05!important;margin-top:15px!important}
+#dashboard .kpi span{font-size:10.5px!important;line-height:1.25!important}
+#dashboard .kpi small{font-size:10.5px!important;line-height:1.4!important}
+#dashboard .kpi{display:flex;flex-direction:column;justify-content:flex-start;min-height:148px!important}
+#dashboard .kpi-grid{gap:16px!important;align-items:stretch}
+
+/* Iconos consistentes */
+#dashboard .kpi span::before{width:36px!important;height:36px!important;flex-basis:36px!important;border-radius:12px!important;font-size:16px!important;box-shadow:0 6px 14px rgba(20,35,60,.07)}
+
+/* Navegacion: activo mas claro y grupos mas respirados */
+.sidebar nav{gap:6px!important}
+.nav-button{min-height:46px!important;border-radius:12px!important}
+.nav-button.active{box-shadow:inset 3px 0 0 #36d98b,0 8px 18px rgba(0,0,0,.10)!important}
+
+/* Botones uniformes */
+.button,.btn,button:not(.nav-button):not(.delete-button){border-radius:12px!important;min-height:42px}
+.button.primary,.btn.primary{box-shadow:0 8px 18px rgba(57,124,255,.14)}
+
+/* Formularios premium y consistentes */
+input,select,textarea{border-radius:12px!important;border:1px solid #dfe7f0!important;transition:border-color .16s ease,box-shadow .16s ease,background .16s ease}
+input:focus,select:focus,textarea:focus{border-color:#79a7ff!important;box-shadow:0 0 0 4px rgba(57,124,255,.10)!important;background:#fff!important}
+
+/* Estados */
+.badge,.user-status,.tracking-status,.maintenance-status{border-radius:999px!important;font-weight:760!important;letter-spacing:.01em!important}
+
+/* Tablas */
+table th{background:#f8fafc!important;color:#617188!important}
+table tbody tr{transition:background .15s ease}
+table tbody tr:hover{background:#f8fbff}
+
+@media(max-width:620px){
+  #dashboard .kpi{min-height:132px!important;padding:16px!important}
+  #dashboard .kpi strong{font-size:26px!important}
+  #dashboard .kpi span::before{width:34px!important;height:34px!important;flex-basis:34px!important}
+  .button,.btn,button:not(.nav-button):not(.delete-button){min-height:44px}
+}
+
+/* Ajuste WEB: filtros superiores más amplios y columnas de jornadas alineadas */
+@media (min-width:851px){
+  .header-actions label{min-width:168px}
+  .header-actions #periodFilter{width:168px;min-width:168px}
+  .header-actions #dashboardMonthLabel{min-width:178px}
+  .header-actions #dashboardMonthFilter{width:178px;min-width:178px}
+}
+#sessions .reimbursed-value{color:#18a05e;font-weight:750}
+</style>
+<style id="admin-json-viewer-premium">
+.admin-json-viewer{margin-top:18px;padding:22px}
+.admin-json-viewer-header{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:18px}
+.admin-json-viewer-header h3{margin:14px 0 4px;font-size:24px}
+.admin-json-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0 18px}
+.admin-json-summary>div{background:#f8fafc;border:1px solid #e6edf5;border-radius:14px;padding:14px 16px;min-width:0}
+.admin-json-summary span{display:block;color:#738196;font-size:11px;font-weight:750;text-transform:uppercase;letter-spacing:.05em}
+.admin-json-summary strong{display:block;margin-top:6px;font-size:20px;color:#182437;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.admin-json-summary .uid-value{font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.admin-json-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.admin-json-tab{border:1px solid #dfe7f0;background:#fff;color:#415067;border-radius:10px;padding:9px 13px;min-height:38px;font-weight:700;cursor:pointer}
+.admin-json-tab.active{background:#10243f;color:#fff;border-color:#10243f;box-shadow:0 7px 16px rgba(16,36,63,.13)}
+.admin-json-code-wrap{border:1px solid #dfe7f0;border-radius:14px;overflow:hidden;background:#0f1724}
+.admin-json-code{margin:0;max-height:58vh;overflow:auto;padding:18px;color:#dbe8f7;background:#0f1724;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word}
+.admin-view-json{white-space:nowrap}
+@media(max-width:850px){.admin-json-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.admin-json-viewer-header{flex-direction:column}.admin-json-viewer-header .button{width:100%}}
+@media(max-width:520px){.admin-json-summary{grid-template-columns:1fr}.admin-json-tab{flex:1 1 45%}.admin-json-viewer{padding:15px}}
+</style>
+
