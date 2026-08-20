@@ -1131,6 +1131,27 @@ table tbody tr:hover{background:#fbfefc}
 #dashboard .bar.negative{
   background:linear-gradient(90deg,#ef4659,#ff7b89);
 }
+/* Carrito premium en la punta de cada barra de ganancia */
+#dashboard .bar{position:relative;overflow:visible}
+#dashboard .bar::after{
+  content:"";
+  position:absolute;
+  right:-13px;
+  top:50%;
+  width:27px;
+  height:27px;
+  transform:translateY(-50%);
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  filter:drop-shadow(0 3px 4px rgba(16,32,57,.20));
+  z-index:2;
+  pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23102039' d='M13 38l4-13c1-4 4-6 8-6h15c4 0 7 2 9 6l5 13c4 1 6 4 6 8v5c0 2-2 4-4 4h-3a7 7 0 0 1-13 0H25a7 7 0 0 1-13 0H9c-2 0-4-2-4-4v-5c0-4 3-7 8-8z'/%3E%3Cpath fill='%23ffffff' d='M21 27h23l3 9H18z'/%3E%3Ccircle cx='19' cy='50' r='4' fill='%23061125'/%3E%3Ccircle cx='47' cy='50' r='4' fill='%23061125'/%3E%3Cpath fill='%233cdb8d' d='M9 42h9v4H9zm37 0h10v4H46z'/%3E%3C/svg%3E");
+}
+#dashboard .bar.negative::after{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23102039' d='M13 38l4-13c1-4 4-6 8-6h15c4 0 7 2 9 6l5 13c4 1 6 4 6 8v5c0 2-2 4-4 4h-3a7 7 0 0 1-13 0H25a7 7 0 0 1-13 0H9c-2 0-4-2-4-4v-5c0-4 3-7 8-8z'/%3E%3Cpath fill='%23ffffff' d='M21 27h23l3 9H18z'/%3E%3Ccircle cx='19' cy='50' r='4' fill='%23061125'/%3E%3Ccircle cx='47' cy='50' r='4' fill='%23061125'/%3E%3Cpath fill='%23ef4659' d='M9 42h9v4H9zm37 0h10v4H46z'/%3E%3C/svg%3E");
+}
 #dashboard .bar-value{
   grid-column:3;
   grid-row:1;
@@ -1215,6 +1236,7 @@ table tbody tr:hover{background:#fbfefc}
   #dashboard .bar-chart{min-height:160px;padding:10px}
   #dashboard .bar-item{grid-template-columns:52px minmax(0,1fr);gap:7px}
   #dashboard .bar-value{grid-column:2;grid-row:2;justify-self:end;margin-top:-5px}
+  #dashboard .bar::after{width:22px;height:22px;right:-10px}
 }
 
 
