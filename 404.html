@@ -1106,7 +1106,7 @@ table tbody tr:hover{background:#fbfefc}
   display:grid;
   grid-template-columns:58px minmax(0,1fr) auto;
   align-items:center;
-  gap:26px;
+  gap:10px;
   width:100%;
   height:auto;
 }
@@ -1125,11 +1125,32 @@ table tbody tr:hover{background:#fbfefc}
   height:18px!important;
   min-height:18px;
   border-radius:999px;
-  background:linear-gradient(90deg,#00c853 0%,#00e676 48%,#20b8ff 100%);
-  box-shadow:0 6px 16px rgba(0,200,83,.24),0 0 10px rgba(32,184,255,.12);
+  background:linear-gradient(90deg,#00b85a 0%,#00e676 52%,#00c8ff 100%);
+  box-shadow:0 5px 12px rgba(0,200,83,.18),0 0 8px rgba(0,200,255,.10);
 }
 #dashboard .bar.negative{
   background:linear-gradient(90deg,#ef4659,#ff7b89);
+}
+/* Carrito premium en la punta de cada barra de ganancia */
+#dashboard .bar{position:relative;overflow:visible}
+#dashboard .bar::after{
+  content:"";
+  position:absolute;
+  right:-13px;
+  top:50%;
+  width:27px;
+  height:27px;
+  transform:translateY(-50%);
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  filter:drop-shadow(0 3px 4px rgba(16,32,57,.20));
+  z-index:2;
+  pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23102039' d='M13 38l4-13c1-4 4-6 8-6h15c4 0 7 2 9 6l5 13c4 1 6 4 6 8v5c0 2-2 4-4 4h-3a7 7 0 0 1-13 0H25a7 7 0 0 1-13 0H9c-2 0-4-2-4-4v-5c0-4 3-7 8-8z'/%3E%3Cpath fill='%23ffffff' d='M21 27h23l3 9H18z'/%3E%3Ccircle cx='19' cy='50' r='4' fill='%23061125'/%3E%3Ccircle cx='47' cy='50' r='4' fill='%23061125'/%3E%3Cpath fill='%233cdb8d' d='M9 42h9v4H9zm37 0h10v4H46z'/%3E%3C/svg%3E");
+}
+#dashboard .bar.negative::after{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23102039' d='M13 38l4-13c1-4 4-6 8-6h15c4 0 7 2 9 6l5 13c4 1 6 4 6 8v5c0 2-2 4-4 4h-3a7 7 0 0 1-13 0H25a7 7 0 0 1-13 0H9c-2 0-4-2-4-4v-5c0-4 3-7 8-8z'/%3E%3Cpath fill='%23ffffff' d='M21 27h23l3 9H18z'/%3E%3Ccircle cx='19' cy='50' r='4' fill='%23061125'/%3E%3Ccircle cx='47' cy='50' r='4' fill='%23061125'/%3E%3Cpath fill='%23ef4659' d='M9 42h9v4H9zm37 0h10v4H46z'/%3E%3C/svg%3E");
 }
 #dashboard .bar-value{
   grid-column:3;
@@ -1138,7 +1159,7 @@ table tbody tr:hover{background:#fbfefc}
   font-weight:900;
   white-space:nowrap;
   color:#213047;
-  margin-left:8px;
+  margin-left:20px;
 }
 #dashboard .recent-list{gap:0}
 #dashboard .recent-item{
@@ -1216,6 +1237,7 @@ table tbody tr:hover{background:#fbfefc}
   #dashboard .bar-chart{min-height:160px;padding:10px}
   #dashboard .bar-item{grid-template-columns:52px minmax(0,1fr);gap:7px}
   #dashboard .bar-value{grid-column:2;grid-row:2;justify-self:end;margin-top:-5px}
+  #dashboard .bar::after{width:22px;height:22px;right:-10px}
 }
 
 
@@ -1511,6 +1533,33 @@ table tbody tr:hover{background:#fafcfe}
 #expenses .expense-kpi:nth-child(4){color:#7b4bd1} #expenses .expense-kpi:nth-child(4):before{content:"⚙";background:#f4efff}
 #expenses .expense-kpi span{color:#53627a} #expenses .expense-kpi strong{color:currentColor}
 @media(max-width:620px){#dashboard .kpi{padding-left:84px}#dashboard .kpi>span::before{left:17px;width:50px;height:50px}#expenses .expense-kpi{padding-left:78px}}
+</style>
+
+
+<style id="platform-profit-premium-v5">
+#reports .platform-profit-section{padding:24px!important;border-radius:24px!important;background:linear-gradient(135deg,#fff 0%,#fbfdff 58%,#f8fbff 100%)!important;box-shadow:0 14px 36px rgba(33,52,86,.07)!important}
+#reports .platform-profit-title{align-items:center!important}
+.platform-profit-heading{display:flex;align-items:center;gap:14px}
+.platform-profit-heading-icon{display:grid;place-items:center;width:48px;height:48px;border-radius:15px;background:linear-gradient(145deg,#eafff2,#fff);color:#22b563;font-size:27px;font-weight:900;box-shadow:0 8px 18px rgba(34,181,99,.13);border:1px solid #e7f6ed}
+#reports .platform-profit-title h3{font-size:24px!important;letter-spacing:-.025em!important;color:#101d35!important}
+#reports .platform-profit-title p{font-size:13px!important;margin-top:4px!important}
+.platform-profit-month-badge{display:inline-flex;align-items:center;gap:8px;padding:11px 15px;border:1px solid #e0e8f4;border-radius:999px;background:#f7f9ff;color:#193a88;font-size:14px;font-weight:800;white-space:nowrap}
+.platform-profit-month-badge::before{content:"▣";color:#397cff;font-size:16px}
+#reports .platform-profit-layout{grid-template-columns:minmax(260px,340px) 1fr!important;gap:26px!important;margin-top:22px!important}
+#reports .donut-stage{min-height:300px;border:1px solid #edf1f6;border-radius:22px;background:linear-gradient(145deg,#fff,#fbfdff);box-shadow:0 10px 28px rgba(27,47,78,.045)}
+#reports .donut-chart{width:225px!important;box-shadow:0 12px 0 #dce4ee,0 21px 28px rgba(22,40,68,.15),inset 0 0 0 1px rgba(255,255,255,.65)!important}
+#reports .donut-center strong{font-size:28px!important;letter-spacing:-.035em!important}
+#reports .donut-center span{font-size:10px!important;letter-spacing:.04em!important}
+#reports .platform-profit-legend{gap:12px!important}
+#reports .profit-legend-row{display:grid!important;grid-template-columns:72px minmax(0,1fr) 120px!important;gap:18px!important;align-items:center!important;min-height:112px;padding:15px 18px!important;border:1px solid #e8edf4!important;border-radius:18px!important;background:#fff!important;box-shadow:0 9px 22px rgba(24,43,72,.055)!important}
+.profit-platform-icon{display:grid;place-items:center;width:64px;height:64px;border-radius:16px;background:color-mix(in srgb,var(--platform-color) 12%,white);color:var(--platform-color);font-size:24px;font-weight:900;box-shadow:0 7px 16px rgba(20,34,55,.08);border:1px solid color-mix(in srgb,var(--platform-color) 18%,#edf1f6)}
+.profit-legend-main strong{font-size:18px!important;color:#12203a!important;letter-spacing:-.02em}
+.profit-legend-main small{display:flex!important;align-items:center;gap:8px;margin:6px 0 10px!important;font-size:12px!important}.profit-legend-main small b{color:var(--platform-color);font-size:13px}.profit-legend-main small span{color:#9ba8ba}
+.profit-progress{height:9px;background:#edf1f6;border-radius:999px;overflow:hidden}.profit-progress i{display:block;height:100%;border-radius:inherit;box-shadow:0 1px 5px color-mix(in srgb,var(--platform-color) 35%,transparent)}
+.profit-legend-side{border-left:1px solid #e5ebf3;padding-left:18px;text-align:right}.profit-legend-side strong{display:block;font-size:25px;line-height:1;color:var(--platform-color);font-weight:900}.profit-legend-side small{display:block;margin-top:9px;font-size:12px;color:#718096;font-weight:700}
+.session-row-actions{display:flex;align-items:center;gap:7px;white-space:nowrap}.correction-button{min-height:32px!important;padding:6px 10px!important;border:1px solid #d9e6ff!important;background:#f4f8ff!important;color:#2868d8!important;border-radius:9px!important;font-size:11px!important;font-weight:800!important}.correction-button:hover{background:#eaf2ff!important}
+@media(max-width:850px){#reports .platform-profit-title{align-items:flex-start!important}.platform-profit-heading-icon{width:42px;height:42px}.platform-profit-month-badge{align-self:flex-start}.session-row-actions{flex-direction:column;align-items:stretch}.correction-button{width:100%}}
+@media(max-width:620px){#reports .platform-profit-section{padding:15px!important}#reports .platform-profit-layout{grid-template-columns:1fr!important}.platform-profit-heading{align-items:flex-start}.platform-profit-heading-icon{flex:0 0 40px;width:40px;height:40px;border-radius:12px;font-size:21px}#reports .platform-profit-title h3{font-size:20px!important}#reports .profit-legend-row{grid-template-columns:50px minmax(0,1fr) 82px!important;gap:10px!important;min-height:94px;padding:12px!important}.profit-platform-icon{width:48px;height:48px;border-radius:13px;font-size:18px}.profit-legend-main strong{font-size:15px!important}.profit-legend-main small{font-size:10px!important;gap:5px}.profit-legend-side{padding-left:10px}.profit-legend-side strong{font-size:19px}.profit-legend-side small{font-size:10px}}
 </style>
 
 </head>
@@ -1956,11 +2005,14 @@ table tbody tr:hover{background:#fafcfe}
 
           <div class="platform-profit-section">
             <div class="platform-profit-title">
-              <div>
-                <h3>Ganancias por plataforma</h3>
-                <p>Distribución porcentual de lo ganado en cada plataforma durante el mes seleccionado.</p>
+              <div class="platform-profit-heading">
+                <span class="platform-profit-heading-icon">◔</span>
+                <div>
+                  <h3>Ganancias por plataforma</h3>
+                  <p>Distribución porcentual de lo ganado en cada plataforma durante el mes seleccionado.</p>
+                </div>
               </div>
-              <strong id="platformProfitMonthLabel"></strong>
+              <strong id="platformProfitMonthLabel" class="platform-profit-month-badge"></strong>
             </div>
             <div class="platform-profit-layout" id="platformProfitLayout">
               <div class="donut-stage">
@@ -2078,21 +2130,22 @@ table tbody tr:hover{background:#fafcfe}
             <div>
               <button class="button secondary" id="adminJsonBackButton" type="button">← Volver a usuarios</button>
               <h3 id="adminJsonViewerTitle">Datos del usuario</h3>
-              <p class="muted" id="adminJsonViewerSubtitle">Vista de solo lectura del respaldo JSON.</p>
+              <p class="muted" id="adminJsonViewerSubtitle">Resumen de solo lectura del usuario.</p>
             </div>
             <button class="button secondary" id="adminJsonViewerDownloadButton" type="button">⬇ Descargar JSON</button>
           </div>
-          <div class="admin-json-summary" id="adminJsonSummary"></div>
-          <div class="admin-json-tabs" role="tablist" aria-label="Secciones de datos del usuario">
-            <button class="admin-json-tab active" type="button" data-json-section="all">JSON completo</button>
-            <button class="admin-json-tab" type="button" data-json-section="sessions">Jornadas</button>
-            <button class="admin-json-tab" type="button" data-json-section="expenses">Gastos</button>
-            <button class="admin-json-tab" type="button" data-json-section="vehicles">Vehículos</button>
-            <button class="admin-json-tab" type="button" data-json-section="profile">Perfil</button>
+          <div class="admin-user-mini-meta" id="adminJsonSummary"></div>
+          <div class="admin-user-kpi-grid" id="adminUserKpiGrid">
+            <article class="admin-user-kpi green"><span class="admin-user-kpi-icon">💰</span><div><small>Ganancia neta</small><strong id="adminUserNet">USD 0.00</strong><em>Ingresos menos todos los gastos</em></div></article>
+            <article class="admin-user-kpi lime"><span class="admin-user-kpi-icon">%</span><div><small>Ganancia InDrive</small><strong id="adminUserIndrive">USD 0.00</strong><em>Total bruto menos comisión aplicada</em></div></article>
+            <article class="admin-user-kpi dark"><span class="admin-user-kpi-icon">◉</span><div><small>Ganancia Uber</small><strong id="adminUserUber">USD 0.00</strong><em>Ganancia final registrada de Uber</em></div></article>
+            <article class="admin-user-kpi blue"><span class="admin-user-kpi-icon">🚕</span><div><small>Taxi / viajes privados</small><strong id="adminUserOutside">USD 0.00</strong><em>Viajes realizados fuera de aplicaciones</em></div></article>
+            <article class="admin-user-kpi red"><span class="admin-user-kpi-icon">⛽</span><div><small>Gasolina</small><strong id="adminUserFuel">USD 0.00</strong><em>Inversión total en combustible</em></div></article>
+            <article class="admin-user-kpi orange"><span class="admin-user-kpi-icon">◴</span><div><small>Kilómetros</small><strong id="adminUserKm">0 km</strong><em>Recorridos trabajando</em></div></article>
+            <article class="admin-user-kpi purple"><span class="admin-user-kpi-icon">◷</span><div><small>Horas trabajadas</small><strong id="adminUserHours">0.0 h</strong><em>Duración de jornadas cerradas</em></div></article>
+            <article class="admin-user-kpi cyan"><span class="admin-user-kpi-icon">◉</span><div><small>Ganancia por KM</small><strong id="adminUserPerKm">USD 0.00</strong><em id="adminUserPerHour">Por hora: USD 0.00</em></div></article>
           </div>
-          <div class="admin-json-code-wrap">
-            <pre id="adminJsonCode" class="admin-json-code">Selecciona un usuario para ver sus datos.</pre>
-          </div>
+          <div class="admin-user-view-error" id="adminUserViewError" hidden></div>
         </article>
       </section>
 
@@ -3415,7 +3468,7 @@ function renderSessionsTable() {
       <td>${closed?money(rechargePending):"—"}</td>
       <td class="${net>=0?"positive":"negative"}">${closed?money(net):"—"}</td>
       <td>${closed?evalResult.label:"En curso"}</td>
-      <td>${closed?`<button class="delete-button" data-delete-session="${s.id}">🗑</button>`:`<button class="text-button" data-finish-session>Finalizar</button>`}</td>
+      <td>${closed?`<div class="session-row-actions"><button class="text-button correction-button" data-correct-session="${s.id}" title="Corregir esta jornada">✎ Corregir</button><button class="delete-button" data-delete-session="${s.id}" title="Eliminar jornada">🗑</button></div>`:`<button class="text-button" data-finish-session>Finalizar</button>`}</td>
     </tr>`;
   }).join("");
 }
@@ -3592,17 +3645,28 @@ function renderPlatformProfitChart(rows) {
   });
   donut.style.setProperty("--donut-bg", `conic-gradient(${segments.join(",")})`);
 
+  const platformIcon = name => {
+    const key = String(name || "").toLowerCase();
+    if (key.includes("uber")) return "U";
+    if (key.includes("indrive")) return "in";
+    if (key.includes("taxi") || key.includes("privado")) return "🚕";
+    return "●";
+  };
+
   legend.innerHTML = activeRows.map(row => {
     const pct = Number(row.value || 0) / total * 100;
     const pctText = pct >= 10 ? pct.toFixed(1) : pct.toFixed(2);
-    return `<div class="profit-legend-row">
-      <span class="profit-legend-dot" style="background:${row.color}"></span>
-      <div class="profit-legend-main"><strong>${escapeHtml(row.name)}</strong><small>${money(row.value)} · ${Number(row.trips || 0)} ${Number(row.trips || 0) === 1 ? "registro" : "registros"}</small></div>
-      <span class="profit-legend-pct">${pctText}%</span>
+    return `<div class="profit-legend-row" style="--platform-color:${row.color}">
+      <span class="profit-platform-icon">${platformIcon(row.name)}</span>
+      <div class="profit-legend-main">
+        <strong>${escapeHtml(row.name)}</strong>
+        <small><b>${money(row.value)}</b><span>·</span>${Number(row.trips || 0)} ${Number(row.trips || 0) === 1 ? "registro" : "registros"}</small>
+        <div class="profit-progress"><i style="width:${Math.max(pct,2)}%;background:${row.color}"></i></div>
+      </div>
+      <div class="profit-legend-side"><strong>${pctText}%</strong><small>${money(row.value)}</small></div>
     </div>`;
   }).join("");
 }
-
 function renderReports() {
   populateReportMonthFilter();
   const sessions = reportClosedSessions();
@@ -3841,7 +3905,63 @@ function updateInDriveCommissionControls() {
     : "no aplicada";
   if (!enabled) rechargeInput.value = "0";
 }
+let correctingClosedSessionId = null;
+function finishTargetSession() {
+  if (correctingClosedSessionId) return state.sessions.find(s => s.id === correctingClosedSessionId) || null;
+  return activeSession();
+}
+function fillFinishFormFromSession(session) {
+  document.getElementById("finishDate").value = session.endDate || dateOffset(0);
+  document.getElementById("finishTime").value = session.endTime || timeNow();
+  document.getElementById("finishKm").value = Number(session.endKm ?? session.startKm ?? 0);
+  document.getElementById("finishExtraFuel").value = Number(session.extraFuel || 0);
+  document.getElementById("uberEarnings").value = Number(session.uberEarnings || 0);
+  document.getElementById("uberTrips").value = Number(session.uberTrips || 0);
+  document.getElementById("indriveGross").value = Number(session.indriveGross || 0);
+  document.getElementById("applyIndriveCommission").checked = Boolean(session.applyIndriveCommission);
+  document.getElementById("finishIndriveRate").value = Number(session.indriveRate || state.profile.indriveRate || 13.69);
+  document.getElementById("indriveRecharge").value = Number(session.indriveRecharge || 0);
+  document.getElementById("indriveTrips").value = Number(session.indriveTrips || 0);
+  document.getElementById("outsideEarnings").value = Number(session.outsideEarnings || 0);
+  document.getElementById("outsideTrips").value = Number(session.outsideTrips || 0);
+  document.getElementById("finishTolls").value = Number(session.tolls || 0);
+  document.getElementById("finishAppExpenses").value = Number(session.appExpenses || 0);
+  document.getElementById("finishOtherExpenses").value = Number(session.otherExpenses || 0);
+  document.getElementById("finishNote").value = session.finishNote || "";
+  Object.entries(session.platformEarnings || {}).forEach(([key,value]) => {
+    const earnings = document.getElementById(`platform_${key}_earnings`);
+    const trips = document.getElementById(`platform_${key}_trips`);
+    if (earnings) earnings.value = Number(value?.earnings || 0);
+    if (trips) trips.value = Number(value?.trips || 0);
+  });
+}
+function openClosedSessionCorrection(sessionId) {
+  const session = state.sessions.find(s => s.id === sessionId && s.status === "closed");
+  if (!session) { toast("No se encontró la jornada finalizada."); return; }
+  correctingClosedSessionId = sessionId;
+  clearFinishDraft();
+  document.getElementById("finishForm").reset();
+  renderExtraPlatformFinishFields();
+  fillFinishFormFromSession(session);
+  const title = document.querySelector("#finishModal h2");
+  if (title) title.textContent = "Corregir jornada";
+  const submit = document.querySelector('#finishForm button[type="submit"]');
+  if (submit) submit.textContent = "Guardar corrección";
+  document.getElementById("finishStartSummary").innerHTML = `<div class="finish-summary-grid">
+    <div><span>Vehículo</span><strong>${escapeHtml(getVehicleName(session.vehicleId))}</strong></div>
+    <div><span>Km inicial</span><strong>${Number(session.startKm).toLocaleString("es-PA")} km</strong></div>
+    <div><span>Gasolina inicial</span><strong>${money(session.startFuel)}</strong></div>
+    <div><span>Inicio</span><strong>${formatDate(session.startDate)} ${escapeHtml(session.startTime)}</strong></div></div>`;
+  updateInDriveCommissionControls();
+  calculateFinishPreview();
+  openModal("finishModal");
+}
 function openFinishModal() {
+  correctingClosedSessionId = null;
+  const title = document.querySelector("#finishModal h2");
+  if (title) title.textContent = "Finalizar jornada";
+  const submit = document.querySelector('#finishForm button[type="submit"]');
+  if (submit) submit.textContent = "Finalizar jornada";
   const active = activeSession();
   if (!active) { toast("No hay una jornada activa."); return; }
   document.getElementById("finishForm").reset();
@@ -3864,7 +3984,7 @@ function openFinishModal() {
   saveFinishDraft(false);
 }
 function calculateFinishPreview() {
-  const active = activeSession();
+  const active = finishTargetSession();
   if (!active) return;
   const endKm = Number(document.getElementById("finishKm").value || 0);
   const km = Math.max(endKm - Number(active.startKm || 0),0);
@@ -3964,6 +4084,11 @@ document.addEventListener("click",e=>{
   if(e.target.closest("[data-start-session]")) openStartModal();
   if(e.target.closest("[data-finish-session]")) openFinishModal();
   const close=e.target.closest("[data-close]"); if(close) closeModal(close.dataset.close);
+  const correct=e.target.closest("[data-correct-session]");
+  if(correct){
+    openClosedSessionCorrection(correct.dataset.correctSession);
+    return;
+  }
   const del=e.target.closest("[data-delete-session]");
   if(del){
     state.sessions=state.sessions.filter(s=>s.id!==del.dataset.deleteSession);
@@ -4075,7 +4200,8 @@ FINISH_DRAFT_FIELDS.forEach(fieldId => {
 });
 document.getElementById("finishForm").addEventListener("submit",e=>{
   e.preventDefault();
-  const active=activeSession(); if(!active){toast("No hay jornada activa.");return;}
+  const wasCorrection = Boolean(correctingClosedSessionId);
+  const active=finishTargetSession(); if(!active){toast(wasCorrection?"No se encontró la jornada a corregir.":"No hay jornada activa.");return;}
   const endKm=Number(document.getElementById("finishKm").value||0);
   if(endKm<Number(active.startKm)){toast("El kilometraje final no puede ser menor que el inicial.");return;}
   const endDate=document.getElementById("finishDate").value,endTime=document.getElementById("finishTime").value;
@@ -4102,8 +4228,10 @@ document.getElementById("finishForm").addEventListener("submit",e=>{
     finishNote:document.getElementById("finishNote").value.trim()
   });
   const vehicle=getVehicle(active.vehicleId); if(vehicle)vehicle.currentKm=endKm;
-  saveState();clearFinishDraft();closeModal("finishModal");renderAll();toast("Jornada finalizada y rendimiento calculado.");
-  releaseScreenWakeLock();
+  saveState();clearFinishDraft();closeModal("finishModal");renderAll();
+  toast(wasCorrection?"Corrección guardada correctamente.":"Jornada finalizada y rendimiento calculado.");
+  correctingClosedSessionId = null;
+  if(!wasCorrection) releaseScreenWakeLock();
 });
 document.getElementById("sessionSearch").addEventListener("input",renderSessionsTable);
 document.getElementById("sessionStatusFilter").addEventListener("change",renderSessionsTable);
@@ -4479,7 +4607,7 @@ renderAll();
         const status = user.status || "pending";
         const isSelf = normalizeEmail(user.email) === ADMIN_EMAIL;
         const jsonButton = `<button class="button secondary admin-download-json" data-uid="${escapeHtml(user.uid)}" data-email="${escapeHtml(user.email || "")}" data-name="${escapeHtml(user.displayName || "Usuario")}" title="Descargar respaldo JSON de este usuario">⬇ JSON</button>`;
-        const viewJsonButton = `<button class="button secondary admin-view-json" data-uid="${escapeHtml(user.uid)}" data-email="${escapeHtml(user.email || "")}" data-name="${escapeHtml(user.displayName || "Usuario")}" title="Ver los datos JSON de este usuario">👁 Ver datos</button>`;
+        const viewJsonButton = `<button class="button secondary admin-view-json" data-uid="${escapeHtml(user.uid)}" data-email="${escapeHtml(user.email || "")}" data-name="${escapeHtml(user.displayName || "Usuario")}" title="Ver resumen de este usuario">👁 Ver resumen</button>`;
         const buttons = isSelf ? `<div class="user-actions">${viewJsonButton}${jsonButton}<span class="muted">Administrador</span></div>` : `
           <div class="user-actions">
             ${viewJsonButton}
@@ -4559,21 +4687,83 @@ renderAll();
     let adminJsonViewerPayload = null;
     let adminJsonViewerUser = null;
 
-    function adminJsonViewerSectionPayload(section = "all") {
-      if (!adminJsonViewerPayload) return null;
-      if (section === "sessions") return adminJsonViewerPayload.data?.sessions || [];
-      if (section === "expenses") return adminJsonViewerPayload.data?.expenses || [];
-      if (section === "vehicles") return adminJsonViewerPayload.data?.vehicles || [];
-      if (section === "profile") return { account:adminJsonViewerPayload.account || {}, profile:adminJsonViewerPayload.data?.profile || {} };
-      return adminJsonViewerPayload;
+    function adminUserMoney(value) {
+      return `USD ${Number(value || 0).toFixed(2)}`;
     }
 
-    function renderAdminJsonViewerSection(section = "all") {
-      const code = $("adminJsonCode");
-      if (!code) return;
-      const payload = adminJsonViewerSectionPayload(section);
-      code.textContent = JSON.stringify(payload, null, 2);
-      document.querySelectorAll(".admin-json-tab").forEach(tab => tab.classList.toggle("active", tab.dataset.jsonSection === section));
+    function adminUserHoursBetween(session) {
+      if (!session?.endDate || !session?.endTime || !session?.startDate || !session?.startTime) return 0;
+      const start = new Date(`${session.startDate}T${session.startTime}`);
+      const end = new Date(`${session.endDate}T${session.endTime}`);
+      const diff = (end - start) / 3600000;
+      return Number.isFinite(diff) ? Math.max(diff, 0) : 0;
+    }
+
+    function adminUserIndriveGross(session) {
+      return Number(session?.indriveGross ?? session?.indriveEarnings ?? 0);
+    }
+
+    function adminUserIndriveCommission(session, profile = {}) {
+      const enabled = session?.applyIndriveCommission !== undefined
+        ? Boolean(session.applyIndriveCommission)
+        : Number(session?.indriveCommission || 0) > 0;
+      if (!enabled) return 0;
+      if (session?.indriveCommission !== undefined && session?.indriveCommission !== null) return Number(session.indriveCommission || 0);
+      const rate = Number(session?.indriveRate ?? profile?.indriveRate ?? 13.69);
+      return adminUserIndriveGross(session) * rate / 100;
+    }
+
+    function adminUserSummary(payload) {
+      const sessions = (payload?.data?.sessions || []).filter(item => item?.status === "closed");
+      const expenses = payload?.data?.expenses || [];
+      const profile = payload?.data?.profile || {};
+      const totals = { income:0, expenses:0, net:0, indriveNet:0, uber:0, outside:0, fuel:0, km:0, hours:0 };
+      sessions.forEach(session => {
+        const uber = Number(session?.uberEarnings || 0);
+        const indriveGross = adminUserIndriveGross(session);
+        const indriveCommission = adminUserIndriveCommission(session, profile);
+        const outside = Number(session?.outsideEarnings || 0);
+        const extraPlatforms = Object.values(session?.platformEarnings || {}).reduce((sum, record) => {
+          if (record && typeof record === "object") return sum + Number(record.earnings || 0);
+          return sum + Number(record || 0);
+        }, 0);
+        const fuel = Number(session?.startFuel || 0) + Number(session?.extraFuel || 0);
+        const sessionExpenses = fuel + Number(session?.appExpenses || 0) + Number(session?.otherExpenses || 0) + indriveCommission;
+        const sessionIncome = uber + indriveGross + outside + extraPlatforms;
+        totals.income += sessionIncome;
+        totals.expenses += sessionExpenses;
+        totals.net += sessionIncome - sessionExpenses;
+        totals.indriveNet += Math.max(indriveGross - indriveCommission, 0);
+        totals.uber += uber;
+        totals.outside += outside;
+        totals.fuel += fuel;
+        totals.km += Math.max(Number(session?.endKm || 0) - Number(session?.startKm || 0), 0);
+        totals.hours += adminUserHoursBetween(session);
+      });
+      expenses.forEach(expense => {
+        const category = String(expense?.category || "");
+        if (category === "indrive_recharge") return;
+        const amount = Number(expense?.amount ?? expense?.value ?? expense?.total ?? 0);
+        if (!Number.isFinite(amount)) return;
+        totals.expenses += amount;
+        totals.net -= amount;
+      });
+      return totals;
+    }
+
+    function renderAdminUserDashboard(payload) {
+      const totals = adminUserSummary(payload);
+      const perKm = totals.km ? totals.net / totals.km : 0;
+      const perHour = totals.hours ? totals.net / totals.hours : 0;
+      if ($("adminUserNet")) $("adminUserNet").textContent = adminUserMoney(totals.net);
+      if ($("adminUserIndrive")) $("adminUserIndrive").textContent = adminUserMoney(totals.indriveNet);
+      if ($("adminUserUber")) $("adminUserUber").textContent = adminUserMoney(totals.uber);
+      if ($("adminUserOutside")) $("adminUserOutside").textContent = adminUserMoney(totals.outside);
+      if ($("adminUserFuel")) $("adminUserFuel").textContent = adminUserMoney(totals.fuel);
+      if ($("adminUserKm")) $("adminUserKm").textContent = `${Math.round(totals.km).toLocaleString("es-PA")} km`;
+      if ($("adminUserHours")) $("adminUserHours").textContent = `${totals.hours.toFixed(1)} h`;
+      if ($("adminUserPerKm")) $("adminUserPerKm").textContent = adminUserMoney(perKm);
+      if ($("adminUserPerHour")) $("adminUserPerHour").textContent = `Por hora: ${adminUserMoney(perHour)}`;
     }
 
     function closeAdminJsonViewer() {
@@ -4592,11 +4782,11 @@ renderAll();
       const viewer = $("adminJsonViewer");
       const card = $("adminUsersCard");
       const overview = $("adminUsersOverview");
-      const code = $("adminJsonCode");
+      const errorBox = $("adminUserViewError");
       if (viewer) viewer.hidden = false;
       if (card) card.hidden = true;
       if (overview) overview.hidden = true;
-      if (code) code.textContent = "Cargando datos del usuario…";
+      if (errorBox) { errorBox.hidden = true; errorBox.textContent = ""; }
       if ($("adminJsonViewerTitle")) $("adminJsonViewerTitle").textContent = `Datos de ${displayName || "Usuario"}`;
       if ($("adminJsonViewerSubtitle")) $("adminJsonViewerSubtitle").textContent = `${email || "Sin correo"} · Vista de solo lectura`;
       try {
@@ -4611,9 +4801,9 @@ renderAll();
           <div><span>Gastos</span><strong>${expenses}</strong></div>
           <div><span>Vehículos</span><strong>${vehicles}</strong></div>
           <div><span>UID</span><strong class="uid-value">${escapeHtml(uid)}</strong></div>`;
-        renderAdminJsonViewerSection("all");
+        renderAdminUserDashboard(payload);
       } catch (error) {
-        if (code) code.textContent = `No se pudieron leer los datos.\n\n${error?.message || error}`;
+        if (errorBox) { errorBox.hidden = false; errorBox.textContent = `No se pudieron leer los datos. ${error?.message || error}`; }
         throw error;
       }
     }
@@ -5654,21 +5844,58 @@ table tbody tr:hover{background:#f8fbff}
 #sessions .reimbursed-value{color:#18a05e;font-weight:750}
 </style>
 <style id="admin-json-viewer-premium">
-.admin-json-viewer{margin-top:18px;padding:22px}
-.admin-json-viewer-header{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:18px}
-.admin-json-viewer-header h3{margin:14px 0 4px;font-size:24px}
-.admin-json-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0 18px}
-.admin-json-summary>div{background:#f8fafc;border:1px solid #e6edf5;border-radius:14px;padding:14px 16px;min-width:0}
-.admin-json-summary span{display:block;color:#738196;font-size:11px;font-weight:750;text-transform:uppercase;letter-spacing:.05em}
-.admin-json-summary strong{display:block;margin-top:6px;font-size:20px;color:#182437;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.admin-json-summary .uid-value{font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-.admin-json-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.admin-json-tab{border:1px solid #dfe7f0;background:#fff;color:#415067;border-radius:10px;padding:9px 13px;min-height:38px;font-weight:700;cursor:pointer}
-.admin-json-tab.active{background:#10243f;color:#fff;border-color:#10243f;box-shadow:0 7px 16px rgba(16,36,63,.13)}
-.admin-json-code-wrap{border:1px solid #dfe7f0;border-radius:14px;overflow:hidden;background:#0f1724}
-.admin-json-code{margin:0;max-height:58vh;overflow:auto;padding:18px;color:#dbe8f7;background:#0f1724;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word}
+.admin-json-viewer{margin-top:18px;padding:20px}
+.admin-json-viewer-header{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:12px}
+.admin-json-viewer-header h3{margin:12px 0 4px;font-size:22px}
+.admin-user-mini-meta{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}
+.admin-user-mini-meta>div{display:flex;align-items:center;gap:6px;background:#f7f9fc;border:1px solid #e6edf5;border-radius:999px;padding:7px 10px;min-width:0}
+.admin-user-mini-meta span{color:#738196;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.admin-user-mini-meta strong{font-size:12px;color:#182437;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.admin-user-mini-meta .uid-value{font-size:10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.admin-user-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.admin-user-kpi{position:relative;display:flex;align-items:center;gap:12px;min-height:108px;padding:14px 16px;border:1px solid #e4eaf2;border-left-width:4px;border-radius:15px;background:#fff;overflow:hidden;box-shadow:0 7px 18px rgba(24,36,55,.045)}
+.admin-user-kpi::after{content:"";position:absolute;width:82px;height:82px;border-radius:50%;right:-31px;bottom:-38px;background:currentColor;opacity:.065;pointer-events:none}
+.admin-user-kpi>div{min-width:0;display:flex;flex-direction:column;gap:4px;z-index:1}
+.admin-user-kpi-icon{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;border-radius:11px;background:#f1f4f8;box-shadow:0 5px 12px rgba(20,32,48,.07);font-size:17px;font-style:normal}
+.admin-user-kpi small{font-size:9px;font-weight:850;text-transform:uppercase;letter-spacing:.045em;color:#53637a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admin-user-kpi strong{font-size:22px;line-height:1.08;font-weight:850;color:currentColor;white-space:nowrap}
+.admin-user-kpi em{font-style:normal;font-size:9px;font-weight:650;color:#7b889b;text-transform:uppercase;line-height:1.25}
+.admin-user-kpi.green{color:#31b86d;border-left-color:#31b86d}.admin-user-kpi.lime{color:#73b817;border-left-color:#73b817}.admin-user-kpi.dark{color:#182437;border-left-color:#182437}.admin-user-kpi.blue{color:#397cff;border-left-color:#397cff}.admin-user-kpi.red{color:#ec4761;border-left-color:#ec4761}.admin-user-kpi.orange{color:#eea400;border-left-color:#eea400}.admin-user-kpi.purple{color:#8058e8;border-left-color:#8058e8}.admin-user-kpi.cyan{color:#25a5b3;border-left-color:#25a5b3}
+.admin-user-view-error{margin-top:14px;padding:12px 14px;border:1px solid #ffd0d7;background:#fff4f6;color:#b4233a;border-radius:12px;font-weight:700}
 .admin-view-json{white-space:nowrap}
-@media(max-width:850px){.admin-json-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.admin-json-viewer-header{flex-direction:column}.admin-json-viewer-header .button{width:100%}}
-@media(max-width:520px){.admin-json-summary{grid-template-columns:1fr}.admin-json-tab{flex:1 1 45%}.admin-json-viewer{padding:15px}}
+@media(max-width:1100px){.admin-user-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:850px){.admin-json-viewer-header{flex-direction:column}.admin-json-viewer-header .button{width:100%}}
+@media(max-width:560px){.admin-user-kpi-grid{grid-template-columns:1fr}.admin-json-viewer{padding:14px}.admin-user-kpi{min-height:102px}.admin-user-mini-meta{display:grid;grid-template-columns:1fr 1fr}.admin-user-mini-meta>div{border-radius:12px;display:block}.admin-user-mini-meta strong{display:block;margin-top:3px}.admin-user-mini-meta>div:last-child{grid-column:1/-1}}
 </style>
 
+
+<style id="period-filter-premium-text-fix">
+/* Ajuste visual solicitado: filtros Periodo / Mes más legibles */
+.header-actions > label{
+  gap:7px !important;
+  font-size:14px !important;
+  font-weight:800 !important;
+  color:#526176 !important;
+  letter-spacing:.01em;
+}
+.header-actions > label > select{
+  min-width:190px !important;
+  min-height:48px !important;
+  padding:11px 38px 11px 14px !important;
+  font-size:15px !important;
+  font-weight:750 !important;
+  color:#172235 !important;
+  line-height:1.25 !important;
+  border-radius:12px !important;
+}
+#dashboardMonthLabel > select{min-width:210px !important;}
+@media(max-width:850px){
+  .header-actions > label{font-size:13px !important;}
+  .header-actions > label > select{
+    width:100% !important;
+    min-width:0 !important;
+    min-height:47px !important;
+    font-size:15px !important;
+  }
+}
+</style>
