@@ -2077,21 +2077,22 @@ table tbody tr:hover{background:#fafcfe}
             <div>
               <button class="button secondary" id="adminJsonBackButton" type="button">← Volver a usuarios</button>
               <h3 id="adminJsonViewerTitle">Datos del usuario</h3>
-              <p class="muted" id="adminJsonViewerSubtitle">Vista de solo lectura del respaldo JSON.</p>
+              <p class="muted" id="adminJsonViewerSubtitle">Resumen de solo lectura del usuario.</p>
             </div>
             <button class="button secondary" id="adminJsonViewerDownloadButton" type="button">⬇ Descargar JSON</button>
           </div>
-          <div class="admin-json-summary" id="adminJsonSummary"></div>
-          <div class="admin-json-tabs" role="tablist" aria-label="Secciones de datos del usuario">
-            <button class="admin-json-tab active" type="button" data-json-section="all">JSON completo</button>
-            <button class="admin-json-tab" type="button" data-json-section="sessions">Jornadas</button>
-            <button class="admin-json-tab" type="button" data-json-section="expenses">Gastos</button>
-            <button class="admin-json-tab" type="button" data-json-section="vehicles">Vehículos</button>
-            <button class="admin-json-tab" type="button" data-json-section="profile">Perfil</button>
+          <div class="admin-user-mini-meta" id="adminJsonSummary"></div>
+          <div class="admin-user-kpi-grid" id="adminUserKpiGrid">
+            <article class="admin-user-kpi green"><span class="admin-user-kpi-icon">💰</span><div><small>Ganancia neta</small><strong id="adminUserNet">USD 0.00</strong><em>Ingresos menos todos los gastos</em></div></article>
+            <article class="admin-user-kpi lime"><span class="admin-user-kpi-icon">%</span><div><small>Ganancia InDrive</small><strong id="adminUserIndrive">USD 0.00</strong><em>Total bruto menos comisión aplicada</em></div></article>
+            <article class="admin-user-kpi dark"><span class="admin-user-kpi-icon">◉</span><div><small>Ganancia Uber</small><strong id="adminUserUber">USD 0.00</strong><em>Ganancia final registrada de Uber</em></div></article>
+            <article class="admin-user-kpi blue"><span class="admin-user-kpi-icon">🚕</span><div><small>Taxi / viajes privados</small><strong id="adminUserOutside">USD 0.00</strong><em>Viajes realizados fuera de aplicaciones</em></div></article>
+            <article class="admin-user-kpi red"><span class="admin-user-kpi-icon">⛽</span><div><small>Gasolina</small><strong id="adminUserFuel">USD 0.00</strong><em>Inversión total en combustible</em></div></article>
+            <article class="admin-user-kpi orange"><span class="admin-user-kpi-icon">◴</span><div><small>Kilómetros</small><strong id="adminUserKm">0 km</strong><em>Recorridos trabajando</em></div></article>
+            <article class="admin-user-kpi purple"><span class="admin-user-kpi-icon">◷</span><div><small>Horas trabajadas</small><strong id="adminUserHours">0.0 h</strong><em>Duración de jornadas cerradas</em></div></article>
+            <article class="admin-user-kpi cyan"><span class="admin-user-kpi-icon">◉</span><div><small>Ganancia por KM</small><strong id="adminUserPerKm">USD 0.00</strong><em id="adminUserPerHour">Por hora: USD 0.00</em></div></article>
           </div>
-          <div class="admin-json-code-wrap">
-            <pre id="adminJsonCode" class="admin-json-code">Selecciona un usuario para ver sus datos.</pre>
-          </div>
+          <div class="admin-user-view-error" id="adminUserViewError" hidden></div>
         </article>
       </section>
 
@@ -4478,7 +4479,7 @@ renderAll();
         const status = user.status || "pending";
         const isSelf = normalizeEmail(user.email) === ADMIN_EMAIL;
         const jsonButton = `<button class="button secondary admin-download-json" data-uid="${escapeHtml(user.uid)}" data-email="${escapeHtml(user.email || "")}" data-name="${escapeHtml(user.displayName || "Usuario")}" title="Descargar respaldo JSON de este usuario">⬇ JSON</button>`;
-        const viewJsonButton = `<button class="button secondary admin-view-json" data-uid="${escapeHtml(user.uid)}" data-email="${escapeHtml(user.email || "")}" data-name="${escapeHtml(user.displayName || "Usuario")}" title="Ver los datos JSON de este usuario">👁 Ver datos</button>`;
+        const viewJsonButton = `<button class="button secondary admin-view-json" data-uid="${escapeHtml(user.uid)}" data-email="${escapeHtml(user.email || "")}" data-name="${escapeHtml(user.displayName || "Usuario")}" title="Ver resumen de este usuario">👁 Ver resumen</button>`;
         const buttons = isSelf ? `<div class="user-actions">${viewJsonButton}${jsonButton}<span class="muted">Administrador</span></div>` : `
           <div class="user-actions">
             ${viewJsonButton}
@@ -4558,21 +4559,83 @@ renderAll();
     let adminJsonViewerPayload = null;
     let adminJsonViewerUser = null;
 
-    function adminJsonViewerSectionPayload(section = "all") {
-      if (!adminJsonViewerPayload) return null;
-      if (section === "sessions") return adminJsonViewerPayload.data?.sessions || [];
-      if (section === "expenses") return adminJsonViewerPayload.data?.expenses || [];
-      if (section === "vehicles") return adminJsonViewerPayload.data?.vehicles || [];
-      if (section === "profile") return { account:adminJsonViewerPayload.account || {}, profile:adminJsonViewerPayload.data?.profile || {} };
-      return adminJsonViewerPayload;
+    function adminUserMoney(value) {
+      return `USD ${Number(value || 0).toFixed(2)}`;
     }
 
-    function renderAdminJsonViewerSection(section = "all") {
-      const code = $("adminJsonCode");
-      if (!code) return;
-      const payload = adminJsonViewerSectionPayload(section);
-      code.textContent = JSON.stringify(payload, null, 2);
-      document.querySelectorAll(".admin-json-tab").forEach(tab => tab.classList.toggle("active", tab.dataset.jsonSection === section));
+    function adminUserHoursBetween(session) {
+      if (!session?.endDate || !session?.endTime || !session?.startDate || !session?.startTime) return 0;
+      const start = new Date(`${session.startDate}T${session.startTime}`);
+      const end = new Date(`${session.endDate}T${session.endTime}`);
+      const diff = (end - start) / 3600000;
+      return Number.isFinite(diff) ? Math.max(diff, 0) : 0;
+    }
+
+    function adminUserIndriveGross(session) {
+      return Number(session?.indriveGross ?? session?.indriveEarnings ?? 0);
+    }
+
+    function adminUserIndriveCommission(session, profile = {}) {
+      const enabled = session?.applyIndriveCommission !== undefined
+        ? Boolean(session.applyIndriveCommission)
+        : Number(session?.indriveCommission || 0) > 0;
+      if (!enabled) return 0;
+      if (session?.indriveCommission !== undefined && session?.indriveCommission !== null) return Number(session.indriveCommission || 0);
+      const rate = Number(session?.indriveRate ?? profile?.indriveRate ?? 13.69);
+      return adminUserIndriveGross(session) * rate / 100;
+    }
+
+    function adminUserSummary(payload) {
+      const sessions = (payload?.data?.sessions || []).filter(item => item?.status === "closed");
+      const expenses = payload?.data?.expenses || [];
+      const profile = payload?.data?.profile || {};
+      const totals = { income:0, expenses:0, net:0, indriveNet:0, uber:0, outside:0, fuel:0, km:0, hours:0 };
+      sessions.forEach(session => {
+        const uber = Number(session?.uberEarnings || 0);
+        const indriveGross = adminUserIndriveGross(session);
+        const indriveCommission = adminUserIndriveCommission(session, profile);
+        const outside = Number(session?.outsideEarnings || 0);
+        const extraPlatforms = Object.values(session?.platformEarnings || {}).reduce((sum, record) => {
+          if (record && typeof record === "object") return sum + Number(record.earnings || 0);
+          return sum + Number(record || 0);
+        }, 0);
+        const fuel = Number(session?.startFuel || 0) + Number(session?.extraFuel || 0);
+        const sessionExpenses = fuel + Number(session?.appExpenses || 0) + Number(session?.otherExpenses || 0) + indriveCommission;
+        const sessionIncome = uber + indriveGross + outside + extraPlatforms;
+        totals.income += sessionIncome;
+        totals.expenses += sessionExpenses;
+        totals.net += sessionIncome - sessionExpenses;
+        totals.indriveNet += Math.max(indriveGross - indriveCommission, 0);
+        totals.uber += uber;
+        totals.outside += outside;
+        totals.fuel += fuel;
+        totals.km += Math.max(Number(session?.endKm || 0) - Number(session?.startKm || 0), 0);
+        totals.hours += adminUserHoursBetween(session);
+      });
+      expenses.forEach(expense => {
+        const category = String(expense?.category || "");
+        if (category === "indrive_recharge") return;
+        const amount = Number(expense?.amount ?? expense?.value ?? expense?.total ?? 0);
+        if (!Number.isFinite(amount)) return;
+        totals.expenses += amount;
+        totals.net -= amount;
+      });
+      return totals;
+    }
+
+    function renderAdminUserDashboard(payload) {
+      const totals = adminUserSummary(payload);
+      const perKm = totals.km ? totals.net / totals.km : 0;
+      const perHour = totals.hours ? totals.net / totals.hours : 0;
+      if ($("adminUserNet")) $("adminUserNet").textContent = adminUserMoney(totals.net);
+      if ($("adminUserIndrive")) $("adminUserIndrive").textContent = adminUserMoney(totals.indriveNet);
+      if ($("adminUserUber")) $("adminUserUber").textContent = adminUserMoney(totals.uber);
+      if ($("adminUserOutside")) $("adminUserOutside").textContent = adminUserMoney(totals.outside);
+      if ($("adminUserFuel")) $("adminUserFuel").textContent = adminUserMoney(totals.fuel);
+      if ($("adminUserKm")) $("adminUserKm").textContent = `${Math.round(totals.km).toLocaleString("es-PA")} km`;
+      if ($("adminUserHours")) $("adminUserHours").textContent = `${totals.hours.toFixed(1)} h`;
+      if ($("adminUserPerKm")) $("adminUserPerKm").textContent = adminUserMoney(perKm);
+      if ($("adminUserPerHour")) $("adminUserPerHour").textContent = `Por hora: ${adminUserMoney(perHour)}`;
     }
 
     function closeAdminJsonViewer() {
@@ -4591,11 +4654,11 @@ renderAll();
       const viewer = $("adminJsonViewer");
       const card = $("adminUsersCard");
       const overview = $("adminUsersOverview");
-      const code = $("adminJsonCode");
+      const errorBox = $("adminUserViewError");
       if (viewer) viewer.hidden = false;
       if (card) card.hidden = true;
       if (overview) overview.hidden = true;
-      if (code) code.textContent = "Cargando datos del usuario…";
+      if (errorBox) { errorBox.hidden = true; errorBox.textContent = ""; }
       if ($("adminJsonViewerTitle")) $("adminJsonViewerTitle").textContent = `Datos de ${displayName || "Usuario"}`;
       if ($("adminJsonViewerSubtitle")) $("adminJsonViewerSubtitle").textContent = `${email || "Sin correo"} · Vista de solo lectura`;
       try {
@@ -4610,9 +4673,9 @@ renderAll();
           <div><span>Gastos</span><strong>${expenses}</strong></div>
           <div><span>Vehículos</span><strong>${vehicles}</strong></div>
           <div><span>UID</span><strong class="uid-value">${escapeHtml(uid)}</strong></div>`;
-        renderAdminJsonViewerSection("all");
+        renderAdminUserDashboard(payload);
       } catch (error) {
-        if (code) code.textContent = `No se pudieron leer los datos.\n\n${error?.message || error}`;
+        if (errorBox) { errorBox.hidden = false; errorBox.textContent = `No se pudieron leer los datos. ${error?.message || error}`; }
         throw error;
       }
     }
@@ -5653,21 +5716,27 @@ table tbody tr:hover{background:#f8fbff}
 #sessions .reimbursed-value{color:#18a05e;font-weight:750}
 </style>
 <style id="admin-json-viewer-premium">
-.admin-json-viewer{margin-top:18px;padding:22px}
-.admin-json-viewer-header{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:18px}
-.admin-json-viewer-header h3{margin:14px 0 4px;font-size:24px}
-.admin-json-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0 18px}
-.admin-json-summary>div{background:#f8fafc;border:1px solid #e6edf5;border-radius:14px;padding:14px 16px;min-width:0}
-.admin-json-summary span{display:block;color:#738196;font-size:11px;font-weight:750;text-transform:uppercase;letter-spacing:.05em}
-.admin-json-summary strong{display:block;margin-top:6px;font-size:20px;color:#182437;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.admin-json-summary .uid-value{font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-.admin-json-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.admin-json-tab{border:1px solid #dfe7f0;background:#fff;color:#415067;border-radius:10px;padding:9px 13px;min-height:38px;font-weight:700;cursor:pointer}
-.admin-json-tab.active{background:#10243f;color:#fff;border-color:#10243f;box-shadow:0 7px 16px rgba(16,36,63,.13)}
-.admin-json-code-wrap{border:1px solid #dfe7f0;border-radius:14px;overflow:hidden;background:#0f1724}
-.admin-json-code{margin:0;max-height:58vh;overflow:auto;padding:18px;color:#dbe8f7;background:#0f1724;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word}
+.admin-json-viewer{margin-top:18px;padding:20px}
+.admin-json-viewer-header{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:12px}
+.admin-json-viewer-header h3{margin:12px 0 4px;font-size:22px}
+.admin-user-mini-meta{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}
+.admin-user-mini-meta>div{display:flex;align-items:center;gap:6px;background:#f7f9fc;border:1px solid #e6edf5;border-radius:999px;padding:7px 10px;min-width:0}
+.admin-user-mini-meta span{color:#738196;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.admin-user-mini-meta strong{font-size:12px;color:#182437;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.admin-user-mini-meta .uid-value{font-size:10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.admin-user-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.admin-user-kpi{position:relative;display:flex;align-items:center;gap:12px;min-height:108px;padding:14px 16px;border:1px solid #e4eaf2;border-left-width:4px;border-radius:15px;background:#fff;overflow:hidden;box-shadow:0 7px 18px rgba(24,36,55,.045)}
+.admin-user-kpi::after{content:"";position:absolute;width:82px;height:82px;border-radius:50%;right:-31px;bottom:-38px;background:currentColor;opacity:.065;pointer-events:none}
+.admin-user-kpi>div{min-width:0;display:flex;flex-direction:column;gap:4px;z-index:1}
+.admin-user-kpi-icon{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;border-radius:11px;background:#f1f4f8;box-shadow:0 5px 12px rgba(20,32,48,.07);font-size:17px;font-style:normal}
+.admin-user-kpi small{font-size:9px;font-weight:850;text-transform:uppercase;letter-spacing:.045em;color:#53637a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admin-user-kpi strong{font-size:22px;line-height:1.08;font-weight:850;color:currentColor;white-space:nowrap}
+.admin-user-kpi em{font-style:normal;font-size:9px;font-weight:650;color:#7b889b;text-transform:uppercase;line-height:1.25}
+.admin-user-kpi.green{color:#31b86d;border-left-color:#31b86d}.admin-user-kpi.lime{color:#73b817;border-left-color:#73b817}.admin-user-kpi.dark{color:#182437;border-left-color:#182437}.admin-user-kpi.blue{color:#397cff;border-left-color:#397cff}.admin-user-kpi.red{color:#ec4761;border-left-color:#ec4761}.admin-user-kpi.orange{color:#eea400;border-left-color:#eea400}.admin-user-kpi.purple{color:#8058e8;border-left-color:#8058e8}.admin-user-kpi.cyan{color:#25a5b3;border-left-color:#25a5b3}
+.admin-user-view-error{margin-top:14px;padding:12px 14px;border:1px solid #ffd0d7;background:#fff4f6;color:#b4233a;border-radius:12px;font-weight:700}
 .admin-view-json{white-space:nowrap}
-@media(max-width:850px){.admin-json-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.admin-json-viewer-header{flex-direction:column}.admin-json-viewer-header .button{width:100%}}
-@media(max-width:520px){.admin-json-summary{grid-template-columns:1fr}.admin-json-tab{flex:1 1 45%}.admin-json-viewer{padding:15px}}
+@media(max-width:1100px){.admin-user-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:850px){.admin-json-viewer-header{flex-direction:column}.admin-json-viewer-header .button{width:100%}}
+@media(max-width:560px){.admin-user-kpi-grid{grid-template-columns:1fr}.admin-json-viewer{padding:14px}.admin-user-kpi{min-height:102px}.admin-user-mini-meta{display:grid;grid-template-columns:1fr 1fr}.admin-user-mini-meta>div{border-radius:12px;display:block}.admin-user-mini-meta strong{display:block;margin-top:3px}.admin-user-mini-meta>div:last-child{grid-column:1/-1}}
 </style>
 
