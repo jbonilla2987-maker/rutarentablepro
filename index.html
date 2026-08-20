@@ -5763,3 +5763,34 @@ table tbody tr:hover{background:#f8fbff}
 @media(max-width:560px){.admin-user-kpi-grid{grid-template-columns:1fr}.admin-json-viewer{padding:14px}.admin-user-kpi{min-height:102px}.admin-user-mini-meta{display:grid;grid-template-columns:1fr 1fr}.admin-user-mini-meta>div{border-radius:12px;display:block}.admin-user-mini-meta strong{display:block;margin-top:3px}.admin-user-mini-meta>div:last-child{grid-column:1/-1}}
 </style>
 
+
+<style id="period-filter-premium-text-fix">
+/* Ajuste visual solicitado: filtros Periodo / Mes más legibles */
+.header-actions > label{
+  gap:7px !important;
+  font-size:14px !important;
+  font-weight:800 !important;
+  color:#526176 !important;
+  letter-spacing:.01em;
+}
+.header-actions > label > select{
+  min-width:190px !important;
+  min-height:48px !important;
+  padding:11px 38px 11px 14px !important;
+  font-size:15px !important;
+  font-weight:750 !important;
+  color:#172235 !important;
+  line-height:1.25 !important;
+  border-radius:12px !important;
+}
+#dashboardMonthLabel > select{min-width:210px !important;}
+@media(max-width:850px){
+  .header-actions > label{font-size:13px !important;}
+  .header-actions > label > select{
+    width:100% !important;
+    min-width:0 !important;
+    min-height:47px !important;
+    font-size:15px !important;
+  }
+}
+</style>
