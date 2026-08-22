@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="RutaRentable">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-180.png">
-  <title>RutaRentable PRO WEB 3.8.16 | Jornadas</title>
+  <title>RutaRentable PRO WEB 4.0.0 | Jornadas</title>
   <style>
 :root {
   --navy:#08172e; --navy2:#122844; --green:#14b86b; --green2:#0c9555;
@@ -779,7 +779,7 @@ input,select{min-height:42px;padding:10px 12px;border:1px solid var(--line);bord
 @media(max-width:620px){.tracking-map{height:360px}.tracking-link-box{flex-direction:column;align-items:stretch}.tracking-actions,.tracking-actions .button{width:100%}}
 
   
-/* RutaRentable 3.8.16 · acabado premium */
+/* RutaRentable 4.0.0 · acabado premium */
 .rr-hidden-mobile-mode{display:none!important}
 :root{--bg:#f6f8fc;--card:#fff;--line:#e7ebf2;--shadow:0 10px 30px rgba(25,42,70,.07)}
 body{background:linear-gradient(180deg,#f8faff 0,#f3f6fb 100%)}
@@ -809,7 +809,7 @@ input,select,textarea{border-radius:12px;border-color:#e2e8f0}.bar-chart{border-
 
   
 
-/* ===== RutaRentable 3.8.16 · Premium fase 2 ===== */
+/* ===== RutaRentable 4.0.0 · Premium fase 2 ===== */
 .view:not(#dashboard)>.section-heading{
   position:relative;
   overflow:hidden;
@@ -967,7 +967,7 @@ table tbody tr:hover{background:#fbfefc}
 }
 
 
-/* ===== RutaRentable 3.8.16 · Premium fase 4 ===== */
+/* ===== RutaRentable 4.0.0 · Premium fase 4 ===== */
 #dashboard{
   position:relative;
 }
@@ -1312,10 +1312,46 @@ table tbody tr:hover{background:#fbfefc}
   .vehicle-grid{grid-template-columns:1fr!important}.vehicle-card{min-height:auto}
   .tracking-map{height:370px!important}.tracking-link-box{padding:8px}
 }
+
+/* RutaRentable PRO 4.0 — Aeropuertos */
+.airports-intro{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-bottom:18px}
+.airports-intro-note{max-width:760px;color:var(--muted);line-height:1.55}
+.airports-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.airport-card{position:relative;overflow:hidden;padding:20px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow)}
+.airport-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,#23c483,#2b7fff)}
+.airport-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}
+.airport-card-title{display:flex;gap:12px;align-items:center}.airport-icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#e9f8f1,#edf4ff);font-size:22px}
+.airport-card h3{margin:0 0 3px}.airport-code{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:#0d2038;color:#fff;font-weight:900;font-size:12px;letter-spacing:.06em}
+.airport-meta{display:grid;gap:8px;margin:14px 0 16px}.airport-meta-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line)}.airport-meta-row span{color:var(--muted)}.airport-meta-row strong{text-align:right}
+.airport-live-box{padding:12px 13px;border-radius:13px;background:#f4f9ff;border:1px solid #dcecff;margin-bottom:14px}.airport-live-box strong{display:block;margin-bottom:3px}.airport-live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#19b66f;box-shadow:0 0 0 5px rgba(25,182,111,.12);margin-right:7px}
+.airport-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.airport-actions .button{width:100%;justify-content:center;text-align:center;text-decoration:none}.airport-map-link{grid-column:1/-1}
+.airports-tip{margin-top:18px;padding:16px 18px;border-radius:16px;border:1px solid #dfe9f5;background:linear-gradient(135deg,#f7fbff,#f3fbf7)}.airports-tip strong{display:block;margin-bottom:5px}.airports-tip p{margin:0;color:var(--muted);line-height:1.5}
+@media(max-width:1050px){.airports-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){.airports-grid{grid-template-columns:1fr}.airports-intro{align-items:flex-start;flex-direction:column}.airport-actions{grid-template-columns:1fr}.airport-map-link{grid-column:auto}}
+
+/* RutaRentable PRO 4.1 — Restaurantes */
+.restaurants-intro{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-bottom:18px}
+.restaurants-intro-note{max-width:760px;color:var(--muted);line-height:1.55}
+.restaurant-tools{display:grid;grid-template-columns:minmax(220px,1fr) 220px auto;gap:10px;margin:0 0 16px}
+.restaurant-tools input,.restaurant-tools select{min-height:44px;border:1px solid var(--line);border-radius:13px;padding:0 13px;background:#fff;color:var(--text);font:inherit}
+.restaurant-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(330px,.85fr);gap:16px;align-items:start}
+.restaurant-list{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.restaurant-card{position:relative;overflow:hidden;padding:16px;border:1px solid var(--line);border-radius:17px;background:#fff;box-shadow:0 10px 28px rgba(25,45,76,.07);transition:.18s}
+.restaurant-card:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(25,45,76,.10)}
+.restaurant-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,#ff9d3d,#ff5b67)}
+.restaurant-head{display:flex;gap:12px;align-items:flex-start}.restaurant-icon{width:42px;height:42px;flex:0 0 42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,#fff4e8,#fff0f2);font-size:20px}
+.restaurant-card h3{margin:1px 0 4px;font-size:16px}.restaurant-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.restaurant-tag{display:inline-flex;padding:5px 8px;border-radius:999px;background:#f2f6fb;color:#50627a;font-weight:800;font-size:11px}
+.restaurant-card p{margin:10px 0 12px;color:var(--muted);font-size:12px;line-height:1.45}.restaurant-actions{display:flex;gap:8px;flex-wrap:wrap}.restaurant-actions .button{padding:8px 10px;font-size:12px}
+.restaurant-map-card{position:sticky;top:18px;padding:14px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow)}
+.restaurant-map-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:2px 2px 10px}.restaurant-map-head h3{margin:0;font-size:16px}.restaurant-map-frame{width:100%;height:520px;border:0;border-radius:14px;background:#eef3f8}
+.restaurant-empty{grid-column:1/-1;padding:24px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:16px}
+@media(max-width:1050px){.restaurant-layout{grid-template-columns:1fr}.restaurant-map-card{position:relative;top:auto}.restaurant-map-frame{height:420px}}
+@media(max-width:760px){.restaurant-tools{grid-template-columns:1fr}.restaurant-list{grid-template-columns:1fr}.restaurants-intro{align-items:flex-start;flex-direction:column}.restaurant-map-frame{height:360px}}
+
 </style>
 
 <style id="premium-fase6">
-/* RutaRentable 3.8.16 · Fase 6 visual — Gastos, Mantenimiento y Reportes */
+/* RutaRentable 4.0.0 · Fase 6 visual — Gastos, Mantenimiento y Reportes */
 #expenses,#maintenance,#reports{--rr-ink:#152033;--rr-sub:#758198;--rr-line:#e9eef5;--rr-soft:#f7f9fc}
 #expenses>.section-heading,#maintenance>.section-heading,#reports>.section-heading{
   position:relative;overflow:hidden;border:1px solid rgba(220,228,239,.9);border-radius:24px;
@@ -1501,7 +1537,7 @@ table tbody tr:hover{background:#fafcfe}
 
 
 <style id="premium-fase9-icons">
-/* RutaRentable 3.8.16 Premium · Fase 9 — iconografía premium */
+/* RutaRentable 4.0.0 Premium · Fase 9 — iconografía premium */
 #dashboard .kpi{padding:18px 18px 17px 92px;min-height:148px;border-top:0!important;border-left:2px solid currentColor;background:linear-gradient(145deg,#fff 0%,#fff 68%,color-mix(in srgb,currentColor 4%,white) 100%)}
 #dashboard .kpi::before{content:none!important}
 #dashboard .kpi>span{display:block;min-height:28px;color:#53627a;font-size:11px;font-weight:900;letter-spacing:.42px;line-height:1.25}
@@ -1550,6 +1586,9 @@ table tbody tr:hover{background:#fafcfe}
 #reports .donut-chart{width:225px!important;box-shadow:0 12px 0 #dce4ee,0 21px 28px rgba(22,40,68,.15),inset 0 0 0 1px rgba(255,255,255,.65)!important}
 #reports .donut-center strong{font-size:28px!important;letter-spacing:-.035em!important}
 #reports .donut-center span{font-size:10px!important;letter-spacing:.04em!important}
+#reports .donut-center{inset:22%!important;padding:8px!important;line-height:1.08!important}
+#reports .donut-center strong{white-space:nowrap!important;font-size:24px!important;margin-top:6px!important}
+#reports .donut-center em{font-style:normal!important;font-size:12px!important;font-weight:900!important;color:#22a447!important;margin-top:7px!important}
 #reports .platform-profit-legend{gap:12px!important}
 #reports .profit-legend-row{display:grid!important;grid-template-columns:72px minmax(0,1fr) 120px!important;gap:18px!important;align-items:center!important;min-height:112px;padding:15px 18px!important;border:1px solid #e8edf4!important;border-radius:18px!important;background:#fff!important;box-shadow:0 9px 22px rgba(24,43,72,.055)!important}
 .profit-platform-icon{display:grid;place-items:center;width:64px;height:64px;border-radius:16px;background:color-mix(in srgb,var(--platform-color) 12%,white);color:var(--platform-color);font-size:24px;font-weight:900;box-shadow:0 7px 16px rgba(20,34,55,.08);border:1px solid color-mix(in srgb,var(--platform-color) 18%,#edf1f6)}
@@ -1663,6 +1702,8 @@ table tbody tr:hover{background:#fafcfe}
         <button class="nav-button" data-view="expenses"><span>💵</span> Gastos</button>
         <button class="nav-button" data-view="maintenance"><span>🛠</span> Mantenimiento</button>
         <button class="nav-button" data-view="reports"><span>▤</span> Reportes</button>
+        <button class="nav-button" data-view="airports"><span>✈</span> Aeropuertos</button>
+        <button class="nav-button" data-view="restaurants"><span>🍽</span> Restaurantes</button>
         <button class="nav-button" data-view="support"><span>◌</span> Soporte</button>
         <button class="nav-button admin-nav-button" id="adminUsersNavButton" data-view="adminUsers" hidden><span>👥</span> Usuarios</button>
         <button class="nav-button admin-nav-button" id="trackingNavButton" data-view="tracking" hidden><span>📍</span> Rastreo</button>
@@ -2017,7 +2058,7 @@ table tbody tr:hover{background:#fafcfe}
             <div class="platform-profit-layout" id="platformProfitLayout">
               <div class="donut-stage">
                 <div class="donut-chart" id="platformProfitDonut">
-                  <div class="donut-center"><span>Total plataformas</span><strong id="platformProfitTotal">$0.00</strong></div>
+                  <div class="donut-center"><span>Total plataformas</span><strong id="platformProfitTotal">$0.00</strong><em>100%</em></div>
                 </div>
               </div>
               <div class="platform-profit-legend" id="platformProfitLegend"></div>
@@ -2078,6 +2119,114 @@ table tbody tr:hover{background:#fafcfe}
             </table>
           </div>
         </article>
+      </section>
+
+      <section class="view" id="airports">
+        <div class="section-heading airports-intro">
+          <div>
+            <h2>✈️ Aeropuertos de Panamá</h2>
+            <p class="airports-intro-note">Consulta llegadas y salidas en vivo de los tres aeropuertos más útiles para planificar tus jornadas. Los botones abren el tablero de vuelos actualizado para evitar mostrar información vencida dentro de RutaRentable.</p>
+          </div>
+          <span class="admin-badge"><span class="airport-live-dot"></span> Vuelos en vivo</span>
+        </div>
+
+        <div class="airports-grid">
+          <article class="airport-card">
+            <div class="airport-card-head"><div class="airport-card-title"><div class="airport-icon">✈️</div><div><h3>Tocumen</h3><span class="muted">Aeropuerto Internacional de Tocumen</span></div></div><span class="airport-code">PTY</span></div>
+            <div class="airport-meta"><div class="airport-meta-row"><span>Zona</span><strong>Tocumen, Panamá</strong></div><div class="airport-meta-row"><span>Tipo</span><strong>Internacional</strong></div><div class="airport-meta-row"><span>Ideal para</span><strong>Mayor volumen de pasajeros</strong></div></div>
+            <div class="airport-live-box"><strong><span class="airport-live-dot"></span>Información actualizada</strong><small>Revisa próximas llegadas antes de desplazarte al aeropuerto.</small></div>
+            <div class="airport-actions"><a class="button primary" target="_blank" rel="noopener" href="https://www.airportia.com/panama/tocumen-international-airport/arrivals/">↓ Llegadas</a><a class="button secondary" target="_blank" rel="noopener" href="https://www.airportia.com/panama/tocumen-international-airport/departures/">↑ Salidas</a><a class="button secondary airport-map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Tocumen+International+Airport+Panama">📍 Abrir ubicación</a></div>
+          </article>
+
+          <article class="airport-card">
+            <div class="airport-card-head"><div class="airport-card-title"><div class="airport-icon">🛫</div><div><h3>Panamá Pacífico</h3><span class="muted">Aeropuerto Internacional Panamá Pacífico</span></div></div><span class="airport-code">BLB</span></div>
+            <div class="airport-meta"><div class="airport-meta-row"><span>Zona</span><strong>Veracruz / Panamá Oeste</strong></div><div class="airport-meta-row"><span>Tipo</span><strong>Internacional</strong></div><div class="airport-meta-row"><span>Ideal para</span><strong>Vuelos regionales</strong></div></div>
+            <div class="airport-live-box"><strong><span class="airport-live-dot"></span>Información actualizada</strong><small>Consulta la actividad antes de dirigirte a Panamá Pacífico.</small></div>
+            <div class="airport-actions"><a class="button primary" target="_blank" rel="noopener" href="https://www.airportia.com/panama/howard-airport/arrivals/">↓ Llegadas</a><a class="button secondary" target="_blank" rel="noopener" href="https://www.airportia.com/panama/howard-airport/departures/">↑ Salidas</a><a class="button secondary airport-map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Panama+Pacifico+International+Airport">📍 Abrir ubicación</a></div>
+          </article>
+
+          <article class="airport-card">
+            <div class="airport-card-head"><div class="airport-card-title"><div class="airport-icon">🛩️</div><div><h3>Albrook</h3><span class="muted">Marcos A. Gelabert</span></div></div><span class="airport-code">PAC</span></div>
+            <div class="airport-meta"><div class="airport-meta-row"><span>Zona</span><strong>Albrook, Ciudad de Panamá</strong></div><div class="airport-meta-row"><span>Tipo</span><strong>Principalmente doméstico</strong></div><div class="airport-meta-row"><span>Ideal para</span><strong>Vuelos nacionales</strong></div></div>
+            <div class="airport-live-box"><strong><span class="airport-live-dot"></span>Información actualizada</strong><small>Air Panama concentra gran parte de la operación regular de este aeropuerto.</small></div>
+            <div class="airport-actions"><a class="button primary" target="_blank" rel="noopener" href="https://www.airportia.com/panama/marcos-a-gelabert-international-airport/arrivals/">↓ Llegadas</a><a class="button secondary" target="_blank" rel="noopener" href="https://www.airportia.com/panama/marcos-a-gelabert-international-airport/departures/">↑ Salidas</a><a class="button secondary airport-map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Marcos+A+Gelabert+International+Airport+Panama">📍 Abrir ubicación</a></div>
+          </article>
+        </div>
+
+        <div class="airports-tip"><strong>💡 Para planificar una jornada</strong><p>Prioriza las <b>llegadas</b>: si ves varios vuelos aterrizando en una misma franja de 30–60 minutos, puede aumentar el movimiento de pasajeros. Esta señal es informativa y no garantiza demanda de Uber, InDrive o viajes privados.</p></div>
+      </section>
+
+
+      <section class="view" id="restaurants">
+        <div class="section-heading restaurants-intro">
+          <div>
+            <h2>🍽️ Restaurantes de Panamá</h2>
+            <p class="restaurants-intro-note">Consulta una selección de restaurantes de Ciudad de Panamá, filtra por zona y ábrelos directamente en el mapa para planificar mejor tus recorridos.</p>
+          </div>
+          <span class="admin-badge">📍 Mapa integrado</span>
+        </div>
+
+        <div class="restaurant-tools">
+          <input id="restaurantSearch" type="search" placeholder="Buscar restaurante o tipo de comida…" aria-label="Buscar restaurante">
+          <select id="restaurantZone" aria-label="Filtrar por zona">
+            <option value="all">Todas las zonas</option>
+            <option value="casco">Casco Antiguo</option>
+            <option value="calle50">Calle 50</option>
+            <option value="amador">Amador</option>
+            <option value="ciudad">Ciudad de Panamá</option>
+          </select>
+          <button class="button primary" type="button" id="restaurantsNearMe">📍 Cerca de mí</button>
+        </div>
+
+        <div class="restaurant-layout">
+          <div class="restaurant-list" id="restaurantList">
+            <article class="restaurant-card" data-zone="casco" data-search="la pulperia casco antiguo latina panamena">
+              <div class="restaurant-head"><div class="restaurant-icon">🍴</div><div><h3>La Pulpería - Casco Antiguo</h3><span class="muted">Casco Antiguo</span><div class="restaurant-meta"><span class="restaurant-tag">Latina</span><span class="restaurant-tag">Casco</span></div></div></div>
+              <p>Opción céntrica para zonas turísticas y movimiento nocturno del Casco.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('La Pulpería Casco Antiguo, Panama')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=La+Pulperia+Casco+Antiguo+Panama">Abrir Maps</a></div>
+            </article>
+            <article class="restaurant-card" data-zone="casco" data-search="fonda lo que hay casco antiguo panamena">
+              <div class="restaurant-head"><div class="restaurant-icon">🥘</div><div><h3>Fonda Lo Que Hay</h3><span class="muted">Casco Antiguo</span><div class="restaurant-meta"><span class="restaurant-tag">Panameña</span><span class="restaurant-tag">Casco</span></div></div></div>
+              <p>Cocina panameña contemporánea en una zona de alto movimiento turístico.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('Fonda Lo Que Hay, Panama City')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Fonda+Lo+Que+Hay+Panama">Abrir Maps</a></div>
+            </article>
+            <article class="restaurant-card" data-zone="casco" data-search="santa rita casco viejo steakhouse espanola">
+              <div class="restaurant-head"><div class="restaurant-icon">🥩</div><div><h3>Santa Rita</h3><span class="muted">Casco Antiguo</span><div class="restaurant-meta"><span class="restaurant-tag">Steakhouse</span><span class="restaurant-tag">Española</span></div></div></div>
+              <p>Restaurante reconocido del Casco, útil como punto de referencia para viajes.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('Restaurante Santa Rita, Panama City')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Restaurante+Santa+Rita+Panama">Abrir Maps</a></div>
+            </article>
+            <article class="restaurant-card" data-zone="casco" data-search="casa catedral casco antiguo restaurante">
+              <div class="restaurant-head"><div class="restaurant-icon">🏛️</div><div><h3>Casa Catedral</h3><span class="muted">Casco Antiguo</span><div class="restaurant-meta"><span class="restaurant-tag">Internacional</span><span class="restaurant-tag">Casco</span></div></div></div>
+              <p>Ubicado en el área histórica, con acceso rápido al mapa desde RutaRentable.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('Casa Catedral Restaurante, Panama')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Casa+Catedral+Restaurante+Panama">Abrir Maps</a></div>
+            </article>
+            <article class="restaurant-card" data-zone="calle50" data-search="maito calle 50 panamena contemporanea">
+              <div class="restaurant-head"><div class="restaurant-icon">🌿</div><div><h3>Maito</h3><span class="muted">Calle 50</span><div class="restaurant-meta"><span class="restaurant-tag">Panameña</span><span class="restaurant-tag">Contemporánea</span></div></div></div>
+              <p>Restaurante de alta gastronomía panameña, útil para recorridos en el eje de Calle 50.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('Maito Restaurante, Calle 50, Panama')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Maito+Restaurante+Panama">Abrir Maps</a></div>
+            </article>
+            <article class="restaurant-card" data-zone="amador" data-search="sabroso panama amador caribena latina">
+              <div class="restaurant-head"><div class="restaurant-icon">🌴</div><div><h3>Sabroso Panamá</h3><span class="muted">Amador</span><div class="restaurant-meta"><span class="restaurant-tag">Caribeña</span><span class="restaurant-tag">Latina</span></div></div></div>
+              <p>Alternativa para el área de Amador y viajes turísticos hacia la Calzada.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('Sabroso Panama restaurante, Amador, Panama')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Sabroso+Panama+Amador">Abrir Maps</a></div>
+            </article>
+            <article class="restaurant-card" data-zone="amador" data-search="mi ranchito amador mariscos panamena">
+              <div class="restaurant-head"><div class="restaurant-icon">🦐</div><div><h3>Mi Ranchito</h3><span class="muted">Amador</span><div class="restaurant-meta"><span class="restaurant-tag">Mariscos</span><span class="restaurant-tag">Amador</span></div></div></div>
+              <p>Punto conocido de la Calzada de Amador con movimiento de visitantes.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('Mi Ranchito Amador, Panama')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Mi+Ranchito+Amador+Panama">Abrir Maps</a></div>
+            </article>
+            <article class="restaurant-card" data-zone="ciudad" data-search="la vespa vista mare italiana panama city">
+              <div class="restaurant-head"><div class="restaurant-icon">🍝</div><div><h3>La Vespa Vista Mare</h3><span class="muted">Ciudad de Panamá</span><div class="restaurant-meta"><span class="restaurant-tag">Italiana</span><span class="restaurant-tag">Vista al mar</span></div></div></div>
+              <p>Opción italiana en la ciudad para complementar zonas de restaurantes y hoteles.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('La Vespa Vista Mare, Panama City')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=La+Vespa+Vista+Mare+Panama">Abrir Maps</a></div>
+            </article>
+            <article class="restaurant-card" data-zone="ciudad" data-search="filomena italiana panama city">
+              <div class="restaurant-head"><div class="restaurant-icon">🍷</div><div><h3>Filomena</h3><span class="muted">Ciudad de Panamá</span><div class="restaurant-meta"><span class="restaurant-tag">Italiana</span><span class="restaurant-tag">Cena</span></div></div></div>
+              <p>Restaurante de cena y reuniones, agregado como punto de referencia de movilidad.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('Filomena Restaurant, Panama City')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Filomena+Restaurant+Panama">Abrir Maps</a></div>
+            </article>
+            <article class="restaurant-card" data-zone="ciudad" data-search="cielo rooftop bar caribena panama city">
+              <div class="restaurant-head"><div class="restaurant-icon">🌇</div><div><h3>Cielo Rooftop Bar</h3><span class="muted">Ciudad de Panamá</span><div class="restaurant-meta"><span class="restaurant-tag">Rooftop</span><span class="restaurant-tag">Caribeña</span></div></div></div>
+              <p>Alternativa de rooftop para identificar zonas de actividad nocturna.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('Cielo Rooftop Bar, Panama City')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Cielo+Rooftop+Bar+Panama">Abrir Maps</a></div>
+            </article>
+          </div>
+
+          <aside class="restaurant-map-card">
+            <div class="restaurant-map-head"><div><h3>Mapa de restaurantes</h3><span class="muted" id="restaurantMapLabel">Ciudad de Panamá</span></div><span class="restaurant-tag">Google Maps</span></div>
+            <iframe id="restaurantMap" class="restaurant-map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=restaurants%20Panama%20City%20Panama&output=embed" title="Mapa de restaurantes de Panamá"></iframe>
+          </aside>
+        </div>
       </section>
 
       <section class="view" id="adminUsers">
@@ -3770,6 +3919,8 @@ function showView(id) {
     expenses:["Gastos","Registra recargas, lavado y otros gastos manuales."],
     maintenance:["Mantenimiento","Configura recordatorios opcionales por kilometraje."],
     reports:["Reportes","Compara ingresos, horas y kilómetros."],
+    airports:["Aeropuertos","Consulta vuelos para planificar mejor dónde y cuándo trabajar."],
+    restaurants:["Restaurantes","Explora restaurantes y ubícalos rápidamente en el mapa."],
     support:["Soporte","Chat interno para consultas y seguimiento."],
     adminUsers:["Usuarios","Administra solicitudes y accesos a RutaRentable."],
     tracking:["Rastreo","Visualiza en el mapa los celulares que comparten su ubicación."],
@@ -4048,6 +4199,44 @@ function exportSessionsCsv() {
   ]);
   download("RutaRentable_Jornadas.csv","\ufeff"+[headers,...rows].map(r=>r.map(csvCell).join(",")).join("\n"),"text/csv;charset=utf-8");
 }
+
+
+
+function showRestaurantMap(query){
+  const frame=document.getElementById('restaurantMap');
+  const label=document.getElementById('restaurantMapLabel');
+  if(!frame) return;
+  frame.src='https://www.google.com/maps?q='+encodeURIComponent(query)+'&output=embed';
+  if(label) label.textContent=query.replace(/,?\s*Panama( City)?$/i,'');
+  if(window.innerWidth<1050) frame.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function filterRestaurants(){
+  const q=(document.getElementById('restaurantSearch')?.value||'').trim().toLowerCase();
+  const zone=document.getElementById('restaurantZone')?.value||'all';
+  let shown=0;
+  document.querySelectorAll('#restaurantList .restaurant-card').forEach(card=>{
+    const matchQ=!q||(card.dataset.search||'').includes(q)||card.textContent.toLowerCase().includes(q);
+    const matchZ=zone==='all'||card.dataset.zone===zone;
+    const ok=matchQ&&matchZ; card.hidden=!ok; if(ok) shown++;
+  });
+  let empty=document.getElementById('restaurantEmpty');
+  if(!empty){empty=document.createElement('div');empty.id='restaurantEmpty';empty.className='restaurant-empty';empty.textContent='No hay restaurantes que coincidan con ese filtro.';document.getElementById('restaurantList')?.appendChild(empty);}
+  empty.hidden=shown>0;
+}
+function openRestaurantsNearMe(){
+  if(!navigator.geolocation){toast('Este navegador no permite usar tu ubicación.');return;}
+  const btn=document.getElementById('restaurantsNearMe'); const old=btn?.textContent; if(btn) btn.textContent='Buscando…';
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const {latitude,longitude}=pos.coords;
+    const frame=document.getElementById('restaurantMap'); const label=document.getElementById('restaurantMapLabel');
+    if(frame) frame.src=`https://www.google.com/maps?q=restaurants+near+${latitude},${longitude}&output=embed`;
+    if(label) label.textContent='Restaurantes cerca de tu ubicación';
+    if(btn) btn.textContent=old||'📍 Cerca de mí';
+  },()=>{if(btn) btn.textContent=old||'📍 Cerca de mí';toast('No pude obtener tu ubicación. Revisa el permiso del navegador.');},{enableHighAccuracy:false,timeout:8000,maximumAge:300000});
+}
+document.getElementById('restaurantSearch')?.addEventListener('input',filterRestaurants);
+document.getElementById('restaurantZone')?.addEventListener('change',filterRestaurants);
+document.getElementById('restaurantsNearMe')?.addEventListener('click',openRestaurantsNearMe);
 
 document.querySelectorAll(".nav-button").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
 document.getElementById("supportForm")?.addEventListener("submit", async e=>{
@@ -4456,7 +4645,7 @@ renderAll();
     const CLOUD_COLLECTION = "users";
     const ACCESS_COLLECTION = "accessRequests";
     const LIVE_LOCATION_COLLECTION = "liveLocations";
-    const WEB_BUILD = "3.8.16";
+    const WEB_BUILD = "4.0.0";
     const ADMIN_EMAIL = "jbonilla2987@gmail.com";
     const STORAGE_VERSION = 4;
     const LOCAL_MODIFIED_KEY = "rutaRentableCloudLocalModifiedAtV1";
@@ -5695,6 +5884,7 @@ onAuthStateChanged(auth, async user => {
     });
   </script>
 
+<!-- RutaRentable PRO 4.1.0: módulo Aeropuertos PTY / BLB / PAC -->
 </body>
 </html>
 
