@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="RutaRentable">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-180.png">
-  <title>RutaRentable PRO WEB 3.8.16 | Jornadas</title>
+  <title>RutaRentable PRO WEB 4.0.0 | Jornadas</title>
   <style>
 :root {
   --navy:#08172e; --navy2:#122844; --green:#14b86b; --green2:#0c9555;
@@ -779,7 +779,7 @@ input,select{min-height:42px;padding:10px 12px;border:1px solid var(--line);bord
 @media(max-width:620px){.tracking-map{height:360px}.tracking-link-box{flex-direction:column;align-items:stretch}.tracking-actions,.tracking-actions .button{width:100%}}
 
   
-/* RutaRentable 3.8.16 · acabado premium */
+/* RutaRentable 4.0.0 · acabado premium */
 .rr-hidden-mobile-mode{display:none!important}
 :root{--bg:#f6f8fc;--card:#fff;--line:#e7ebf2;--shadow:0 10px 30px rgba(25,42,70,.07)}
 body{background:linear-gradient(180deg,#f8faff 0,#f3f6fb 100%)}
@@ -809,7 +809,7 @@ input,select,textarea{border-radius:12px;border-color:#e2e8f0}.bar-chart{border-
 
   
 
-/* ===== RutaRentable 3.8.16 · Premium fase 2 ===== */
+/* ===== RutaRentable 4.0.0 · Premium fase 2 ===== */
 .view:not(#dashboard)>.section-heading{
   position:relative;
   overflow:hidden;
@@ -967,7 +967,7 @@ table tbody tr:hover{background:#fbfefc}
 }
 
 
-/* ===== RutaRentable 3.8.16 · Premium fase 4 ===== */
+/* ===== RutaRentable 4.0.0 · Premium fase 4 ===== */
 #dashboard{
   position:relative;
 }
@@ -1312,10 +1312,26 @@ table tbody tr:hover{background:#fbfefc}
   .vehicle-grid{grid-template-columns:1fr!important}.vehicle-card{min-height:auto}
   .tracking-map{height:370px!important}.tracking-link-box{padding:8px}
 }
+
+/* RutaRentable PRO 4.0 — Aeropuertos */
+.airports-intro{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-bottom:18px}
+.airports-intro-note{max-width:760px;color:var(--muted);line-height:1.55}
+.airports-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.airport-card{position:relative;overflow:hidden;padding:20px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow)}
+.airport-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,#23c483,#2b7fff)}
+.airport-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}
+.airport-card-title{display:flex;gap:12px;align-items:center}.airport-icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#e9f8f1,#edf4ff);font-size:22px}
+.airport-card h3{margin:0 0 3px}.airport-code{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:#0d2038;color:#fff;font-weight:900;font-size:12px;letter-spacing:.06em}
+.airport-meta{display:grid;gap:8px;margin:14px 0 16px}.airport-meta-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line)}.airport-meta-row span{color:var(--muted)}.airport-meta-row strong{text-align:right}
+.airport-live-box{padding:12px 13px;border-radius:13px;background:#f4f9ff;border:1px solid #dcecff;margin-bottom:14px}.airport-live-box strong{display:block;margin-bottom:3px}.airport-live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#19b66f;box-shadow:0 0 0 5px rgba(25,182,111,.12);margin-right:7px}
+.airport-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.airport-actions .button{width:100%;justify-content:center;text-align:center;text-decoration:none}.airport-map-link{grid-column:1/-1}
+.airports-tip{margin-top:18px;padding:16px 18px;border-radius:16px;border:1px solid #dfe9f5;background:linear-gradient(135deg,#f7fbff,#f3fbf7)}.airports-tip strong{display:block;margin-bottom:5px}.airports-tip p{margin:0;color:var(--muted);line-height:1.5}
+@media(max-width:1050px){.airports-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){.airports-grid{grid-template-columns:1fr}.airports-intro{align-items:flex-start;flex-direction:column}.airport-actions{grid-template-columns:1fr}.airport-map-link{grid-column:auto}}
 </style>
 
 <style id="premium-fase6">
-/* RutaRentable 3.8.16 · Fase 6 visual — Gastos, Mantenimiento y Reportes */
+/* RutaRentable 4.0.0 · Fase 6 visual — Gastos, Mantenimiento y Reportes */
 #expenses,#maintenance,#reports{--rr-ink:#152033;--rr-sub:#758198;--rr-line:#e9eef5;--rr-soft:#f7f9fc}
 #expenses>.section-heading,#maintenance>.section-heading,#reports>.section-heading{
   position:relative;overflow:hidden;border:1px solid rgba(220,228,239,.9);border-radius:24px;
@@ -1501,7 +1517,7 @@ table tbody tr:hover{background:#fafcfe}
 
 
 <style id="premium-fase9-icons">
-/* RutaRentable 3.8.16 Premium · Fase 9 — iconografía premium */
+/* RutaRentable 4.0.0 Premium · Fase 9 — iconografía premium */
 #dashboard .kpi{padding:18px 18px 17px 92px;min-height:148px;border-top:0!important;border-left:2px solid currentColor;background:linear-gradient(145deg,#fff 0%,#fff 68%,color-mix(in srgb,currentColor 4%,white) 100%)}
 #dashboard .kpi::before{content:none!important}
 #dashboard .kpi>span{display:block;min-height:28px;color:#53627a;font-size:11px;font-weight:900;letter-spacing:.42px;line-height:1.25}
@@ -1666,6 +1682,7 @@ table tbody tr:hover{background:#fafcfe}
         <button class="nav-button" data-view="expenses"><span>💵</span> Gastos</button>
         <button class="nav-button" data-view="maintenance"><span>🛠</span> Mantenimiento</button>
         <button class="nav-button" data-view="reports"><span>▤</span> Reportes</button>
+        <button class="nav-button" data-view="airports"><span>✈</span> Aeropuertos</button>
         <button class="nav-button" data-view="support"><span>◌</span> Soporte</button>
         <button class="nav-button admin-nav-button" id="adminUsersNavButton" data-view="adminUsers" hidden><span>👥</span> Usuarios</button>
         <button class="nav-button admin-nav-button" id="trackingNavButton" data-view="tracking" hidden><span>📍</span> Rastreo</button>
@@ -2081,6 +2098,41 @@ table tbody tr:hover{background:#fafcfe}
             </table>
           </div>
         </article>
+      </section>
+
+      <section class="view" id="airports">
+        <div class="section-heading airports-intro">
+          <div>
+            <h2>✈️ Aeropuertos de Panamá</h2>
+            <p class="airports-intro-note">Consulta llegadas y salidas en vivo de los tres aeropuertos más útiles para planificar tus jornadas. Los botones abren el tablero de vuelos actualizado para evitar mostrar información vencida dentro de RutaRentable.</p>
+          </div>
+          <span class="admin-badge"><span class="airport-live-dot"></span> Vuelos en vivo</span>
+        </div>
+
+        <div class="airports-grid">
+          <article class="airport-card">
+            <div class="airport-card-head"><div class="airport-card-title"><div class="airport-icon">✈️</div><div><h3>Tocumen</h3><span class="muted">Aeropuerto Internacional de Tocumen</span></div></div><span class="airport-code">PTY</span></div>
+            <div class="airport-meta"><div class="airport-meta-row"><span>Zona</span><strong>Tocumen, Panamá</strong></div><div class="airport-meta-row"><span>Tipo</span><strong>Internacional</strong></div><div class="airport-meta-row"><span>Ideal para</span><strong>Mayor volumen de pasajeros</strong></div></div>
+            <div class="airport-live-box"><strong><span class="airport-live-dot"></span>Información actualizada</strong><small>Revisa próximas llegadas antes de desplazarte al aeropuerto.</small></div>
+            <div class="airport-actions"><a class="button primary" target="_blank" rel="noopener" href="https://www.airportia.com/panama/tocumen-international-airport/arrivals/">↓ Llegadas</a><a class="button secondary" target="_blank" rel="noopener" href="https://www.airportia.com/panama/tocumen-international-airport/departures/">↑ Salidas</a><a class="button secondary airport-map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Tocumen+International+Airport+Panama">📍 Abrir ubicación</a></div>
+          </article>
+
+          <article class="airport-card">
+            <div class="airport-card-head"><div class="airport-card-title"><div class="airport-icon">🛫</div><div><h3>Panamá Pacífico</h3><span class="muted">Aeropuerto Internacional Panamá Pacífico</span></div></div><span class="airport-code">BLB</span></div>
+            <div class="airport-meta"><div class="airport-meta-row"><span>Zona</span><strong>Veracruz / Panamá Oeste</strong></div><div class="airport-meta-row"><span>Tipo</span><strong>Internacional</strong></div><div class="airport-meta-row"><span>Ideal para</span><strong>Vuelos regionales</strong></div></div>
+            <div class="airport-live-box"><strong><span class="airport-live-dot"></span>Información actualizada</strong><small>Consulta la actividad antes de dirigirte a Panamá Pacífico.</small></div>
+            <div class="airport-actions"><a class="button primary" target="_blank" rel="noopener" href="https://www.airportia.com/panama/howard-airport/arrivals/">↓ Llegadas</a><a class="button secondary" target="_blank" rel="noopener" href="https://www.airportia.com/panama/howard-airport/departures/">↑ Salidas</a><a class="button secondary airport-map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Panama+Pacifico+International+Airport">📍 Abrir ubicación</a></div>
+          </article>
+
+          <article class="airport-card">
+            <div class="airport-card-head"><div class="airport-card-title"><div class="airport-icon">🛩️</div><div><h3>Albrook</h3><span class="muted">Marcos A. Gelabert</span></div></div><span class="airport-code">PAC</span></div>
+            <div class="airport-meta"><div class="airport-meta-row"><span>Zona</span><strong>Albrook, Ciudad de Panamá</strong></div><div class="airport-meta-row"><span>Tipo</span><strong>Principalmente doméstico</strong></div><div class="airport-meta-row"><span>Ideal para</span><strong>Vuelos nacionales</strong></div></div>
+            <div class="airport-live-box"><strong><span class="airport-live-dot"></span>Información actualizada</strong><small>Air Panama concentra gran parte de la operación regular de este aeropuerto.</small></div>
+            <div class="airport-actions"><a class="button primary" target="_blank" rel="noopener" href="https://www.airportia.com/panama/marcos-a-gelabert-international-airport/arrivals/">↓ Llegadas</a><a class="button secondary" target="_blank" rel="noopener" href="https://www.airportia.com/panama/marcos-a-gelabert-international-airport/departures/">↑ Salidas</a><a class="button secondary airport-map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Marcos+A+Gelabert+International+Airport+Panama">📍 Abrir ubicación</a></div>
+          </article>
+        </div>
+
+        <div class="airports-tip"><strong>💡 Para planificar una jornada</strong><p>Prioriza las <b>llegadas</b>: si ves varios vuelos aterrizando en una misma franja de 30–60 minutos, puede aumentar el movimiento de pasajeros. Esta señal es informativa y no garantiza demanda de Uber, InDrive o viajes privados.</p></div>
       </section>
 
       <section class="view" id="adminUsers">
@@ -3773,6 +3825,7 @@ function showView(id) {
     expenses:["Gastos","Registra recargas, lavado y otros gastos manuales."],
     maintenance:["Mantenimiento","Configura recordatorios opcionales por kilometraje."],
     reports:["Reportes","Compara ingresos, horas y kilómetros."],
+    airports:["Aeropuertos","Consulta vuelos para planificar mejor dónde y cuándo trabajar."],
     support:["Soporte","Chat interno para consultas y seguimiento."],
     adminUsers:["Usuarios","Administra solicitudes y accesos a RutaRentable."],
     tracking:["Rastreo","Visualiza en el mapa los celulares que comparten su ubicación."],
@@ -4459,7 +4512,7 @@ renderAll();
     const CLOUD_COLLECTION = "users";
     const ACCESS_COLLECTION = "accessRequests";
     const LIVE_LOCATION_COLLECTION = "liveLocations";
-    const WEB_BUILD = "3.8.16";
+    const WEB_BUILD = "4.0.0";
     const ADMIN_EMAIL = "jbonilla2987@gmail.com";
     const STORAGE_VERSION = 4;
     const LOCAL_MODIFIED_KEY = "rutaRentableCloudLocalModifiedAtV1";
@@ -5698,6 +5751,7 @@ onAuthStateChanged(auth, async user => {
     });
   </script>
 
+<!-- RutaRentable PRO 4.0.0: módulo Aeropuertos PTY / BLB / PAC -->
 </body>
 </html>
 
