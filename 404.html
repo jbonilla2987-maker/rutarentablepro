@@ -2113,6 +2113,236 @@ nav.sidebar{
 }
 </style>
 
+
+<style id="rr-login-sidebar-fix-4113">
+/* ============================================================
+   RutaRentable PRO 4.1.13
+   El menú fijo NUNCA aparece sobre la pantalla de acceso.
+   ============================================================ */
+
+/* La pantalla de autenticación siempre queda por encima de la aplicación */
+#authGate.auth-gate:not(.hidden){
+  position:fixed!important;
+  inset:0!important;
+  z-index:5000!important;
+}
+
+/* Mientras Google/Firebase está comprobando acceso, ocultar por completo
+   el menú lateral y cualquier navegación de la aplicación. */
+#authGate.auth-gate:not(.hidden) ~ .app .sidebar,
+body:has(#authGate.auth-gate:not(.hidden)) .sidebar{
+  display:none!important;
+}
+
+/* Evita que el contenido principal de la app quede visible o interactivo
+   detrás de la pantalla de acceso. */
+#authGate.auth-gate:not(.hidden) ~ .app{
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+
+/* La propia pantalla de acceso sí permanece visible e interactiva. */
+#authGate.auth-gate:not(.hidden){
+  visibility:visible!important;
+  pointer-events:auto!important;
+}
+</style>
+
+
+<style id="rr-fluid-typography-4114">
+/* ============================================================
+   RutaRentable PRO 4.1.14
+   Tipografía fluida según tamaño de pantalla.
+   ============================================================ */
+
+:root{
+  --rr-text-xs: clamp(9px, 0.45vw + 6px, 11px);
+  --rr-text-sm: clamp(10px, 0.50vw + 6px, 12px);
+  --rr-text-md: clamp(12px, 0.55vw + 7px, 14px);
+  --rr-text-lg: clamp(14px, 0.70vw + 7px, 17px);
+
+  --rr-title-sm: clamp(16px, 0.85vw + 8px, 20px);
+  --rr-title-md: clamp(20px, 1.15vw + 9px, 28px);
+  --rr-title-lg: clamp(26px, 1.65vw + 10px, 38px);
+
+  --rr-kpi-value: clamp(22px, 1.35vw + 9px, 34px);
+  --rr-sidebar-text: clamp(12px, 0.55vw + 7px, 15px);
+  --rr-control-text: clamp(12px, 0.50vw + 7px, 15px);
+}
+
+/* Texto general */
+body{
+  font-size:var(--rr-text-md)!important;
+}
+
+/* Encabezados */
+.heading h1,
+.page-title,
+.dashboard-title{
+  font-size:var(--rr-title-lg)!important;
+  line-height:1.08!important;
+}
+.section-heading h2,
+.panel h2,
+.modal-header h2{
+  font-size:var(--rr-title-md)!important;
+  line-height:1.12!important;
+}
+.panel h3,
+.card-title,
+.section-title{
+  font-size:var(--rr-title-sm)!important;
+}
+
+/* Subtítulos / textos auxiliares */
+.heading p,
+.section-heading p,
+.panel-header p,
+.muted,
+.helper,
+.hint,
+small{
+  font-size:var(--rr-text-sm)!important;
+  line-height:1.45!important;
+}
+
+/* Navegación lateral */
+.sidebar .brand strong{
+  font-size:clamp(20px,1.15vw + 8px,26px)!important;
+}
+.sidebar .profile strong,
+.sidebar .profile small,
+.nav-button,
+.sidebar a,
+.sidebar button{
+  font-size:var(--rr-sidebar-text)!important;
+}
+
+/* KPI */
+.kpi strong,
+.kpi-value,
+.stat-value,
+.metric-value,
+.admin-user-kpi strong{
+  font-size:var(--rr-kpi-value)!important;
+  line-height:1.05!important;
+}
+.kpi span,
+.kpi-label,
+.stat-label,
+.metric-label{
+  font-size:var(--rr-text-xs)!important;
+}
+.kpi small,
+.kpi em{
+  font-size:var(--rr-text-sm)!important;
+}
+
+/* Botones y controles */
+.button,
+.btn,
+button,
+input,
+select,
+textarea{
+  font-size:var(--rr-control-text)!important;
+}
+label,
+.field-label,
+.header-actions > label{
+  font-size:var(--rr-text-sm)!important;
+}
+
+/* Tablas */
+table th{
+  font-size:var(--rr-text-xs)!important;
+}
+table td{
+  font-size:var(--rr-text-sm)!important;
+}
+
+/* Badges */
+.badge,
+.user-status,
+.user-role,
+.tracking-status,
+.release-badge,
+.admin-badge{
+  font-size:var(--rr-text-xs)!important;
+}
+
+/* Reportes y gráficas */
+.bar-value,
+.bar-label,
+.summary-row,
+.recent-item{
+  font-size:var(--rr-text-sm)!important;
+}
+
+/* Login */
+.auth-card h1{
+  font-size:clamp(26px,1.55vw + 10px,36px)!important;
+}
+.auth-card > p,
+.auth-secure-line,
+.auth-state-box{
+  font-size:var(--rr-text-sm)!important;
+}
+.auth-brand-copy strong{
+  font-size:clamp(22px,1.05vw + 10px,30px)!important;
+}
+.google-login-button{
+  font-size:clamp(13px,0.60vw + 8px,16px)!important;
+}
+
+/* Monitores muy grandes: evita tipografía exagerada */
+@media (min-width:1800px){
+  :root{
+    --rr-title-lg: 36px;
+    --rr-title-md: 27px;
+    --rr-kpi-value: 33px;
+  }
+}
+
+/* Laptop compacta */
+@media (min-width:851px) and (max-width:1100px){
+  :root{
+    --rr-text-sm: clamp(10px,0.35vw + 7px,11.5px);
+    --rr-text-md: clamp(11px,0.40vw + 7px,13px);
+    --rr-sidebar-text: clamp(11px,0.35vw + 7px,13px);
+    --rr-control-text: clamp(11px,0.35vw + 7px,13px);
+    --rr-title-lg: clamp(23px,1vw + 11px,30px);
+    --rr-title-md: clamp(18px,.8vw + 10px,24px);
+    --rr-kpi-value: clamp(21px,.9vw + 10px,28px);
+  }
+}
+
+/* Pantallas de poca altura: texto ligeramente más compacto */
+@media (min-width:851px) and (max-height:700px){
+  .nav-button{
+    font-size:clamp(11px,0.35vw + 7px,13px)!important;
+  }
+  .sidebar .profile strong,
+  .sidebar .profile small{
+    font-size:clamp(10px,0.30vw + 7px,12px)!important;
+  }
+}
+
+/* Móvil mantiene tamaños cómodos */
+@media (max-width:850px){
+  :root{
+    --rr-text-xs: 10px;
+    --rr-text-sm: 11.5px;
+    --rr-text-md: 13px;
+    --rr-title-sm: 17px;
+    --rr-title-md: 21px;
+    --rr-title-lg: 27px;
+    --rr-kpi-value: 25px;
+    --rr-control-text: 14px;
+  }
+}
+</style>
+
 </head>
 <body>
   <div class="auth-gate" id="authGate">
