@@ -1,17 +1,25 @@
-# RutaRentable PRO 4.1.9 — Administradores configurables
+# RutaRentable PRO Web 4.1.9
 
-## Nuevo
-- En **Usuarios** aparece la columna **Rol**.
-- El administrador principal puede usar **★ Hacer administrador**.
-- También puede usar **Quitar administrador**.
-- Los administradores promovidos pueden entrar al módulo Usuarios, aprobar/rechazar/bloquear usuarios, ver módulos administrativos permitidos y usar las reglas de administrador.
-- La cuenta del administrador principal no puede degradarse desde la interfaz.
-- Un administrador secundario no puede cambiar roles de otros usuarios.
+## Nuevo módulo de roles
+En **Usuarios** ahora aparece la columna **Rol**.
 
-## IMPORTANTE: Firestore
-Esta versión incluye `firestore.rules` actualizado. Para que los nuevos administradores tengan permisos reales en Firebase, debes publicar también esas reglas.
+El administrador principal puede:
+- Aprobar / rechazar / bloquear usuarios.
+- **★ Hacer administrador**.
+- **Quitar administrador**.
 
-Ejemplo con Firebase CLI:
+Los administradores promovidos:
+- Pueden entrar al módulo Usuarios.
+- Pueden aprobar, rechazar y bloquear usuarios.
+- Conservan acceso a los módulos administrativos habilitados por Firestore.
+- No pueden convertir a otros usuarios en administradores ni quitar roles.
+
+## Seguridad
+La cuenta principal queda protegida y no puede perder el rol desde la interfaz.
+
+## IMPORTANTE AL PUBLICAR
+Además de subir los archivos web, publica también `firestore.rules`.
+Sin las reglas nuevas, un usuario marcado como administrador no tendrá todos los permisos de Firebase.
+
+Firebase CLI:
 `firebase deploy --only firestore:rules`
-
-Si solo reemplazas `index.html` pero no publicas las reglas, el botón podrá guardar el rol únicamente cuando las reglas antiguas lo permitan, pero el nuevo administrador no tendrá acceso completo.
