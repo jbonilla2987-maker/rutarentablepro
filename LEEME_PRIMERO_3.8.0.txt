@@ -1,0 +1,28 @@
+RUTARENTABLE PRO 3.8.0 FINAL — iOS (FUENTE PREPARADA)
+Fecha de preparación: 13/08/2026
+
+Este paquete queda ALINEADO con Web/Android 3.8.0 en interfaz, Firestore, períodos, soporte/chat y control de datos.
+No es un IPA firmado: iOS requiere macOS + Xcode + cuenta/certificados Apple.
+
+ORDEN
+1. Publica primero WEB 3.8.0 (reglas + Functions + Hosting).
+2. En macOS ejecuta PREPARAR_IOS_EN_MAC.command.
+3. Registra en Firebase la app iOS con Bundle ID com.rutarentable.pro.
+4. Añade GoogleService-Info.plist.
+5. Sigue INTEGRAR_IOS_NATIVO.md para Google Login, Firestore y GPS en segundo plano.
+6. Prueba en iPhone real y luego TestFlight.
+
+ALINEADO CON LAS OTRAS VERSIONES
+- Semana / Mes / Año / Todo.
+- Admin únicamente: Usuarios y Rastreo.
+- Modo celular eliminado.
+- Soporte + chat usuarios.
+- JSON bajo aprobación para usuario y descarga directa por administrador.
+- Eliminación solicitada/aprobada desde el backend compartido.
+
+IMPORTANTE PARA APP STORE
+Antes de enviar a revisión, confirma los requisitos vigentes para:
+- Sign in with Apple cuando Google Sign-In sea el login principal.
+- Eliminación de cuenta.
+- Moderación/reporte/bloqueo por el chat entre usuarios.
+- Justificación y permisos de ubicación en segundo plano.

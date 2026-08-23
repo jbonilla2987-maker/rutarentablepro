@@ -1,0 +1,17 @@
+RutaRentable iOS 3.8.2 - Corrección de conexión Firebase en iPhone
+
+Qué corrige:
+1. En iOS deja de usar el cache web multi-pestaña de Firestore y usa cache en memoria, más compatible con WKWebView.
+2. Si la persistencia web de Firebase Auth no está disponible, la app continúa en vez de quedarse en “Conectando con Firebase…”.
+3. Agrega errores visibles en la pantalla de inicio para que, si algo vuelve a fallar, muestre el motivo exacto.
+4. Agrega restoreSignIn al plugin nativo de Google para alinear la sesión nativa con Firebase Web al reabrir la app.
+
+Cómo aplicar:
+- Copia index.html, public/index.html, package.json, plugins y .github sobre tu repositorio RutaRentable-iOS.
+- NO borres GoogleService-Info.plist.
+- Commit + Push.
+- En Actions ejecuta “Compilar RutaRentable iOS Firebase 3.8.2”.
+- Descarga el artifact RutaRentable-iOS-3.8.2-Firebase-Fix.
+- Instálalo con Sideloadly.
+
+Si aparece un error en la pantalla de inicio, toma captura: ahora mostrará el mensaje exacto en lugar de quedarse congelada.

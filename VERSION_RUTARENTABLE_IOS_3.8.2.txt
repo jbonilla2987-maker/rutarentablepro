@@ -1,0 +1,5 @@
+RutaRentable PRO iOS 3.8.2
+Firebase + Google Sign-In + GPS native fix
+Workflow esperado: Compilar RutaRentable iOS Firebase 3.8.2
+Artefacto esperado: RutaRentable-iOS-3.8.2-Firebase-Fix
+IPA esperado: RutaRentable_PRO_3.8.2_FIREBASE_FIX_UNSIGNED.ipa

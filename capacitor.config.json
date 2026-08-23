@@ -1,0 +1,15 @@
+{
+  "appId": "com.rutarentable.pro",
+  "appName": "RutaRentable PRO",
+  "webDir": "public",
+  "ios": {
+    "contentInset": "automatic"
+  },
+  "plugins": {
+    "StatusBar": {
+      "overlaysWebView": false,
+      "backgroundColor": "#06152d",
+      "style": "DARK"
+    }
+  }
+}

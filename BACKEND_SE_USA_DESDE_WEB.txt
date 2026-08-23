@@ -1,0 +1,4 @@
+RutaRentable PRO 3.8.0 usa un solo backend Firebase compartido.
+No mantengas reglas separadas en iOS.
+Publica siempre firestore.rules + Functions desde el paquete WEB 3.8.0 FINAL.
+Así Web, Android e iOS quedan conectados a la misma estructura de datos y políticas.

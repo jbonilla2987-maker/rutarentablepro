@@ -1,0 +1,26 @@
+RUTARENTABLE PRO iOS 3.8.1 - PATCH FIREBASE + GOOGLE + GPS
+
+Este parche se coloca SOBRE el repositorio RutaRentable-iOS que ya tienes.
+NO borres GoogleService-Info.plist: debe permanecer en la raíz del repositorio.
+
+Archivos que agrega/reemplaza:
+- package.json (reemplaza el existente)
+- .github/workflows/build-ios.yml (reemplaza el workflow anterior)
+- plugins/rutarentable-native/package.json
+- plugins/rutarentable-native/Package.swift
+- plugins/rutarentable-native/ios/Sources/RutaRentableNative/NativeGoogleAuthPlugin.swift
+- plugins/rutarentable-native/ios/Sources/RutaRentableNative/NativeLocationPlugin.swift
+
+Después de copiar los archivos:
+1. Abre GitHub Desktop.
+2. Confirma que aparecen los cambios.
+3. Summary: iOS 3.8.1 Firebase Google GPS
+4. Commit to main/principal.
+5. Push origin.
+6. En GitHub > Actions ejecuta "Compilar RutaRentable iOS Firebase".
+7. Si todo queda verde, descarga el artefacto RutaRentable-iOS-3.8.1-Firebase.
+8. Extrae RutaRentable_PRO_3.8.1_FIREBASE_UNSIGNED.ipa.
+9. Instálalo con Sideloadly igual que el IPA anterior.
+
+NOTA:
+Esta es una compilación de prueba firmada después por Sideloadly. No es la compilación final para App Store.

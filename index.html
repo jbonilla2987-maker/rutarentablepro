@@ -1601,6 +1601,431 @@ table tbody tr:hover{background:#fafcfe}
 @media(max-width:620px){#reports .platform-profit-section{padding:15px!important}#reports .platform-profit-layout{grid-template-columns:1fr!important}.platform-profit-heading{align-items:flex-start}.platform-profit-heading-icon{flex:0 0 40px;width:40px;height:40px;border-radius:12px;font-size:21px}#reports .platform-profit-title h3{font-size:20px!important}#reports .profit-legend-row{grid-template-columns:50px minmax(0,1fr) 82px!important;gap:10px!important;min-height:94px;padding:12px!important}.profit-platform-icon{width:48px;height:48px;border-radius:13px;font-size:18px}.profit-legend-main strong{font-size:15px!important}.profit-legend-main small{font-size:10px!important;gap:5px}.profit-legend-side{padding-left:10px}.profit-legend-side strong{font-size:19px}.profit-legend-side small{font-size:10px}}
 </style>
 
+
+<style id="rr-native-ios-final">
+@media (max-width:850px){
+  html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important}
+  #startModal.modal-backdrop.open,
+  #finishModal.modal-backdrop.open{
+    display:block!important;
+    position:fixed!important;
+    inset:0!important;
+    z-index:10000!important;
+    overflow-y:scroll!important;
+    overflow-x:hidden!important;
+    -webkit-overflow-scrolling:touch!important;
+    overscroll-behavior-y:contain!important;
+    touch-action:pan-y!important;
+    padding:max(10px,env(safe-area-inset-top)) 10px calc(125px + env(safe-area-inset-bottom))!important;
+  }
+  #startModal .modal,#finishModal .modal{
+    display:block!important;
+    width:100%!important;
+    max-width:620px!important;
+    height:auto!important;
+    min-height:auto!important;
+    max-height:none!important;
+    overflow:visible!important;
+    margin:0 auto 34px!important;
+    padding-bottom:24px!important;
+  }
+  #startModal form,#finishModal form{display:block!important;overflow:visible!important}
+  #startModal .form-grid,#finishModal .form-grid{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:11px!important;
+    overflow:visible!important;
+  }
+  #startModal .form-grid .full,#finishModal .form-grid .full{grid-column:auto!important}
+  #startModal .modal-actions,#finishModal .modal-actions{
+    position:static!important;
+    margin-top:18px!important;
+    padding-bottom:16px!important;
+  }
+  #startModal input,#startModal select,#startModal textarea,
+  #finishModal input,#finishModal select,#finishModal textarea{
+    width:100%!important;max-width:100%!important
+  }
+}
+</style>
+
+
+<style id="rr-nav-scroll-415">
+/* RutaRentable PRO 4.1.5 — scroll independiente para navegación lateral */
+.sidebar,
+.app-sidebar,
+.side-nav,
+.navigation-sidebar,
+nav.sidebar {
+  max-height:100vh!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior:contain!important;
+  scrollbar-width:thin!important;
+  padding-bottom:max(24px, env(safe-area-inset-bottom))!important;
+}
+
+/* Si la barra es fija, conserva todo el alto visible disponible */
+.sidebar,
+.app-sidebar,
+.side-nav,
+.navigation-sidebar {
+  top:0!important;
+  bottom:0!important;
+}
+
+/* Mantener encabezado/logo visible mientras se recorren las opciones, cuando exista */
+.sidebar-header,
+.sidebar-brand,
+.nav-brand {
+  position:sticky!important;
+  top:0!important;
+  z-index:3!important;
+  background:inherit!important;
+}
+
+/* iPhone / móvil: el panel lateral abierto también puede desplazarse */
+@media (max-width:850px){
+  .sidebar,
+  .app-sidebar,
+  .side-nav,
+  .navigation-sidebar,
+  .mobile-menu,
+  .drawer,
+  .nav-drawer {
+    max-height:100dvh!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    -webkit-overflow-scrolling:touch!important;
+    touch-action:pan-y!important;
+    padding-bottom:calc(90px + env(safe-area-inset-bottom))!important;
+  }
+}
+</style>
+
+
+<style id="rr-week-selector-416">
+.header-actions #dashboardWeekFilter{
+  width:190px;
+  min-width:190px;
+}
+@media(max-width:850px){
+  .header-actions #dashboardWeekLabel{
+    width:100%;
+    min-width:0;
+  }
+  .header-actions #dashboardWeekFilter{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+  }
+}
+</style>
+
+
+<style id="rr-restaurants-panama-417">
+.restaurant-tools-panama{
+  grid-template-columns:minmax(220px,1.2fr) minmax(190px,.8fr) auto auto!important;
+}
+.restaurant-live-tools{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  margin:-4px 0 16px;padding:13px 15px;border:1px solid #dfe9f5;border-radius:15px;
+  background:linear-gradient(135deg,#f8fbff,#f6fff9);
+}
+.restaurant-live-tools>div:first-child{display:grid;gap:3px}
+.restaurant-live-tools strong{font-size:13px;color:#213149}
+.restaurant-live-tools span{font-size:11px;color:var(--muted);line-height:1.4}
+.restaurant-live-actions{display:flex;gap:8px;flex-wrap:wrap}
+.restaurant-live-actions .button{text-decoration:none;white-space:nowrap}
+@media(max-width:1050px){
+  .restaurant-tools-panama{grid-template-columns:1fr 1fr!important}
+}
+@media(max-width:760px){
+  .restaurant-tools-panama{grid-template-columns:1fr!important}
+  .restaurant-live-tools{align-items:stretch;flex-direction:column}
+  .restaurant-live-actions{display:grid;grid-template-columns:1fr}
+  .restaurant-live-actions .button{width:100%;text-align:center;justify-content:center}
+}
+</style>
+
+
+<style id="rr-desktop-responsive-418">
+/* ============================================================
+   RutaRentable PRO 4.1.8 — Responsive desktop/laptop
+   Solo adaptación visual; no modifica Firebase/Google/lógica.
+   ============================================================ */
+
+:root{
+  --rr-sidebar-w: 250px;
+  --rr-desktop-gap: clamp(12px,1.4vw,24px);
+}
+
+/* Base desktop fluid sizing */
+html,body{
+  width:100%;
+  min-width:0;
+  overflow-x:hidden;
+}
+.app,
+.main,
+.content,
+.page,
+.view,
+.screen{
+  min-width:0;
+  max-width:100%;
+}
+img,video,canvas,svg,iframe{
+  max-width:100%;
+}
+
+/* Sidebar: always scrollable when height is limited */
+.sidebar,
+.app-sidebar,
+.side-nav,
+.navigation-sidebar,
+nav.sidebar{
+  max-height:100vh!important;
+  height:100vh!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior:contain!important;
+  scrollbar-width:thin!important;
+  padding-bottom:max(28px,env(safe-area-inset-bottom))!important;
+}
+
+/* Keep logo/header usable while scrolling nav */
+.sidebar-header,
+.sidebar-brand,
+.nav-brand{
+  position:sticky!important;
+  top:0!important;
+  z-index:5!important;
+  background:inherit!important;
+}
+
+/* Main workspace */
+.main{
+  min-width:0!important;
+}
+.main,
+.main-content,
+.content{
+  overflow-x:hidden;
+}
+
+/* Fluid grids/cards */
+.dashboard-grid,
+.stats-grid,
+.kpi-grid,
+.summary-grid,
+.settings-grid,
+.two-column,
+.cards-grid,
+.restaurant-grid{
+  min-width:0;
+}
+.dashboard-grid > *,
+.stats-grid > *,
+.kpi-grid > *,
+.summary-grid > *,
+.settings-grid > *,
+.two-column > *,
+.cards-grid > *,
+.restaurant-grid > *{
+  min-width:0;
+}
+
+/* Tables remain usable without breaking full page width */
+.table-wrap,
+.responsive-table,
+.admin-table-wrap{
+  max-width:100%;
+  overflow-x:auto!important;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* Forms/filters wrap naturally on narrower desktops */
+.header-actions,
+.toolbar,
+.filters,
+.filter-row,
+.restaurant-tools,
+.restaurant-tools-panama{
+  max-width:100%;
+  flex-wrap:wrap!important;
+}
+.header-actions > *,
+.toolbar > *,
+.filters > *,
+.filter-row > *{
+  min-width:0;
+}
+
+/* Prevent long labels/values from forcing overflow */
+.card,
+.panel,
+.kpi,
+.kpi-card,
+.summary-card{
+  min-width:0;
+}
+.card *,
+.panel *,
+.kpi *,
+.kpi-card *,
+.summary-card *{
+  overflow-wrap:anywhere;
+}
+
+/* Large/ultrawide screens: keep readable line length instead of stretching forever */
+@media (min-width:1800px){
+  .main > .content,
+  .main-content,
+  .content-inner{
+    max-width:1720px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+}
+
+/* Standard laptops / smaller desktop windows */
+@media (min-width:851px) and (max-width:1366px){
+  :root{ --rr-sidebar-w: 220px; }
+
+  .sidebar,
+  .app-sidebar,
+  .side-nav,
+  .navigation-sidebar{
+    width:var(--rr-sidebar-w)!important;
+  }
+
+  .main{
+    margin-left:var(--rr-sidebar-w)!important;
+    width:calc(100% - var(--rr-sidebar-w))!important;
+  }
+
+  .content,
+  .main-content{
+    padding-left:14px!important;
+    padding-right:14px!important;
+  }
+
+  .dashboard-grid,
+  .stats-grid,
+  .kpi-grid,
+  .summary-grid{
+    gap:12px!important;
+  }
+
+  .header-actions{
+    gap:8px!important;
+  }
+
+  .header-actions label,
+  .toolbar label,
+  .filters label{
+    flex:1 1 150px;
+  }
+}
+
+/* Very narrow laptop/desktop windows: compact sidebar and cards */
+@media (min-width:851px) and (max-width:1100px){
+  :root{ --rr-sidebar-w: 198px; }
+
+  .sidebar,
+  .app-sidebar,
+  .side-nav,
+  .navigation-sidebar{
+    width:var(--rr-sidebar-w)!important;
+  }
+
+  .main{
+    margin-left:var(--rr-sidebar-w)!important;
+    width:calc(100% - var(--rr-sidebar-w))!important;
+  }
+
+  .dashboard-grid,
+  .stats-grid,
+  .kpi-grid,
+  .summary-grid,
+  .settings-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+
+  .two-column{
+    grid-template-columns:1fr!important;
+  }
+
+  .restaurant-tools-panama{
+    grid-template-columns:1fr 1fr!important;
+  }
+
+  .panel,
+  .card{
+    padding-left:14px!important;
+    padding-right:14px!important;
+  }
+}
+
+/* Short-height computer screens: ensure navigation can always move up/down */
+@media (min-width:851px) and (max-height:800px){
+  .sidebar,
+  .app-sidebar,
+  .side-nav,
+  .navigation-sidebar,
+  nav.sidebar{
+    overflow-y:scroll!important;
+  }
+
+  .sidebar .nav,
+  .sidebar nav,
+  .side-nav nav{
+    padding-bottom:40px!important;
+  }
+
+  .nav-button,
+  .sidebar button,
+  .sidebar a{
+    min-height:38px;
+  }
+}
+
+@media (min-width:851px) and (max-height:650px){
+  .sidebar-header,
+  .sidebar-brand,
+  .nav-brand{
+    position:static!important;
+  }
+}
+
+/* Existing mobile styles continue to take precedence below 850px */
+</style>
+
+
+<style id="rr-admin-roles-419">
+.user-role{
+  display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:999px;
+  font-size:10px;font-weight:850;white-space:nowrap;
+  background:#eef2f6;color:#52657b;border:1px solid #e2e8ef
+}
+.user-role.admin{
+  background:linear-gradient(135deg,#fff4cc,#ffedac);
+  color:#805b00;border-color:#f1d574
+}
+.admin-role-make{
+  color:#735500!important;border-color:#efd681!important;background:#fff9e7!important
+}
+.admin-role-remove{
+  color:#9a3040!important;border-color:#f0c7cf!important;background:#fff7f8!important
+}
+@media(max-width:850px){
+  .admin-users-table{min-width:900px!important}
+}
+</style>
+
 </head>
 <body>
   <div class="auth-gate" id="authGate">
@@ -1735,11 +2160,16 @@ table tbody tr:hover{background:#fafcfe}
             Periodo
             <select id="periodFilter">
               <option value="week" selected>Esta semana</option>
+              <option value="specific_week">Semana trabajada</option>
               <option value="month">Este mes</option>
               <option value="specific_month">Mes específico</option>
               <option value="year">Este año</option>
               <option value="all">Todo</option>
             </select>
+          </label>
+          <label id="dashboardWeekLabel" hidden>
+            Semana
+            <select id="dashboardWeekFilter"></select>
           </label>
           <label id="dashboardMonthLabel" hidden>
             Mes
@@ -2161,21 +2591,42 @@ table tbody tr:hover{background:#fafcfe}
         <div class="section-heading restaurants-intro">
           <div>
             <h2>🍽️ Restaurantes de Panamá</h2>
-            <p class="restaurants-intro-note">Consulta una selección de restaurantes de Ciudad de Panamá, filtra por zona y ábrelos directamente en el mapa para planificar mejor tus recorridos.</p>
+            <p class="restaurants-intro-note">Explora restaurantes de todo Panamá. Busca por nombre, tipo de comida o provincia y ábrelos directamente en el mapa para planificar mejor tus recorridos.</p>
           </div>
           <span class="admin-badge">📍 Mapa integrado</span>
         </div>
 
-        <div class="restaurant-tools">
-          <input id="restaurantSearch" type="search" placeholder="Buscar restaurante o tipo de comida…" aria-label="Buscar restaurante">
-          <select id="restaurantZone" aria-label="Filtrar por zona">
-            <option value="all">Todas las zonas</option>
+        <div class="restaurant-tools restaurant-tools-panama">
+          <input id="restaurantSearch" type="search" placeholder="Buscar nombre o tipo de comida…" aria-label="Buscar restaurante">
+          <select id="restaurantZone" aria-label="Filtrar por provincia o zona">
+            <option value="all">Todo Panamá</option>
+            <option value="panama">Provincia de Panamá</option>
+            <option value="panama-oeste">Panamá Oeste</option>
+            <option value="colon">Colón</option>
+            <option value="cocle">Coclé</option>
+            <option value="chiriqui">Chiriquí</option>
+            <option value="veraguas">Veraguas</option>
+            <option value="herrera">Herrera</option>
+            <option value="los-santos">Los Santos</option>
+            <option value="bocas">Bocas del Toro</option>
+            <option value="darien">Darién</option>
             <option value="casco">Casco Antiguo</option>
             <option value="calle50">Calle 50</option>
             <option value="amador">Amador</option>
             <option value="ciudad">Ciudad de Panamá</option>
           </select>
-          <button class="button primary" type="button" id="restaurantsNearMe">📍 Cerca de mí</button>
+          <button class="button primary" type="button" id="restaurantsSearchPanama">🔎 Explorar todo Panamá</button>
+          <button class="button secondary" type="button" id="restaurantsNearMe">📍 Cerca de mí</button>
+        </div>
+        <div class="restaurant-live-tools">
+          <div>
+            <strong>🌎 Directorio dinámico</strong>
+            <span>La búsqueda usa Google Maps para mostrar restaurantes disponibles en cualquier provincia de Panamá.</span>
+          </div>
+          <div class="restaurant-live-actions">
+            <button class="button secondary" type="button" id="restaurantsOpenMaps">🗺️ Abrir en Google Maps</button>
+            <a class="button secondary" target="_blank" rel="noopener" href="https://www.degustapanama.com/panama/search">🍽️ Directorio Degusta</a>
+          </div>
         </div>
 
         <div class="restaurant-layout">
@@ -2233,7 +2684,7 @@ table tbody tr:hover{background:#fafcfe}
         <div class="section-heading">
           <div>
             <h2>Administración de usuarios</h2>
-            <p>Aprueba, rechaza o bloquea el acceso de las personas que soliciten entrar a RutaRentable.</p>
+            <p>Aprueba, rechaza, bloquea usuarios y administra quién puede tener permisos de Administrador.</p>
           </div>
           <span class="admin-badge">🔐 Solo administrador</span>
         </div>
@@ -2263,12 +2714,13 @@ table tbody tr:hover{background:#fafcfe}
                     <th>Usuario</th>
                     <th>Correo</th>
                     <th>Estado</th>
+                    <th>Rol</th>
                     <th>Solicitud</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody id="adminUsersBody">
-                  <tr><td colspan="5" class="muted">Cargando usuarios…</td></tr>
+                  <tr><td colspan="6" class="muted">Cargando usuarios…</td></tr>
                 </tbody>
               </table>
             </div>
@@ -3230,6 +3682,10 @@ function getRange(period) {
 }
 function filteredClosedSessions() {
   const period = document.getElementById("periodFilter").value;
+  if (period === "specific_week") {
+    const selected = document.getElementById("dashboardWeekFilter")?.value || currentWeekKey();
+    return closedSessions().filter(session => weekKey(session.endDate || session.startDate) === selected);
+  }
   if (period === "specific_month") {
     const selected = document.getElementById("dashboardMonthFilter")?.value || currentMonthKey();
     return closedSessions().filter(session => monthKey(session.endDate || session.startDate) === selected);
@@ -3242,6 +3698,10 @@ function filteredClosedSessions() {
 }
 function filteredManualExpenses() {
   const period = document.getElementById("periodFilter").value;
+  if (period === "specific_week") {
+    const selected = document.getElementById("dashboardWeekFilter")?.value || currentWeekKey();
+    return state.expenses.filter(expense => weekKey(expense.date) === selected);
+  }
   if (period === "specific_month") {
     const selected = document.getElementById("dashboardMonthFilter")?.value || currentMonthKey();
     return state.expenses.filter(expense => monthKey(expense.date) === selected);
@@ -3251,6 +3711,61 @@ function filteredManualExpenses() {
     const d = localDateTime(expense.date, "12:00");
     return d >= start && d <= new Date(end.getTime() + 86399999);
   });
+}
+function dateOnlyLocal(value) {
+  const raw = String(value || "").slice(0,10);
+  const match = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (match) return new Date(Number(match[1]), Number(match[2])-1, Number(match[3]), 12, 0, 0, 0);
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? new Date() : date;
+}
+function weekStartMonday(value) {
+  const date = dateOnlyLocal(value);
+  date.setHours(12,0,0,0);
+  const day = date.getDay() || 7;
+  date.setDate(date.getDate() - day + 1);
+  return date;
+}
+function isoLocalDate(date) {
+  return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;
+}
+function weekKey(value) {
+  return isoLocalDate(weekStartMonday(value));
+}
+function currentWeekKey() {
+  return weekKey(new Date());
+}
+function weekLabel(key) {
+  const start = dateOnlyLocal(key);
+  const end = new Date(start);
+  end.setDate(start.getDate()+6);
+  const sameMonth = start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear();
+  const sameYear = start.getFullYear() === end.getFullYear();
+  const shortMonth = date => new Intl.DateTimeFormat("es-PA",{month:"short"}).format(date).replace(".","");
+  if (sameMonth) return `${start.getDate()}–${end.getDate()} ${shortMonth(end)} ${end.getFullYear()}`;
+  if (sameYear) return `${start.getDate()} ${shortMonth(start)} – ${end.getDate()} ${shortMonth(end)} ${end.getFullYear()}`;
+  return `${start.getDate()} ${shortMonth(start)} ${start.getFullYear()} – ${end.getDate()} ${shortMonth(end)} ${end.getFullYear()}`;
+}
+function availableWeekKeys() {
+  const weeks = new Set();
+  closedSessions().forEach(session => {
+    const value = session.endDate || session.startDate;
+    if (value) weeks.add(weekKey(value));
+  });
+  return [...weeks].filter(key => /^\d{4}-\d{2}-\d{2}$/.test(key)).sort().reverse();
+}
+function populateDashboardWeekFilter() {
+  const select = document.getElementById("dashboardWeekFilter");
+  if (!select) return;
+  const previous = select.value;
+  const sorted = availableWeekKeys();
+  if (!sorted.length) {
+    select.innerHTML = `<option value="${currentWeekKey()}">Esta semana · ${weekLabel(currentWeekKey())}</option>`;
+    select.value = currentWeekKey();
+    return;
+  }
+  select.innerHTML = sorted.map(key => `<option value="${key}">${weekLabel(key)}</option>`).join("");
+  select.value = sorted.includes(previous) ? previous : sorted[0];
 }
 function monthKey(value) {
   return String(value || "").slice(0,7);
@@ -3290,8 +3805,11 @@ function populateDashboardMonthFilter() {
 }
 function updateDashboardPeriodControls() {
   const period = document.getElementById("periodFilter")?.value;
-  const label = document.getElementById("dashboardMonthLabel");
-  if (label) label.hidden = period !== "specific_month";
+  const weekLabelEl = document.getElementById("dashboardWeekLabel");
+  const monthLabelEl = document.getElementById("dashboardMonthLabel");
+  if (weekLabelEl) weekLabelEl.hidden = period !== "specific_week";
+  if (monthLabelEl) monthLabelEl.hidden = period !== "specific_month";
+  if (period === "specific_week") populateDashboardWeekFilter();
   if (period === "specific_month") populateDashboardMonthFilter();
 }
 function reportClosedSessions() {
@@ -3365,6 +3883,7 @@ function evaluate(netPerHour, netPerKm, net) {
 
 function renderAll() {
   populateVehicles();
+  populateDashboardWeekFilter();
   renderProfile();
   renderActiveSession();
   renderDashboard();
@@ -4210,18 +4729,59 @@ function showRestaurantMap(query){
   if(label) label.textContent=query.replace(/,?\s*Panama( City)?$/i,'');
   if(window.innerWidth<1050) frame.scrollIntoView({behavior:'smooth',block:'center'});
 }
+const RESTAURANT_ZONE_LABELS={
+  all:"Panamá",
+  panama:"Provincia de Panamá",
+  "panama-oeste":"Panamá Oeste",
+  colon:"Colón",
+  cocle:"Coclé",
+  chiriqui:"Chiriquí",
+  veraguas:"Veraguas",
+  herrera:"Herrera",
+  "los-santos":"Los Santos",
+  bocas:"Bocas del Toro",
+  darien:"Darién",
+  casco:"Casco Antiguo, Ciudad de Panamá",
+  calle50:"Calle 50, Ciudad de Panamá",
+  amador:"Amador, Ciudad de Panamá",
+  ciudad:"Ciudad de Panamá"
+};
+function restaurantLiveQuery(){
+  const q=(document.getElementById('restaurantSearch')?.value||'').trim();
+  const zone=document.getElementById('restaurantZone')?.value||'all';
+  const where=RESTAURANT_ZONE_LABELS[zone]||"Panamá";
+  return `${q||"restaurantes"} en ${where}, Panamá`;
+}
 function filterRestaurants(){
   const q=(document.getElementById('restaurantSearch')?.value||'').trim().toLowerCase();
   const zone=document.getElementById('restaurantZone')?.value||'all';
   let shown=0;
   document.querySelectorAll('#restaurantList .restaurant-card').forEach(card=>{
     const matchQ=!q||(card.dataset.search||'').includes(q)||card.textContent.toLowerCase().includes(q);
-    const matchZ=zone==='all'||card.dataset.zone===zone;
+    const curatedZones=["casco","calle50","amador","ciudad"];
+    const matchZ=zone==='all'||(!curatedZones.includes(zone))||card.dataset.zone===zone;
     const ok=matchQ&&matchZ; card.hidden=!ok; if(ok) shown++;
   });
   let empty=document.getElementById('restaurantEmpty');
-  if(!empty){empty=document.createElement('div');empty.id='restaurantEmpty';empty.className='restaurant-empty';empty.textContent='No hay restaurantes que coincidan con ese filtro.';document.getElementById('restaurantList')?.appendChild(empty);}
+  if(!empty){
+    empty=document.createElement('div');
+    empty.id='restaurantEmpty';
+    empty.className='restaurant-empty';
+    empty.innerHTML='No hay destacados locales con ese filtro.<br><small>Usa <b>Explorar todo Panamá</b> para buscar en Google Maps.</small>';
+    document.getElementById('restaurantList')?.appendChild(empty);
+  }
   empty.hidden=shown>0;
+}
+function searchRestaurantsPanama(){
+  const query=restaurantLiveQuery();
+  showRestaurantMap(query);
+  const label=document.getElementById('restaurantMapLabel');
+  if(label) label.textContent=query;
+}
+function openRestaurantsMaps(){
+  const query=restaurantLiveQuery();
+  const url='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(query);
+  window.open(url,'_blank','noopener');
 }
 function openRestaurantsNearMe(){
   if(!navigator.geolocation){toast('Este navegador no permite usar tu ubicación.');return;}
@@ -4235,7 +4795,10 @@ function openRestaurantsNearMe(){
   },()=>{if(btn) btn.textContent=old||'📍 Cerca de mí';toast('No pude obtener tu ubicación. Revisa el permiso del navegador.');},{enableHighAccuracy:false,timeout:8000,maximumAge:300000});
 }
 document.getElementById('restaurantSearch')?.addEventListener('input',filterRestaurants);
-document.getElementById('restaurantZone')?.addEventListener('change',filterRestaurants);
+document.getElementById('restaurantSearch')?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();searchRestaurantsPanama();}});
+document.getElementById('restaurantZone')?.addEventListener('change',()=>{filterRestaurants();searchRestaurantsPanama();});
+document.getElementById('restaurantsSearchPanama')?.addEventListener('click',searchRestaurantsPanama);
+document.getElementById('restaurantsOpenMaps')?.addEventListener('click',openRestaurantsMaps);
 document.getElementById('restaurantsNearMe')?.addEventListener('click',openRestaurantsNearMe);
 
 document.querySelectorAll(".nav-button").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
@@ -4265,6 +4828,7 @@ window.addEventListener("rutarentable:support-updated", renderSupportMessagesLoc
 document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.go)));
 document.getElementById("menuButton").addEventListener("click",()=>document.getElementById("sidebar").classList.toggle("open"));
 document.getElementById("periodFilter").addEventListener("change",()=>{updateDashboardPeriodControls();renderDashboard();});
+document.getElementById("dashboardWeekFilter").addEventListener("change",()=>{renderDashboard();});
 document.getElementById("dashboardMonthFilter").addEventListener("change",()=>{renderDashboard();});
 document.getElementById("reportMonthFilter").addEventListener("change",()=>{renderReports();});
 document.getElementById("mainActionButton").addEventListener("click",startAction);
@@ -4617,1274 +5181,10 @@ renderAll();
 
   </script>
   <script src="./app-check-config.js"></script>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-    import {
-      getAuth, GoogleAuthProvider, signInWithPopup,
-      getRedirectResult, onAuthStateChanged, signOut, setPersistence,
-      browserLocalPersistence, reauthenticateWithPopup, deleteUser
-    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
-    import {
-      initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
-      doc, getDoc, setDoc, onSnapshot, serverTimestamp, collection, getDocs,
-      writeBatch, deleteField, deleteDoc
-    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-    import {
-      initializeAppCheck, ReCaptchaEnterpriseProvider
-    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app-check.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBunQSM7YUaHqY-335xQqGO_idyUFy8lJQ",
-      authDomain: "rutarentable-pro.firebaseapp.com",
-      projectId: "rutarentable-pro",
-      storageBucket: "rutarentable-pro.firebasestorage.app",
-      messagingSenderId: "19050578520",
-      appId: "1:19050578520:web:e1c50e7f95f3781d1f402d"
-    };
-
-    const CLOUD_COLLECTION = "users";
-    const ACCESS_COLLECTION = "accessRequests";
-    const LIVE_LOCATION_COLLECTION = "liveLocations";
-    const WEB_BUILD = "4.0.0";
-    const ADMIN_EMAIL = "jbonilla2987@gmail.com";
-    const STORAGE_VERSION = 4;
-    const LOCAL_MODIFIED_KEY = "rutaRentableCloudLocalModifiedAtV1";
-    const LINKED_UID_KEY = "rutaRentableCloudLinkedUidV1";
-    const PRECLOUD_BACKUP_KEY = "rutaRentablePreCloudBackupV1";
-    const APP_LOCAL_KEYS = [
-      "rutaRentableSessionsV1", "rutaRentableActiveSessionBackupV1", "rutaRentableFinishDraftV1",
-      "rutaRentableSupportMessagesV1", LOCAL_MODIFIED_KEY, LINKED_UID_KEY, PRECLOUD_BACKUP_KEY
-    ];
-
-    let appBridge = window.RutaRentableApp || null;
-    let currentUser = null;
-    let userDocRef = null;
-    let currentAccessStatus = null;
-    let unsubscribeCloud = null;
-    let unsubscribeAccess = null;
-    let unsubscribeAdminUsers = null;
-    let unsubscribeTrackingLocations = null;
-    let unsubscribeSupportMessages = null;
-    let trackingMap = null;
-    let trackingLayer = null;
-    let trackingLeafletPromise = null;
-    let latestTrackingRows = [];
-    let syncTimer = null;
-    let applyingCloud = false;
-    let lastCloudClientUpdatedAt = 0;
-    let lastSyncDate = null;
-    let shadowInitialized = false;
-    let cloudShadow = { profile:null, sessions:new Map(), expenses:new Map(), vehicles:new Map() };
-
-    const firebaseApp = initializeApp(firebaseConfig);
-    const appCheckSiteKey = String(window.RutaRentableConfig?.appCheckSiteKey || "").trim();
-    if (appCheckSiteKey) {
-      try {
-        initializeAppCheck(firebaseApp, {
-          provider: new ReCaptchaEnterpriseProvider(appCheckSiteKey),
-          isTokenAutoRefreshEnabled: true
-        });
-        document.getElementById("appCheckBadge")?.classList.add("good");
-        if (document.getElementById("appCheckBadge")) document.getElementById("appCheckBadge").textContent = "App Check: preparado";
-      } catch (error) {
-        console.warn("App Check no pudo iniciarse:", error);
-        document.getElementById("appCheckBadge")?.classList.add("warn");
-        if (document.getElementById("appCheckBadge")) document.getElementById("appCheckBadge").textContent = "App Check: revisar clave";
-      }
-    } else {
-      document.getElementById("appCheckBadge")?.classList.add("warn");
-      if (document.getElementById("appCheckBadge")) document.getElementById("appCheckBadge").textContent = "App Check: pendiente de activar";
-    }
-
-    const auth = getAuth(firebaseApp);
-    await setPersistence(auth, browserLocalPersistence);
-    const db = initializeFirestore(firebaseApp, {
-      localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
-    });
-    const provider = new GoogleAuthProvider();
-    provider.setCustomParameters({ prompt: "select_account" });
-
-    const $ = id => document.getElementById(id);
-    const escapeHtml = value => String(value ?? "")
-      .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;").replaceAll("'","&#039;");
-    const clone = value => JSON.parse(JSON.stringify(value));
-    const stable = value => JSON.stringify(value ?? null);
-    const waitForApp = () => new Promise(resolve => {
-      if (window.RutaRentableApp) return resolve(window.RutaRentableApp);
-      window.addEventListener("rutarentable:app-ready", () => resolve(window.RutaRentableApp), { once: true });
-    });
-    appBridge = await waitForApp();
-
-    function normalizeEmail(email) {
-      return String(email || "").trim().toLowerCase();
-    }
-
-    function isAdminUser(user = currentUser) {
-      return normalizeEmail(user?.email) === ADMIN_EMAIL;
-    }
-
-    function formatRequestDate(value) {
-      if (!value) return "—";
-      const date = value?.toDate ? value.toDate() : new Date(Number(value) || value);
-      if (Number.isNaN(date.getTime())) return "—";
-      return new Intl.DateTimeFormat("es-PA", { day:"2-digit", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit" }).format(date);
-    }
-
-    function accessLabel(status) {
-      return ({ pending:"Pendiente", approved:"Aprobado", rejected:"Rechazado", blocked:"Bloqueado" })[status] || "Pendiente";
-    }
-
-    function showAccessGate(status, user) {
-      currentAccessStatus = status;
-      const gate = $("authGate");
-      const login = $("googleLoginButton");
-      const logoutGate = $("gateLogoutButton");
-      const msg = $("authAccessMessage");
-      if (gate) gate.classList.remove("hidden");
-      if (login) login.classList.add("hidden");
-      if (logoutGate) logoutGate.classList.remove("hidden");
-      if (msg) {
-        msg.className = `auth-state-box ${status || "pending"}`;
-        if (status === "approved") msg.textContent = "Acceso aprobado. Cargando RutaRentable…";
-        else if (status === "rejected") msg.textContent = "Tu solicitud de acceso fue rechazada. Contacta al administrador si necesitas revisión.";
-        else if (status === "blocked") msg.textContent = "Tu acceso a RutaRentable está bloqueado. Contacta al administrador.";
-        else msg.textContent = `Tu solicitud está pendiente de aprobación. Correo: ${user?.email || ""}`;
-      }
-      if ($("authGateStatus")) $("authGateStatus").textContent = status === "pending" ? "Solicitud enviada" : accessLabel(status);
-    }
-
-    function showLoginGate() {
-      const gate = $("authGate");
-      if (gate) gate.classList.remove("hidden");
-      $("googleLoginButton")?.classList.remove("hidden");
-      $("gateLogoutButton")?.classList.add("hidden");
-      if ($("authAccessMessage")) {
-        $("authAccessMessage").className = "auth-state-box";
-        $("authAccessMessage").textContent = "El acceso a RutaRentable requiere aprobación del administrador.";
-      }
-    }
-
-    function renderAdminUsers(snapshot) {
-      const card = $("adminUsersCard");
-      const body = $("adminUsersBody");
-      const navButton = $("adminUsersNavButton");
-      if (!card || !body || !isAdminUser()) return;
-      card.hidden = false;
-      if (navButton) navButton.hidden = false;
-      const rows = [];
-      snapshot.forEach(item => rows.push({ uid:item.id, ...(item.data() || {}) }));
-      const overview = $("adminUsersOverview");
-      if (overview) overview.hidden = false;
-      if ($("adminCountTotal")) $("adminCountTotal").textContent = rows.length;
-      if ($("adminCountPending")) $("adminCountPending").textContent = rows.filter(row => (row.status || "pending") === "pending").length;
-      if ($("adminCountApproved")) $("adminCountApproved").textContent = rows.filter(row => row.status === "approved").length;
-      if ($("adminCountBlocked")) $("adminCountBlocked").textContent = rows.filter(row => row.status === "blocked" || row.status === "rejected").length;
-      rows.sort((a,b) => {
-        const rank = { pending:0, approved:1, rejected:2, blocked:3 };
-        const r = (rank[a.status] ?? 9) - (rank[b.status] ?? 9);
-        if (r) return r;
-        const at = a.requestedAt?.toMillis?.() || Number(a.requestedAtClient || 0);
-        const bt = b.requestedAt?.toMillis?.() || Number(b.requestedAtClient || 0);
-        return bt - at;
-      });
-      if (!rows.length) {
-        body.innerHTML = '<tr><td colspan="5" class="muted">Todavía no hay solicitudes de usuarios.</td></tr>';
-        return;
-      }
-      body.innerHTML = rows.map(user => {
-        const status = user.status || "pending";
-        const isSelf = normalizeEmail(user.email) === ADMIN_EMAIL;
-        const jsonButton = `<button class="button secondary admin-download-json" data-uid="${escapeHtml(user.uid)}" data-email="${escapeHtml(user.email || "")}" data-name="${escapeHtml(user.displayName || "Usuario")}" title="Descargar respaldo JSON de este usuario">⬇ JSON</button>`;
-        const viewJsonButton = `<button class="button secondary admin-view-json" data-uid="${escapeHtml(user.uid)}" data-email="${escapeHtml(user.email || "")}" data-name="${escapeHtml(user.displayName || "Usuario")}" title="Ver resumen de este usuario">👁 Ver resumen</button>`;
-        const buttons = isSelf ? `<div class="user-actions">${viewJsonButton}${jsonButton}<span class="muted">Administrador</span></div>` : `
-          <div class="user-actions">
-            ${viewJsonButton}
-            ${jsonButton}
-            <button class="button primary admin-user-action" data-uid="${escapeHtml(user.uid)}" data-action="approved">Aprobar</button>
-            <button class="button secondary admin-user-action" data-uid="${escapeHtml(user.uid)}" data-action="rejected">Rechazar</button>
-            <button class="button secondary danger-button admin-user-action" data-uid="${escapeHtml(user.uid)}" data-action="blocked">Bloquear</button>
-          </div>`;
-        return `<tr>
-          <td><strong>${escapeHtml(user.displayName || "Usuario")}</strong></td>
-          <td>${escapeHtml(user.email || "")}</td>
-          <td><span class="user-status ${escapeHtml(status)}">${accessLabel(status)}</span></td>
-          <td>${formatRequestDate(user.requestedAt || user.requestedAtClient)}</td>
-          <td>${buttons}</td>
-        </tr>`;
-      }).join("");
-    }
-
-    function safeFilePart(value, fallback = "usuario") {
-      const cleaned = String(value || "").trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-zA-Z0-9._-]+/g, "_").replace(/^_+|_+$/g, "");
-      return cleaned || fallback;
-    }
-
-    function downloadJsonFile(filename, payload) {
-      const blob = new Blob([JSON.stringify(payload, null, 2)], { type:"application/json;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-    }
-
-    async function readUserBackupForAdmin(uid) {
-      if (!isAdminUser()) throw new Error("Esta función es exclusiva del administrador.");
-      const rootRef = doc(db, CLOUD_COLLECTION, uid);
-      const settingsRef = doc(db, CLOUD_COLLECTION, uid, "settings", "app");
-      const [rootSnap, settingsSnap, sessionsSnap, expensesSnap, vehiclesSnap] = await Promise.all([
-        getDoc(rootRef),
-        getDoc(settingsRef),
-        getDocs(collection(db, CLOUD_COLLECTION, uid, "sessions")),
-        getDocs(collection(db, CLOUD_COLLECTION, uid, "expenses")),
-        getDocs(collection(db, CLOUD_COLLECTION, uid, "vehicles"))
-      ]);
-      const root = rootSnap.exists() ? (rootSnap.data() || {}) : {};
-      const settings = settingsSnap.exists() ? (settingsSnap.data() || {}) : {};
-      return {
-        exportInfo: {
-          product:"RutaRentable PRO",
-          webBuild:WEB_BUILD,
-          exportedAt:new Date().toISOString(),
-          exportedBy:currentUser?.email || "",
-          uid
-        },
-        account: {
-          uid,
-          displayName:root.displayName || "",
-          email:root.email || "",
-          photoURL:root.photoURL || "",
-          storageVersion:Number(root.storageVersion || 0),
-          schemaVersion:Number(root.schemaVersion || settings.schemaVersion || 0),
-          clientUpdatedAt:Number(root.clientUpdatedAt || 0)
-        },
-        data: {
-          schemaVersion:Number(settings.schemaVersion || root.schemaVersion || 3),
-          profile:clone(settings.profile || {}),
-          sessions:sessionsSnap.docs.map(item => ({ ...item.data(), id:item.data()?.id || item.id })),
-          expenses:expensesSnap.docs.map(item => ({ ...item.data(), id:item.data()?.id || item.id })),
-          vehicles:vehiclesSnap.docs.map(item => ({ ...item.data(), id:item.data()?.id || item.id }))
-        }
-      };
-    }
-
-    let adminJsonViewerPayload = null;
-    let adminJsonViewerUser = null;
-
-    function adminUserMoney(value) {
-      return `USD ${Number(value || 0).toFixed(2)}`;
-    }
-
-    function adminUserHoursBetween(session) {
-      if (!session?.endDate || !session?.endTime || !session?.startDate || !session?.startTime) return 0;
-      const start = new Date(`${session.startDate}T${session.startTime}`);
-      const end = new Date(`${session.endDate}T${session.endTime}`);
-      const diff = (end - start) / 3600000;
-      return Number.isFinite(diff) ? Math.max(diff, 0) : 0;
-    }
-
-    function adminUserIndriveGross(session) {
-      return Number(session?.indriveGross ?? session?.indriveEarnings ?? 0);
-    }
-
-    function adminUserIndriveCommission(session, profile = {}) {
-      const enabled = session?.applyIndriveCommission !== undefined
-        ? Boolean(session.applyIndriveCommission)
-        : Number(session?.indriveCommission || 0) > 0;
-      if (!enabled) return 0;
-      if (session?.indriveCommission !== undefined && session?.indriveCommission !== null) return Number(session.indriveCommission || 0);
-      const rate = Number(session?.indriveRate ?? profile?.indriveRate ?? 13.69);
-      return adminUserIndriveGross(session) * rate / 100;
-    }
-
-    function adminUserSummary(payload) {
-      const sessions = (payload?.data?.sessions || []).filter(item => item?.status === "closed");
-      const expenses = payload?.data?.expenses || [];
-      const profile = payload?.data?.profile || {};
-      const totals = { income:0, expenses:0, net:0, indriveNet:0, uber:0, outside:0, fuel:0, km:0, hours:0 };
-      sessions.forEach(session => {
-        const uber = Number(session?.uberEarnings || 0);
-        const indriveGross = adminUserIndriveGross(session);
-        const indriveCommission = adminUserIndriveCommission(session, profile);
-        const outside = Number(session?.outsideEarnings || 0);
-        const extraPlatforms = Object.values(session?.platformEarnings || {}).reduce((sum, record) => {
-          if (record && typeof record === "object") return sum + Number(record.earnings || 0);
-          return sum + Number(record || 0);
-        }, 0);
-        const fuel = Number(session?.startFuel || 0) + Number(session?.extraFuel || 0);
-        const sessionExpenses = fuel + Number(session?.appExpenses || 0) + Number(session?.otherExpenses || 0) + indriveCommission;
-        const sessionIncome = uber + indriveGross + outside + extraPlatforms;
-        totals.income += sessionIncome;
-        totals.expenses += sessionExpenses;
-        totals.net += sessionIncome - sessionExpenses;
-        totals.indriveNet += Math.max(indriveGross - indriveCommission, 0);
-        totals.uber += uber;
-        totals.outside += outside;
-        totals.fuel += fuel;
-        totals.km += Math.max(Number(session?.endKm || 0) - Number(session?.startKm || 0), 0);
-        totals.hours += adminUserHoursBetween(session);
-      });
-      expenses.forEach(expense => {
-        const category = String(expense?.category || "");
-        if (category === "indrive_recharge") return;
-        const amount = Number(expense?.amount ?? expense?.value ?? expense?.total ?? 0);
-        if (!Number.isFinite(amount)) return;
-        totals.expenses += amount;
-        totals.net -= amount;
-      });
-      return totals;
-    }
-
-    function renderAdminUserDashboard(payload) {
-      const totals = adminUserSummary(payload);
-      const perKm = totals.km ? totals.net / totals.km : 0;
-      const perHour = totals.hours ? totals.net / totals.hours : 0;
-      if ($("adminUserNet")) $("adminUserNet").textContent = adminUserMoney(totals.net);
-      if ($("adminUserIndrive")) $("adminUserIndrive").textContent = adminUserMoney(totals.indriveNet);
-      if ($("adminUserUber")) $("adminUserUber").textContent = adminUserMoney(totals.uber);
-      if ($("adminUserOutside")) $("adminUserOutside").textContent = adminUserMoney(totals.outside);
-      if ($("adminUserFuel")) $("adminUserFuel").textContent = adminUserMoney(totals.fuel);
-      if ($("adminUserKm")) $("adminUserKm").textContent = `${Math.round(totals.km).toLocaleString("es-PA")} km`;
-      if ($("adminUserHours")) $("adminUserHours").textContent = `${totals.hours.toFixed(1)} h`;
-      if ($("adminUserPerKm")) $("adminUserPerKm").textContent = adminUserMoney(perKm);
-      if ($("adminUserPerHour")) $("adminUserPerHour").textContent = `Por hora: ${adminUserMoney(perHour)}`;
-    }
-
-    function closeAdminJsonViewer() {
-      const viewer = $("adminJsonViewer");
-      const card = $("adminUsersCard");
-      const overview = $("adminUsersOverview");
-      if (viewer) viewer.hidden = true;
-      if (card) card.hidden = false;
-      if (overview) overview.hidden = false;
-      adminJsonViewerPayload = null;
-      adminJsonViewerUser = null;
-    }
-
-    async function openAdminJsonViewer(uid, email = "", displayName = "Usuario") {
-      if (!isAdminUser()) throw new Error("Esta función es exclusiva del administrador.");
-      const viewer = $("adminJsonViewer");
-      const card = $("adminUsersCard");
-      const overview = $("adminUsersOverview");
-      const errorBox = $("adminUserViewError");
-      if (viewer) viewer.hidden = false;
-      if (card) card.hidden = true;
-      if (overview) overview.hidden = true;
-      if (errorBox) { errorBox.hidden = true; errorBox.textContent = ""; }
-      if ($("adminJsonViewerTitle")) $("adminJsonViewerTitle").textContent = `Datos de ${displayName || "Usuario"}`;
-      if ($("adminJsonViewerSubtitle")) $("adminJsonViewerSubtitle").textContent = `${email || "Sin correo"} · Vista de solo lectura`;
-      try {
-        const payload = await readUserBackupForAdmin(uid);
-        adminJsonViewerPayload = payload;
-        adminJsonViewerUser = { uid, email, displayName };
-        const sessions = payload.data?.sessions?.length || 0;
-        const expenses = payload.data?.expenses?.length || 0;
-        const vehicles = payload.data?.vehicles?.length || 0;
-        if ($("adminJsonSummary")) $("adminJsonSummary").innerHTML = `
-          <div><span>Jornadas</span><strong>${sessions}</strong></div>
-          <div><span>Gastos</span><strong>${expenses}</strong></div>
-          <div><span>Vehículos</span><strong>${vehicles}</strong></div>
-          <div><span>UID</span><strong class="uid-value">${escapeHtml(uid)}</strong></div>`;
-        renderAdminUserDashboard(payload);
-      } catch (error) {
-        if (errorBox) { errorBox.hidden = false; errorBox.textContent = `No se pudieron leer los datos. ${error?.message || error}`; }
-        throw error;
-      }
-    }
-
-    async function downloadSingleUserJson(uid, email = "", displayName = "Usuario") {
-      const payload = await readUserBackupForAdmin(uid);
-      const accountEmail = payload.account.email || email;
-      const label = safeFilePart(accountEmail || displayName || uid);
-      const date = new Date().toISOString().slice(0,10);
-      downloadJsonFile(`RutaRentable_${label}_${date}.json`, payload);
-    }
-
-    async function downloadAllUsersJson() {
-      if (!isAdminUser()) throw new Error("Esta función es exclusiva del administrador.");
-      const accessSnap = await getDocs(collection(db, ACCESS_COLLECTION));
-      const users = accessSnap.docs.map(item => ({ uid:item.id, ...(item.data() || {}) }));
-      if (!users.some(user => user.uid === currentUser?.uid) && currentUser?.uid) {
-        users.unshift({ uid:currentUser.uid, email:currentUser.email || "", displayName:currentUser.displayName || "Administrador", status:"approved" });
-      }
-      const backups = [];
-      const failures = [];
-      for (const user of users) {
-        try {
-          const backup = await readUserBackupForAdmin(user.uid);
-          backup.access = { status:user.status || "pending", requestedAtClient:Number(user.requestedAtClient || 0) };
-          backups.push(backup);
-        } catch (error) {
-          failures.push({ uid:user.uid, email:user.email || "", error:error?.message || String(error) });
-        }
-      }
-      if (!backups.length) {
-        const firstError = failures[0]?.error || "No se pudieron leer los datos de los usuarios.";
-        throw new Error(firstError);
-      }
-      const date = new Date().toISOString().slice(0,10);
-      downloadJsonFile(`RutaRentable_TODOS_USUARIOS_${date}.json`, {
-        exportInfo:{ product:"RutaRentable PRO", webBuild:WEB_BUILD, exportedAt:new Date().toISOString(), exportedBy:currentUser?.email || "", total:backups.length },
-        users:backups,
-        failures
-      });
-      return { downloaded:backups.length, failures:failures.length };
-    }
-
-    function startAdminUserListener() {
-      if (unsubscribeAdminUsers) { unsubscribeAdminUsers(); unsubscribeAdminUsers = null; }
-      const card = $("adminUsersCard");
-      const navButton = $("adminUsersNavButton");
-      if (!isAdminUser()) {
-        if ($("adminUsersOverview")) $("adminUsersOverview").hidden = true;
-        if (card) card.hidden = true;
-        if (navButton) navButton.hidden = true;
-        setTrackingNavVisible(false);
-        if (document.getElementById("adminUsers")?.classList.contains("active")) appBridge.showView("dashboard");
-        return;
-      }
-      if (card) card.hidden = false;
-      if (navButton) navButton.hidden = false;
-      setTrackingNavVisible(true);
-      unsubscribeAdminUsers = onSnapshot(collection(db, ACCESS_COLLECTION), renderAdminUsers, error => {
-        console.error("No se pudieron listar usuarios:", error);
-        if ($("adminUsersBody")) $("adminUsersBody").innerHTML = `<tr><td colspan="5">${escapeHtml(error.message || "No se pudieron cargar los usuarios.")}</td></tr>`;
-      });
-    }
-
-
-    function trackingShareUrl() {
-      try { return new URL("./compartir-gps.html", window.location.href).href; }
-      catch { return "./compartir-gps.html"; }
-    }
-
-    function setTrackingNavVisible(visible) {
-      const navButton = $("trackingNavButton");
-      if (navButton) navButton.hidden = !visible;
-      if (!visible && document.getElementById("tracking")?.classList.contains("active")) appBridge.showView("dashboard");
-    }
-
-    function loadLeaflet() {
-      if (window.L) return Promise.resolve(window.L);
-      if (trackingLeafletPromise) return trackingLeafletPromise;
-      trackingLeafletPromise = new Promise((resolve, reject) => {
-        if (!document.querySelector('link[data-rutarentable-leaflet]')) {
-          const link = document.createElement("link");
-          link.rel = "stylesheet";
-          link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
-          link.crossOrigin = "";
-          link.dataset.rutarentableLeaflet = "1";
-          document.head.appendChild(link);
-        }
-        const script = document.createElement("script");
-        script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
-        script.crossOrigin = "";
-        script.onload = () => resolve(window.L);
-        script.onerror = () => reject(new Error("No se pudo cargar el mapa. Revisa la conexión a Internet."));
-        document.head.appendChild(script);
-      });
-      return trackingLeafletPromise;
-    }
-
-    function trackingAgeInfo(updatedAtClient) {
-      const ageMs = Math.max(0, Date.now() - Number(updatedAtClient || 0));
-      if (ageMs <= 90_000) return { key:"live", label:"En línea" };
-      if (ageMs <= 10 * 60_000) return { key:"recent", label:"Señal reciente" };
-      return { key:"offline", label:"Sin señal" };
-    }
-
-    function trackingLastSeen(updatedAtClient) {
-      const value = Number(updatedAtClient || 0);
-      if (!value) return "Sin hora";
-      return new Intl.DateTimeFormat("es-PA", {
-        day:"2-digit", month:"short", hour:"2-digit", minute:"2-digit", second:"2-digit"
-      }).format(new Date(value));
-    }
-
-    function renderTrackingList(rows) {
-      latestTrackingRows = rows;
-      const list = $("trackingUsersList");
-      const summary = $("trackingSummary");
-      if (!list || !summary) return;
-      const activeRows = rows.filter(row => row.active !== false && Number.isFinite(Number(row.lat)) && Number.isFinite(Number(row.lng)));
-      const liveCount = activeRows.filter(row => trackingAgeInfo(row.updatedAtClient).key === "live").length;
-      const recentCount = activeRows.filter(row => trackingAgeInfo(row.updatedAtClient).key === "recent").length;
-      const offlineCount = activeRows.filter(row => trackingAgeInfo(row.updatedAtClient).key === "offline").length;
-      if ($("trackingCountTotal")) $("trackingCountTotal").textContent = activeRows.length;
-      if ($("trackingCountLive")) $("trackingCountLive").textContent = liveCount;
-      if ($("trackingCountRecent")) $("trackingCountRecent").textContent = recentCount;
-      if ($("trackingCountOffline")) $("trackingCountOffline").textContent = offlineCount;
-      summary.textContent = activeRows.length
-        ? `${activeRows.length} celular${activeRows.length === 1 ? "" : "es"} con ubicación · ${liveCount} en línea`
-        : "Todavía no hay ubicaciones compartidas.";
-      if (!activeRows.length) {
-        list.innerHTML = '<div class="tracking-empty">Envía el enlace GPS a un celular y activa la ubicación para comenzar la prueba.</div>';
-        return;
-      }
-      activeRows.sort((a,b) => Number(b.updatedAtClient || 0) - Number(a.updatedAtClient || 0));
-      list.innerHTML = activeRows.map(row => {
-        const age = trackingAgeInfo(row.updatedAtClient);
-        const accuracy = Number(row.accuracy);
-        return `<div class="tracking-user-card">
-          <div class="tracking-user-head">
-            <div>
-              <strong>${escapeHtml(row.displayName || row.email || "Usuario")}</strong>
-              <small>${escapeHtml(row.email || "")}</small>
-            </div>
-            <span class="tracking-status ${age.key}"><span class="tracking-dot"></span>${age.label}</span>
-          </div>
-          <div class="tracking-meta">
-            Última señal: <strong>${escapeHtml(trackingLastSeen(row.updatedAtClient))}</strong><br>
-            Precisión: <strong>${Number.isFinite(accuracy) ? `${Math.round(accuracy)} m` : "—"}</strong>
-          </div>
-        </div>`;
-      }).join("");
-    }
-
-    function renderTrackingMap(rows = latestTrackingRows) {
-      if (!trackingMap || !window.L) return;
-      trackingLayer.clearLayers();
-      const activeRows = rows.filter(row => row.active !== false && Number.isFinite(Number(row.lat)) && Number.isFinite(Number(row.lng)));
-      const points = [];
-      activeRows.forEach(row => {
-        const lat = Number(row.lat), lng = Number(row.lng);
-        const age = trackingAgeInfo(row.updatedAtClient);
-        const marker = window.L.marker([lat, lng]).addTo(trackingLayer);
-        marker.bindPopup(`<strong>${escapeHtml(row.displayName || row.email || "Usuario")}</strong><br>${escapeHtml(row.email || "")}<br>${escapeHtml(age.label)}<br>Última señal: ${escapeHtml(trackingLastSeen(row.updatedAtClient))}`);
-        points.push([lat,lng]);
-      });
-      if (points.length === 1) trackingMap.setView(points[0], 16);
-      else if (points.length > 1) trackingMap.fitBounds(points, { padding:[28,28], maxZoom:16 });
-      else trackingMap.setView([8.9824, -79.5199], 10);
-      setTimeout(() => trackingMap?.invalidateSize(), 50);
-    }
-
-    async function ensureTrackingMap() {
-      if (!isAdminUser()) return;
-      const placeholder = $("trackingMapPlaceholder");
-      try {
-        const L = await loadLeaflet();
-        if (!trackingMap) {
-          trackingMap = L.map("trackingMap", { zoomControl:true }).setView([8.9824, -79.5199], 10);
-          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom:19,
-            attribution:'&copy; OpenStreetMap'
-          }).addTo(trackingMap);
-          trackingLayer = L.layerGroup().addTo(trackingMap);
-        }
-        if (placeholder) placeholder.remove();
-        renderTrackingMap();
-      } catch (error) {
-        console.error("Mapa:", error);
-        if (placeholder) placeholder.innerHTML = `<div><strong>No se pudo cargar el mapa.</strong><br><small>${escapeHtml(error.message || "Revisa la conexión.")}</small></div>`;
-      }
-    }
-
-    function startTrackingListener() {
-      if (unsubscribeTrackingLocations || !isAdminUser()) return;
-      unsubscribeTrackingLocations = onSnapshot(collection(db, LIVE_LOCATION_COLLECTION), snapshot => {
-        const rows = snapshot.docs.map(item => ({ uid:item.id, ...(item.data() || {}) }));
-        renderTrackingList(rows);
-        renderTrackingMap(rows);
-      }, error => {
-        console.error("Rastreo:", error);
-        if ($("trackingSummary")) $("trackingSummary").textContent = "No se pudieron leer las ubicaciones.";
-        if ($("trackingUsersList")) $("trackingUsersList").innerHTML = `<div class="tracking-empty">${escapeHtml(error.message || "Revisa las reglas de Firestore.")}</div>`;
-      });
-    }
-
-    async function openTrackingModule() {
-      if (!isAdminUser()) return;
-      setTrackingNavVisible(true);
-      if ($("trackingShareLink")) $("trackingShareLink").value = trackingShareUrl();
-      startTrackingListener();
-      await ensureTrackingMap();
-      renderTrackingMap();
-    }
-
-    window.RutaRentableTracking = { open: openTrackingModule };
-
-    async function setAccessStatus(uid, status) {
-      if (!isAdminUser() || !uid) return;
-      const ref = doc(db, ACCESS_COLLECTION, uid);
-      await setDoc(ref, {
-        status,
-        updatedAt: serverTimestamp(),
-        updatedAtClient: Date.now(),
-        approvedBy: currentUser.email || ADMIN_EMAIL,
-        ...(status === "approved" ? { approvedAt: serverTimestamp(), approvedAtClient: Date.now() } : {})
-      }, { merge:true });
-      appBridge.notify(status === "approved" ? "Usuario aprobado." : status === "blocked" ? "Usuario bloqueado." : "Solicitud rechazada.");
-    }
-
-    async function ensureAccessRequest(user) {
-      const accessRef = doc(db, ACCESS_COLLECTION, user.uid);
-      if (isAdminUser(user)) {
-        // La cuenta administradora ya está aprobada en Firestore. Primero leemos
-        // el documento existente y NO lo reescribimos en cada inicio de sesión.
-        // Así evitamos que un fallo de escritura o una regla más estricta bloquee
-        // el acceso aunque el UID/correo ya estén aprobados.
-        const adminSnapshot = await getDoc(accessRef);
-        if (adminSnapshot.exists()) {
-          const data = adminSnapshot.data() || {};
-          return {
-            ref: accessRef,
-            status: data.status || "approved",
-            role: data.role || "admin"
-          };
-        }
-        await setDoc(accessRef, {
-          email: normalizeEmail(user.email),
-          displayName:user.displayName || "Administrador",
-          photoURL:user.photoURL || "",
-          status:"approved",
-          role:"admin",
-          requestedAtClient:Date.now(),
-          updatedAtClient:Date.now(),
-          updatedAt:serverTimestamp()
-        }, { merge:true });
-        return { ref:accessRef, status:"approved", role:"admin" };
-      }
-      const snapshot = await getDoc(accessRef);
-      if (!snapshot.exists()) {
-        await setDoc(accessRef, {
-          email: normalizeEmail(user.email), displayName:user.displayName || "", photoURL:user.photoURL || "",
-          status:"pending", role:"user", requestedAt:serverTimestamp(), requestedAtClient:Date.now(), updatedAt:serverTimestamp(), updatedAtClient:Date.now()
-        });
-        return { ref:accessRef, status:"pending", role:"user" };
-      }
-      const data = snapshot.data() || {};
-      return { ref:accessRef, status:data.status || "pending", role:data.role || "user" };
-    }
-
-    function listenForOwnAccess(user, accessRef) {
-      if (unsubscribeAccess) unsubscribeAccess();
-      unsubscribeAccess = onSnapshot(accessRef, async snap => {
-        if (!snap.exists() || isAdminUser(user)) return;
-        const status = snap.data()?.status || "pending";
-        if (status === "approved" && currentAccessStatus !== "approved") {
-          currentAccessStatus = "approved";
-          showAccessGate("approved", user);
-          try {
-            await initializeUserCloud(user);
-            $("authGate")?.classList.add("hidden");
-          } catch (error) {
-            console.error(error);
-            showAccessGate("pending", user);
-            if ($("authGateStatus")) $("authGateStatus").textContent = error.message || "No se pudo cargar la cuenta.";
-          }
-        } else if (status !== "approved") {
-          currentAccessStatus = status;
-          if (unsubscribeCloud) { unsubscribeCloud(); unsubscribeCloud = null; }
-          userDocRef = null;
-          showAccessGate(status, user);
-        }
-      }, error => {
-        console.error("Error comprobando acceso:", error);
-        showAccessGate("pending", user);
-        if ($("authGateStatus")) $("authGateStatus").textContent = "No se pudo comprobar la autorización.";
-      });
-    }
-
-    function formatSyncTime(date) {
-      return date ? new Intl.DateTimeFormat("es-PA", { hour:"2-digit", minute:"2-digit", second:"2-digit" }).format(date) : "Sin sincronizaciones todavía";
-    }
-
-    function setSyncStatus(kind, title, detail = "") {
-      [$("syncIndicator"), $("syncIndicatorSettings")].forEach(el => {
-        if (!el) return;
-        el.className = `sync-indicator ${kind}`;
-      });
-      if ($("syncStatusSidebar")) $("syncStatusSidebar").textContent = title;
-      if ($("syncStatusSettings")) $("syncStatusSettings").textContent = title;
-      if ($("syncDetailSidebar")) $("syncDetailSidebar").textContent = detail || title;
-      if ($("lastSyncText")) $("lastSyncText").textContent = lastSyncDate ? `Última sincronización: ${formatSyncTime(lastSyncDate)}` : detail || "Sin sincronizaciones todavía";
-    }
-
-    function updateUserUi(user) {
-      const signedIn = Boolean(user);
-      if ($("authGate") && signedIn && currentAccessStatus === "approved") $("authGate").classList.add("hidden");
-      if (!signedIn) {
-        if ($("profileEmail")) $("profileEmail").textContent = "Cuenta sin conectar";
-        if ($("accountName")) $("accountName").textContent = "Cuenta de Google";
-        if ($("accountEmail")) $("accountEmail").textContent = "Sin iniciar sesión";
-        if ($("accountPhoto")) $("accountPhoto").removeAttribute("src");
-        setSyncStatus("offline", "Sesión cerrada", "Inicia sesión para sincronizar.");
-        return;
-      }
-      const displayName = user.displayName || user.email?.split("@")[0] || "Conductor";
-      if ($("profileName")) $("profileName").textContent = displayName;
-      if ($("profileEmail")) $("profileEmail").textContent = user.email || "Cuenta de Google";
-      if ($("accountName")) $("accountName").textContent = displayName;
-      if ($("accountEmail")) $("accountEmail").textContent = user.email || "";
-      if (user.photoURL) {
-        if ($("accountPhoto")) $("accountPhoto").src = user.photoURL;
-        if ($("avatar")) {
-          $("avatar").classList.add("profile-photo");
-          $("avatar").style.backgroundImage = `url("${user.photoURL}")`;
-        }
-      } else if ($("avatar")) {
-        const initials = displayName.split(/\s+/).filter(Boolean).slice(0,2).map(part => part[0]?.toUpperCase() || "").join("") || "RR";
-        $("avatar").classList.remove("profile-photo");
-        $("avatar").style.backgroundImage = "";
-        $("avatar").textContent = initials;
-      }
-    }
-
-    function backupLocalBeforeCloud() {
-      try {
-        localStorage.setItem(PRECLOUD_BACKUP_KEY, JSON.stringify({ savedAt:Date.now(), state:appBridge.getState() }));
-      } catch (error) {
-        console.warn("No se pudo crear la copia previa a la nube:", error);
-      }
-    }
-
-    function mapFromArray(items) {
-      const result = new Map();
-      (items || []).forEach(item => {
-        if (item?.id) result.set(String(item.id), clone(item));
-      });
-      return result;
-    }
-
-    function resetShadowFromState(state) {
-      cloudShadow = {
-        profile: clone(state.profile || {}),
-        sessions: mapFromArray(state.sessions),
-        expenses: mapFromArray(state.expenses),
-        vehicles: mapFromArray(state.vehicles)
-      };
-      shadowInitialized = true;
-    }
-
-    function collectionRef(name) {
-      return collection(db, CLOUD_COLLECTION, currentUser.uid, name);
-    }
-
-    function itemRef(name, id) {
-      return doc(db, CLOUD_COLLECTION, currentUser.uid, name, String(id));
-    }
-
-    async function readStructuredState() {
-      if (!currentUser || !userDocRef) throw new Error("No hay una cuenta activa.");
-      const settingsRef = doc(db, CLOUD_COLLECTION, currentUser.uid, "settings", "app");
-      const [settingsSnap, sessionsSnap, expensesSnap, vehiclesSnap] = await Promise.all([
-        getDoc(settingsRef),
-        getDocs(collectionRef("sessions")),
-        getDocs(collectionRef("expenses")),
-        getDocs(collectionRef("vehicles"))
-      ]);
-      const base = appBridge.getState();
-      const cloudState = {
-        schemaVersion: Number(settingsSnap.data()?.schemaVersion || base.schemaVersion || 3),
-        profile: clone(settingsSnap.data()?.profile || base.profile || {}),
-        sessions: sessionsSnap.docs.map(d => ({ ...d.data(), id:d.data()?.id || d.id })),
-        expenses: expensesSnap.docs.map(d => ({ ...d.data(), id:d.data()?.id || d.id })),
-        vehicles: vehiclesSnap.docs.map(d => ({ ...d.data(), id:d.data()?.id || d.id }))
-      };
-      resetShadowFromState(cloudState);
-      return {
-        state: cloudState,
-        hasStructuredData: settingsSnap.exists() || sessionsSnap.size > 0 || expensesSnap.size > 0 || vehiclesSnap.size > 0,
-        hasMeaningfulData: cloudState.sessions.length > 0 || cloudState.expenses.length > 0 || cloudState.vehicles.length > 0
-      };
-    }
-
-    async function commitOperations(operations) {
-      for (let start = 0; start < operations.length; start += 400) {
-        const batch = writeBatch(db);
-        operations.slice(start, start + 400).forEach(op => {
-          if (op.type === "set") batch.set(op.ref, op.data, { merge:false });
-          else batch.delete(op.ref);
-        });
-        await batch.commit();
-      }
-    }
-
-    function collectEntityOperations(name, currentItems, previousMap, operations) {
-      const currentMap = mapFromArray(currentItems);
-      currentMap.forEach((item, id) => {
-        if (!previousMap.has(id) || stable(previousMap.get(id)) !== stable(item)) {
-          operations.push({ type:"set", ref:itemRef(name, id), data:item });
-        }
-      });
-      previousMap.forEach((_, id) => {
-        if (!currentMap.has(id)) operations.push({ type:"delete", ref:itemRef(name, id) });
-      });
-      return currentMap;
-    }
-
-    async function writeStructuredState(currentState, reason = "auto") {
-      if (!currentUser || !userDocRef || applyingCloud) return;
-      const clientUpdatedAt = Date.now();
-      setSyncStatus(navigator.onLine ? "saving" : "offline", navigator.onLine ? "Guardando…" : "Guardado sin conexión", navigator.onLine ? "Enviando cambios a Firebase." : "Se sincronizará al recuperar internet.");
-      try {
-        if (!shadowInitialized) {
-          try { await readStructuredState(); }
-          catch { resetShadowFromState({ profile:{}, sessions:[], expenses:[], vehicles:[] }); }
-        }
-        const operations = [];
-        const nextProfile = clone(currentState.profile || {});
-        if (stable(cloudShadow.profile) !== stable(nextProfile)) {
-          operations.push({
-            type:"set",
-            ref:doc(db, CLOUD_COLLECTION, currentUser.uid, "settings", "app"),
-            data:{ profile:nextProfile, schemaVersion:Number(currentState.schemaVersion || 3) }
-          });
-        }
-        const nextSessions = collectEntityOperations("sessions", currentState.sessions || [], cloudShadow.sessions, operations);
-        const nextExpenses = collectEntityOperations("expenses", currentState.expenses || [], cloudShadow.expenses, operations);
-        const nextVehicles = collectEntityOperations("vehicles", currentState.vehicles || [], cloudShadow.vehicles, operations);
-        await commitOperations(operations);
-        await setDoc(userDocRef, {
-          storageVersion: STORAGE_VERSION,
-          schemaVersion: Number(currentState.schemaVersion || 3),
-          displayName: currentUser.displayName || "",
-          email: currentUser.email || "",
-          photoURL: currentUser.photoURL || "",
-          clientUpdatedAt,
-          updatedAt: serverTimestamp(),
-          lastWriteReason: reason,
-          appData: deleteField()
-        }, { merge:true });
-        cloudShadow = { profile:nextProfile, sessions:nextSessions, expenses:nextExpenses, vehicles:nextVehicles };
-        shadowInitialized = true;
-        lastCloudClientUpdatedAt = Math.max(lastCloudClientUpdatedAt, clientUpdatedAt);
-        localStorage.setItem(LOCAL_MODIFIED_KEY, String(clientUpdatedAt));
-        lastSyncDate = new Date();
-        setSyncStatus(navigator.onLine ? "synced" : "offline", navigator.onLine ? "Sincronizado" : "Guardado sin conexión", navigator.onLine ? "Datos separados y guardados en Firebase." : "Pendiente de conexión.");
-      } catch (error) {
-        console.error("Error al sincronizar:", error);
-        setSyncStatus("error", "Error de sincronización", error.message || "No se pudo guardar en Firebase.");
-        throw error;
-      }
-    }
-
-    async function writeCloudNow(reason = "auto") {
-      return writeStructuredState(appBridge.getState(), reason);
-    }
-
-    function scheduleCloudWrite(reason = "cambio") {
-      if (!currentUser || currentAccessStatus !== "approved") return;
-      localStorage.setItem(LOCAL_MODIFIED_KEY, String(Date.now()));
-      clearTimeout(syncTimer);
-      syncTimer = setTimeout(() => writeCloudNow(reason).catch(() => {}), 900);
-    }
-
-    async function applyCloudState(cloudState, remoteTime = Date.now(), notify = false) {
-      if (!cloudState) return;
-      backupLocalBeforeCloud();
-      applyingCloud = true;
-      try {
-        appBridge.applyCloudState(clone(cloudState));
-        lastCloudClientUpdatedAt = Number(remoteTime || Date.now());
-        localStorage.setItem(LOCAL_MODIFIED_KEY, String(lastCloudClientUpdatedAt));
-        lastSyncDate = new Date();
-        setSyncStatus("synced", "Sincronizado", "Datos descargados desde Firebase.");
-        if (notify) appBridge.notify("Datos de la nube cargados correctamente.");
-        updateUserUi(currentUser);
-      } finally {
-        applyingCloud = false;
-      }
-    }
-
-    async function migrateLegacyDocument(rootSnapshot) {
-      const legacy = rootSnapshot.data()?.appData;
-      if (!legacy) return false;
-      setSyncStatus("saving", "Actualizando datos…", "Migrando la estructura anterior a colecciones separadas.");
-      shadowInitialized = false;
-      await writeStructuredState(clone(legacy), "migracion-v3.4-a-v3.5");
-      resetShadowFromState(legacy);
-      await applyCloudState(legacy, Number(rootSnapshot.data()?.clientUpdatedAt || Date.now()), false);
-      appBridge.notify("Tus datos se actualizaron automáticamente al formato 3.5.");
-      return true;
-    }
-
-    async function initializeUserCloud(user) {
-      currentUser = user;
-      currentAccessStatus = "approved";
-      userDocRef = doc(db, CLOUD_COLLECTION, user.uid);
-      shadowInitialized = false;
-      startAdminUserListener();
-      startSupportMessageListener();
-      updateUserUi(user);
-      setSyncStatus("saving", "Conectando…", "Buscando tus datos en Firebase.");
-
-      let rootSnapshot = await getDoc(userDocRef);
-      const linkedUid = localStorage.getItem(LINKED_UID_KEY);
-      const localHasData = appBridge.hasMeaningfulData();
-
-      if (rootSnapshot.exists() && rootSnapshot.data()?.appData && Number(rootSnapshot.data()?.storageVersion || 0) < STORAGE_VERSION) {
-        await migrateLegacyDocument(rootSnapshot);
-        rootSnapshot = await getDoc(userDocRef);
-      } else {
-        const cloudRead = await readStructuredState();
-        const rootData = rootSnapshot.exists() ? (rootSnapshot.data() || {}) : {};
-        const cloudTime = Number(rootData.clientUpdatedAt || 0);
-        const structuredExists = cloudRead.hasStructuredData || Number(rootData.storageVersion || 0) >= STORAGE_VERSION;
-        if (!structuredExists) {
-          localStorage.setItem(LINKED_UID_KEY, user.uid);
-          resetShadowFromState({ profile:{}, sessions:[], expenses:[], vehicles:[] });
-          await writeCloudNow("primera-copia");
-        } else if (linkedUid !== user.uid && localHasData && cloudRead.hasMeaningfulData) {
-          const useCloud = window.confirm(
-            `Este dispositivo tiene datos locales y tu cuenta también tiene datos en la nube.
-
-Aceptar: usar los datos de la nube.
-Cancelar: subir los datos de este dispositivo.`
-          );
-          if (useCloud) await applyCloudState(cloudRead.state, cloudTime, true);
-          else await writeCloudNow("migracion-local");
-        } else if (cloudRead.hasStructuredData) {
-          const localTime = Number(localStorage.getItem(LOCAL_MODIFIED_KEY) || 0);
-          if (localTime > cloudTime && linkedUid === user.uid) await writeCloudNow("cambios-locales-pendientes");
-          else await applyCloudState(cloudRead.state, cloudTime, false);
-        } else {
-          await writeCloudNow("documento-vacio");
-        }
-      }
-
-      localStorage.setItem(LINKED_UID_KEY, user.uid);
-      if (unsubscribeCloud) unsubscribeCloud();
-      unsubscribeCloud = onSnapshot(userDocRef, { includeMetadataChanges:true }, async snapshotLive => {
-        if (!snapshotLive.exists() || snapshotLive.metadata.hasPendingWrites || applyingCloud) return;
-        const data = snapshotLive.data() || {};
-        const remoteTime = Number(data.clientUpdatedAt || 0);
-        if (remoteTime > lastCloudClientUpdatedAt) {
-          try {
-            const cloudRead = await readStructuredState();
-            await applyCloudState(cloudRead.state, remoteTime, false);
-          } catch (error) {
-            console.error("No se pudo actualizar desde Firebase:", error);
-          }
-        }
-      }, error => {
-        console.error("Escucha de Firebase:", error);
-        setSyncStatus("error", "Error de conexión", error.message || "No se pudo leer Firebase.");
-      });
-    }
-
-    async function loginWithGoogle() {
-      const status = $("authGateStatus");
-      if (status) status.textContent = "Abriendo Google…";
-      try {
-        provider.setCustomParameters({ prompt: "select_account" });
-        const result = await signInWithPopup(auth, provider);
-        if (result?.user && status) {
-          status.textContent = "Cuenta verificada. Cargando tus datos…";
-        }
-      } catch (error) {
-        console.error("Google Sign-In:", error);
-        const code = String(error?.code || "");
-        if (code === "auth/popup-closed-by-user") {
-          if (status) status.textContent = "Inicio de sesión cancelado.";
-          return;
-        }
-        if (code === "auth/popup-blocked") {
-          if (status) status.textContent = "Chrome bloqueó la ventana de Google. Permite ventanas emergentes para este sitio y vuelve a intentar.";
-          return;
-        }
-        if (code === "auth/unauthorized-domain") {
-          if (status) status.textContent = "Este dominio no está autorizado en Firebase Authentication: " + location.hostname;
-          return;
-        }
-        if (code === "auth/cancelled-popup-request") {
-          if (status) status.textContent = "Ya hay una ventana de Google abierta. Ciérrala y vuelve a intentar.";
-          return;
-        }
-        if (status) status.textContent = error?.message || "No se pudo iniciar sesión con Google.";
-      }
-    }
-
-    async function deleteCollectionDocuments(name) {
-      const snapshot = await getDocs(collectionRef(name));
-      const operations = snapshot.docs.map(item => ({ type:"delete", ref:item.ref }));
-      await commitOperations(operations);
-    }
-
-    async function deleteCurrentAccount() {
-      if (!currentUser) return appBridge.notify("Primero inicia sesión.");
-      if (isAdminUser()) return appBridge.notify("Por seguridad, la cuenta administradora principal no se elimina desde la aplicación.");
-      const first = window.confirm("¿Deseas eliminar tu cuenta de RutaRentable y TODOS tus datos? Esta acción no se puede deshacer.");
-      if (!first) return;
-      const typed = window.prompt('Para confirmar, escribe exactamente: ELIMINAR');
-      if (typed !== "ELIMINAR") return appBridge.notify("Eliminación cancelada.");
-      const button = $("deleteAccountButton");
-      if (button) { button.disabled = true; button.textContent = "Eliminando…"; }
-      try {
-        setSyncStatus("saving", "Verificando identidad…", "Google puede pedirte confirmar la cuenta.");
-        await reauthenticateWithPopup(currentUser, provider);
-        setSyncStatus("saving", "Eliminando datos…", "Borrando jornadas, gastos, vehículos y configuración.");
-        for (const name of ["sessions", "expenses", "vehicles", "settings"]) await deleteCollectionDocuments(name);
-        if (userDocRef) await deleteDoc(userDocRef);
-        await deleteDoc(doc(db, ACCESS_COLLECTION, currentUser.uid));
-        APP_LOCAL_KEYS.forEach(key => localStorage.removeItem(key));
-        await deleteUser(currentUser);
-        window.location.reload();
-      } catch (error) {
-        console.error("No se pudo eliminar la cuenta:", error);
-        if (error.code === "auth/requires-recent-login") appBridge.notify("Vuelve a iniciar sesión y repite la eliminación.");
-        else appBridge.notify(error.message || "No se pudo eliminar la cuenta.");
-        if (button) { button.disabled = false; button.textContent = "Eliminar mi cuenta y todos mis datos"; }
-      }
-    }
-
-    $("googleLoginButton")?.addEventListener("click", loginWithGoogle);
-    async function logoutCurrentUser(confirmFirst = true) {
-      if (confirmFirst && !window.confirm("¿Deseas cerrar la sesión de RutaRentable en este dispositivo?")) return;
-      if (unsubscribeCloud) { unsubscribeCloud(); unsubscribeCloud = null; }
-      if (unsubscribeAccess) { unsubscribeAccess(); unsubscribeAccess = null; }
-      if (unsubscribeAdminUsers) { unsubscribeAdminUsers(); unsubscribeAdminUsers = null; }
-      if (unsubscribeTrackingLocations) { unsubscribeTrackingLocations(); unsubscribeTrackingLocations = null; }
-      if (unsubscribeSupportMessages) { unsubscribeSupportMessages(); unsubscribeSupportMessages = null; }
-      setTrackingNavVisible(false);
-      currentAccessStatus = null;
-      userDocRef = null;
-      shadowInitialized = false;
-      await signOut(auth);
-    }
-    $("logoutButton")?.addEventListener("click", () => logoutCurrentUser(true));
-    $("gateLogoutButton")?.addEventListener("click", () => logoutCurrentUser(false));
-    $("deleteAccountButton")?.addEventListener("click", deleteCurrentAccount);
-
-    $("adminUsersBody")?.addEventListener("click", async event => {
-      const viewJsonButton = event.target.closest(".admin-view-json");
-      if (viewJsonButton) {
-        viewJsonButton.disabled = true;
-        const original = viewJsonButton.textContent;
-        viewJsonButton.textContent = "Cargando…";
-        try {
-          await openAdminJsonViewer(viewJsonButton.dataset.uid, viewJsonButton.dataset.email, viewJsonButton.dataset.name);
-        } catch (error) {
-          console.error("No se pudieron mostrar los datos del usuario:", error);
-          appBridge.notify(error.message || "No se pudieron leer los datos. Revisa los permisos de Firestore.");
-        } finally {
-          viewJsonButton.disabled = false;
-          viewJsonButton.textContent = original;
-        }
-        return;
-      }
-      const jsonButton = event.target.closest(".admin-download-json");
-      if (jsonButton) {
-        jsonButton.disabled = true;
-        const original = jsonButton.textContent;
-        jsonButton.textContent = "Preparando…";
-        try {
-          await downloadSingleUserJson(jsonButton.dataset.uid, jsonButton.dataset.email, jsonButton.dataset.name);
-          appBridge.notify("Respaldo JSON del usuario descargado.");
-        } catch (error) {
-          console.error("No se pudo descargar el JSON del usuario:", error);
-          appBridge.notify(error.message || "No se pudo descargar el JSON. Revisa los permisos de Firestore.");
-        } finally {
-          jsonButton.disabled = false;
-          jsonButton.textContent = original;
-        }
-        return;
-      }
-      const button = event.target.closest(".admin-user-action");
-      if (!button) return;
-      const uid = button.dataset.uid;
-      const action = button.dataset.action;
-      const label = action === "approved" ? "aprobar" : action === "blocked" ? "bloquear" : "rechazar";
-      if (!window.confirm(`¿Deseas ${label} a este usuario?`)) return;
-      button.disabled = true;
-      try { await setAccessStatus(uid, action); }
-      catch (error) { console.error(error); appBridge.notify(error.message || "No se pudo actualizar el usuario."); }
-      finally { button.disabled = false; }
-    });
-
-    $("downloadAllUsersJsonButton")?.addEventListener("click", async () => {
-      const button = $("downloadAllUsersJsonButton");
-      if (!button || !isAdminUser()) return;
-      if (!window.confirm("¿Deseas descargar un respaldo JSON con los datos de todos los usuarios?")) return;
-      button.disabled = true;
-      const original = button.textContent;
-      button.textContent = "Preparando respaldos…";
-      try {
-        const result = await downloadAllUsersJson();
-        appBridge.notify(result.failures ? `JSON descargado: ${result.downloaded} usuarios. ${result.failures} no pudieron leerse.` : `JSON descargado con ${result.downloaded} usuarios.`);
-      } catch (error) {
-        console.error("No se pudo descargar el JSON general:", error);
-        appBridge.notify(error.message || "No se pudo descargar el JSON general. Revisa los permisos de Firestore.");
-      } finally {
-        button.disabled = false;
-        button.textContent = original;
-      }
-    });
-
-
-    $("adminJsonBackButton")?.addEventListener("click", closeAdminJsonViewer);
-    document.querySelectorAll(".admin-json-tab").forEach(tab => tab.addEventListener("click", () => renderAdminJsonViewerSection(tab.dataset.jsonSection || "all")));
-    $("adminJsonViewerDownloadButton")?.addEventListener("click", async () => {
-      if (!adminJsonViewerPayload || !adminJsonViewerUser) return;
-      const label = safeFilePart(adminJsonViewerPayload.account?.email || adminJsonViewerUser.email || adminJsonViewerUser.displayName || adminJsonViewerUser.uid);
-      const date = new Date().toISOString().slice(0,10);
-      downloadJsonFile(`RutaRentable_${label}_${date}.json`, adminJsonViewerPayload);
-    });
-
-    $("trackingCopyLinkButton")?.addEventListener("click", async () => {
-      const url = trackingShareUrl();
-      if ($("trackingShareLink")) $("trackingShareLink").value = url;
-      try {
-        await navigator.clipboard.writeText(url);
-        appBridge.notify("Enlace GPS copiado. Envíalo al celular que quieras visualizar.");
-      } catch {
-        $("trackingShareLink")?.select();
-        appBridge.notify("Selecciona y copia el enlace GPS.");
-      }
-    });
-    $("trackingRefreshButton")?.addEventListener("click", async () => {
-      await ensureTrackingMap();
-      renderTrackingMap();
-      appBridge.notify("Mapa actualizado.");
-    });
-
-    $("uploadLocalButton")?.addEventListener("click", async () => {
-      if (!currentUser) return appBridge.notify("Primero inicia sesión.");
-      if (!window.confirm("¿Deseas reemplazar la copia de la nube con los datos de este dispositivo?")) return;
-      await writeCloudNow("subida-manual");
-      appBridge.notify("Datos de este dispositivo enviados a la nube.");
-    });
-    $("downloadCloudButton")?.addEventListener("click", async () => {
-      if (!currentUser || !userDocRef) return appBridge.notify("Primero inicia sesión.");
-      if (!window.confirm("¿Deseas reemplazar los datos de este dispositivo con la copia de la nube?")) return;
-      const rootSnapshot = await getDoc(userDocRef);
-      if (rootSnapshot.exists() && rootSnapshot.data()?.appData && Number(rootSnapshot.data()?.storageVersion || 0) < STORAGE_VERSION) {
-        await migrateLegacyDocument(rootSnapshot);
-        return;
-      }
-      const cloudRead = await readStructuredState();
-      if (!cloudRead.hasStructuredData) return appBridge.notify("La cuenta todavía no tiene datos en la nube.");
-      await applyCloudState(cloudRead.state, Number(rootSnapshot.data()?.clientUpdatedAt || Date.now()), true);
-    });
-    $("syncNowButton")?.addEventListener("click", async () => {
-      try {
-        await writeCloudNow("sincronizacion-manual");
-        appBridge.notify("Sincronización solicitada.");
-      } catch {}
-    });
-
-    function startSupportMessageListener() {
-      if (unsubscribeSupportMessages) { unsubscribeSupportMessages(); unsubscribeSupportMessages = null; }
-      if (!currentUser) return;
-      const ref = collection(db, CLOUD_COLLECTION, currentUser.uid, "supportMessages");
-      unsubscribeSupportMessages = onSnapshot(ref, snapshot => {
-        const local = (() => { try { return JSON.parse(localStorage.getItem("rutaRentableSupportMessagesV1") || "[]"); } catch { return []; } })();
-        const byId = new Map((Array.isArray(local) ? local : []).map(item => [item.id, item]));
-        snapshot.docs.forEach(item => {
-          const data = item.data() || {};
-          byId.set(item.id, {
-            id: item.id,
-            text: String(data.text || ""),
-            role: data.role === "agent" ? "agent" : "user",
-            at: Number(data.createdAtMs || Date.now())
-          });
-        });
-        const rows = [...byId.values()].sort((a,b)=>Number(a.at||0)-Number(b.at||0)).slice(-100);
-        localStorage.setItem("rutaRentableSupportMessagesV1", JSON.stringify(rows));
-        window.dispatchEvent(new CustomEvent("rutarentable:support-updated"));
-      }, error => console.warn("Chat interno no pudo sincronizar:", error));
-    }
-
-    window.RutaRentableSupport = {
-      async send(message) {
-        if (!currentUser) throw new Error("Inicia sesión para enviar mensajes a soporte.");
-        const id = String(message?.id || `m_${Date.now()}_${Math.random().toString(36).slice(2,7)}`);
-        const ref = doc(db, CLOUD_COLLECTION, currentUser.uid, "supportMessages", id);
-        await setDoc(ref, {
-          text: String(message?.text || "").slice(0,600),
-          role: "user",
-          senderUid: currentUser.uid,
-          senderName: currentUser.displayName || currentUser.email || "Usuario",
-          senderEmail: currentUser.email || "",
-          createdAtMs: Number(message?.at || Date.now()),
-          createdAt: serverTimestamp(),
-          channel: "internal"
-        }, { merge: true });
-      }
-    };
-
-    window.addEventListener("rutarentable:state-saved", () => {
-      if (applyingCloud) return;
-      scheduleCloudWrite("cambio-en-aplicacion");
-      updateUserUi(currentUser);
-    });
-    window.addEventListener("online", () => {
-      setSyncStatus("saving", "Reconectando…", "Enviando cambios pendientes.");
-      writeCloudNow("reconexion").catch(() => {});
-    });
-    window.addEventListener("offline", () => setSyncStatus("offline", "Sin conexión", "Los cambios quedan guardados en este dispositivo."));
-onAuthStateChanged(auth, async user => {
-      if (!user) {
-        currentUser = null;
-        userDocRef = null;
-        currentAccessStatus = null;
-        shadowInitialized = false;
-        if (unsubscribeCloud) { unsubscribeCloud(); unsubscribeCloud = null; }
-        if (unsubscribeAccess) { unsubscribeAccess(); unsubscribeAccess = null; }
-        if (unsubscribeAdminUsers) { unsubscribeAdminUsers(); unsubscribeAdminUsers = null; }
-        if (unsubscribeTrackingLocations) { unsubscribeTrackingLocations(); unsubscribeTrackingLocations = null; }
-        if (unsubscribeSupportMessages) { unsubscribeSupportMessages(); unsubscribeSupportMessages = null; }
-        if ($("adminUsersCard")) $("adminUsersCard").hidden = true;
-        if ($("adminUsersNavButton")) $("adminUsersNavButton").hidden = true;
-        setTrackingNavVisible(false);
-        if (document.getElementById("adminUsers")?.classList.contains("active")) appBridge.showView("dashboard");
-        updateUserUi(null);
-        showLoginGate();
-        $("authGateStatus").textContent = "Selecciona tu cuenta de Google para continuar.";
-        return;
-      }
-      currentUser = user;
-      updateUserUi(user);
-      try {
-        $("authGateStatus").textContent = "Comprobando autorización…";
-        const access = await ensureAccessRequest(user);
-        currentAccessStatus = isAdminUser(user) ? "approved" : access.status;
-        if (!isAdminUser(user)) listenForOwnAccess(user, access.ref);
-        if (access.status !== "approved" && !isAdminUser(user)) {
-          showAccessGate(access.status, user);
-          setSyncStatus("offline", "Acceso pendiente", "El administrador debe aprobar esta cuenta.");
-          return;
-        }
-        $("authGateStatus").textContent = isAdminUser(user) ? "Administrador aprobado. Cargando tus datos…" : "Cargando tus datos…";
-        await initializeUserCloud(user);
-        $("authGate")?.classList.add("hidden");
-      } catch (error) {
-        console.error("Inicialización de usuario:", error);
-
-        const code = String(error?.code || "");
-        const message = error?.message || "No se pudo cargar Firebase.";
-
-        // Si Google autenticó correctamente y el acceso ya está aprobado,
-        // un fallo posterior de lectura/sincronización NO debe volver a mostrar
-        // la cuenta como pendiente. Dejamos entrar a la aplicación y mostramos
-        // el error de sincronización de forma separada.
-        if (isAdminUser(user) || currentAccessStatus === "approved") {
-          currentAccessStatus = "approved";
-          $("authGate")?.classList.add("hidden");
-          updateUserUi(user);
-          setSyncStatus(
-            "error",
-            "Sesión iniciada · Firebase pendiente",
-            `${code ? code + ": " : ""}${message}`
-          );
-          appBridge.notify(`Sesión iniciada. Firebase no pudo sincronizar todavía: ${message}`);
-          return;
-        }
-
-        showAccessGate(currentAccessStatus || "pending", user);
-        $("authGateStatus").textContent = `${code ? code + ": " : ""}${message}`;
-        setSyncStatus("error", "Error de Firebase", message);
-      }
-    });
-  </script>
-
+<script src="./capacitor-core.js"></script>
 <!-- RutaRentable PRO 4.1.0: módulo Aeropuertos PTY / BLB / PAC -->
+
+<script src="./app-bundle.js"></script>
 </body>
 </html>
 

@@ -1,0 +1,12 @@
+INSTRUCCIONES
+
+1. Extrae COMPLETO tu ZIP RutaRentable_iOS_3.8.2_COMPLETO_REEMPLAZO_REPO.zip.
+2. Copia estos DOS archivos dentro de esa carpeta extraída, al mismo nivel que package.json:
+   - ACTUALIZAR_REPO_3.8.2_CORREGIDO.bat
+   - ACTUALIZAR_REPO_3.8.2.ps1
+3. Cierra GitHub Desktop y VS Code.
+4. Ejecuta ACTUALIZAR_REPO_3.8.2_CORREGIDO.bat como administrador.
+5. Debe terminar mostrando ACTUALIZACION TERMINADA.
+6. Abre GitHub Desktop, Commit y Push origin.
+
+El script NO borra .git ni GoogleService-Info.plist del repositorio.

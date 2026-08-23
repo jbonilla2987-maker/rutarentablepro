@@ -1,0 +1,23 @@
+{
+  "name": "rutarentable-pro-ios",
+  "version": "4.1.9",
+  "private": true,
+  "description": "RutaRentable PRO 4.1.9 - administradores configurables",
+  "scripts": {
+    "ios:add": "npx cap add ios --packagemanager SPM",
+    "ios:sync": "npx cap sync ios",
+    "ios:open": "npx cap open ios",
+    "build:app": "esbuild scripts/app-entry.js --bundle --format=iife --platform=browser --target=ios15,safari15,es2020 --outfile=public/app-bundle.js"
+  },
+  "dependencies": {
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/ios": "^8.0.0",
+    "@capacitor/status-bar": "^8.0.0",
+    "@rutarentable/native-ios": "file:plugins/rutarentable-native",
+    "firebase": "12.17.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.0.0",
+    "esbuild": "^0.25.0"
+  }
+}

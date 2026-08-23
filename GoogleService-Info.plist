@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>19050578520-p0q4kptaaolv9r1efqro137jm20dbusr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.19050578520-p0q4kptaaolv9r1efqro137jm20dbusr</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>19050578520-6a9nkimj5bm5mdt386isiao4ptmjss45.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAH4WzcV5HPOJ-Kg-1EVsC3ctwODknjv6E</string>
+	<key>GCM_SENDER_ID</key>
+	<string>19050578520</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.rutarentable.pro</string>
+	<key>PROJECT_ID</key>
+	<string>rutarentable-pro</string>
+	<key>STORAGE_BUCKET</key>
+	<string>rutarentable-pro.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:19050578520:ios:0b93a1feb216a67b1f402d</string>
+</dict>
+</plist>
