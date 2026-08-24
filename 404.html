@@ -2814,6 +2814,8 @@ table tbody tr:hover{background:#fafcfe}
 
   <div class="mobile-work-bar" id="mobileWorkBar" aria-live="polite"></div>
   <div class="toast" id="toast"></div>
+  <script src="./geoapify-config.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script>
 (() => {
 'use strict';
@@ -4194,65 +4196,126 @@ function exportSessionsCsv() {
 
 
 const RESTAURANT_PROVINCES={
-  panama:{name:'Panamá',lat:9.1012,lng:-79.4029,bbox:[8.73,-79.72,9.38,-79.10]},
-  panama_oeste:{name:'Panamá Oeste',lat:8.8803,lng:-79.7833,bbox:[8.45,-80.20,9.08,-79.55]},
-  colon:{name:'Colón',lat:9.1850,lng:-80.0535,bbox:[8.82,-80.55,9.65,-79.55]},
-  cocle:{name:'Coclé',lat:8.5080,lng:-80.4277,bbox:[8.05,-80.90,8.90,-79.95]},
-  veraguas:{name:'Veraguas',lat:8.1231,lng:-81.0755,bbox:[7.15,-81.85,8.65,-80.55]},
-  chiriqui:{name:'Chiriquí',lat:8.4273,lng:-82.4309,bbox:[7.95,-83.10,8.95,-81.55]},
-  herrera:{name:'Herrera',lat:7.8650,lng:-80.6770,bbox:[7.45,-80.95,8.20,-80.35]},
-  los_santos:{name:'Los Santos',lat:7.5844,lng:-80.3538,bbox:[7.15,-80.75,8.05,-79.95]},
-  bocas:{name:'Bocas del Toro',lat:9.3403,lng:-82.2415,bbox:[8.70,-83.10,9.75,-81.70]},
-  darien:{name:'Darién',lat:8.4200,lng:-77.8700,bbox:[7.20,-78.55,9.15,-77.10]}
+  panama:{name:'Panamá',lat:9.1012,lng:-79.4029,zoom:10},
+  panama_oeste:{name:'Panamá Oeste',lat:8.8803,lng:-79.7833,zoom:10},
+  colon:{name:'Colón',lat:9.1850,lng:-80.0535,zoom:10},
+  cocle:{name:'Coclé',lat:8.5080,lng:-80.4277,zoom:10},
+  veraguas:{name:'Veraguas',lat:8.1231,lng:-81.0755,zoom:9},
+  chiriqui:{name:'Chiriquí',lat:8.4273,lng:-82.4309,zoom:9},
+  herrera:{name:'Herrera',lat:7.8650,lng:-80.6770,zoom:10},
+  los_santos:{name:'Los Santos',lat:7.5844,lng:-80.3538,zoom:9},
+  bocas:{name:'Bocas del Toro',lat:9.3403,lng:-82.2415,zoom:9},
+  darien:{name:'Darién',lat:8.4200,lng:-77.8700,zoom:8}
 };
-let restaurantResults=[];
-let restaurantSearchOrigin=null;
-const OVERPASS_ENDPOINTS=['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter'];
+let restaurantMapInstance=null;
+let restaurantMarkers=[];
+let restaurantPlaces=[];
+let geoapifyRestaurantReady=false;
 
 function setPlacesStatus(text,tone=''){ const el=document.getElementById('placesStatusBadge'); if(!el)return; el.textContent=text; el.dataset.tone=tone; }
 function getSelectedRestaurantProvince(){ const key=document.getElementById('restaurantProvince')?.value||'panama'; return RESTAURANT_PROVINCES[key]||RESTAURANT_PROVINCES.panama; }
-function distanceKm(a,b){ if(!a||!b)return Infinity; const R=6371,toRad=x=>x*Math.PI/180,dLat=toRad(b.lat-a.lat),dLon=toRad(b.lng-a.lng); const q=Math.sin(dLat/2)**2+Math.cos(toRad(a.lat))*Math.cos(toRad(b.lat))*Math.sin(dLon/2)**2; return 2*R*Math.asin(Math.sqrt(q)); }
-function placeLatLng(p){ return Number.isFinite(Number(p.lat))&&Number.isFinite(Number(p.lng))?{lat:Number(p.lat),lng:Number(p.lng)}:null; }
-function osmEmbedUrl(lat,lng,zoom=16){ const d=zoom>=16?.010:zoom>=13?.06:.25; const left=lng-d,right=lng+d,bottom=lat-d,top=lat+d; return `https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(left+','+bottom+','+right+','+top)}&layer=mapnik&marker=${encodeURIComponent(lat+','+lng)}`; }
-function showRestaurantMap(lat,lng,labelText){ const frame=document.getElementById('restaurantMap'),label=document.getElementById('restaurantMapLabel'); if(!frame)return; frame.src=osmEmbedUrl(Number(lat),Number(lng),16); if(label)label.textContent=labelText||'Restaurante'; if(window.innerWidth<1050)frame.scrollIntoView({behavior:'smooth',block:'center'}); }
-function updateRestaurantProvinceMap(province){ const frame=document.getElementById('restaurantMap'),label=document.getElementById('restaurantMapLabel'),link=document.getElementById('restaurantZoneMapsLink'); if(frame)frame.src=osmEmbedUrl(province.lat,province.lng,10); if(label)label.textContent='Provincia de '+province.name; if(link)link.href=`https://www.openstreetmap.org/#map=10/${province.lat}/${province.lng}`; const title=document.getElementById('restaurantZoneTitle'); if(title)title.textContent=province.name; }
-function restaurantAddress(tags={}){ return [tags['addr:street'],tags['addr:housenumber'],tags['addr:suburb']||tags['addr:city']||tags['addr:place']].filter(Boolean).join(' ') || tags['contact:street'] || 'Ubicación registrada en OpenStreetMap'; }
-function normalizeOverpassElement(el){ const tags=el.tags||{},center=el.center||{}; const lat=Number(el.lat??center.lat),lng=Number(el.lon??center.lon); if(!Number.isFinite(lat)||!Number.isFinite(lng))return null; return {id:`${el.type}/${el.id}`,name:tags.name||tags['name:es']||'Restaurante',lat,lng,cuisine:tags.cuisine||'',phone:tags.phone||tags['contact:phone']||'',website:tags.website||tags['contact:website']||'',opening_hours:tags.opening_hours||'',address:restaurantAddress(tags),tags}; }
-function renderRestaurants(){
-  const list=document.getElementById('restaurantList'); if(!list)return;
-  const q=(document.getElementById('restaurantSearch')?.value||'').trim().toLowerCase();
-  let arr=restaurantResults.filter(p=>!q||String(p.name||'').toLowerCase().includes(q)||String(p.address||'').toLowerCase().includes(q)||String(p.cuisine||'').toLowerCase().includes(q));
-  arr.sort((a,b)=>distanceKm(restaurantSearchOrigin,placeLatLng(a))-distanceKm(restaurantSearchOrigin,placeLatLng(b)));
-  arr=arr.slice(0,10); list.innerHTML='';
-  const summary=document.getElementById('restaurantSummaryText'); if(summary) summary.textContent=arr.length?`${arr.length} restaurantes más cercanos a tu ubicación`:'No se encontraron resultados para este filtro.';
-  if(!arr.length){list.innerHTML='<div class="restaurant-empty">No se encontraron restaurantes para esta búsqueda.</div>';return;}
-  arr.forEach((p,i)=>{
-    const loc=placeLatLng(p),dist=distanceKm(restaurantSearchOrigin,loc);
-    const osm=`https://www.openstreetmap.org/?mlat=${encodeURIComponent(p.lat)}&mlon=${encodeURIComponent(p.lng)}#map=18/${encodeURIComponent(p.lat)}/${encodeURIComponent(p.lng)}`;
-    const route=restaurantSearchOrigin?`https://www.openstreetmap.org/directions?engine=fossgis_osrm_car&route=${restaurantSearchOrigin.lat}%2C${restaurantSearchOrigin.lng}%3B${p.lat}%2C${p.lng}`:osm;
-    const cuisine=p.cuisine?String(p.cuisine).split(';').map(x=>x.replaceAll('_',' ')).join(', '):'Restaurante';
-    const article=document.createElement('article'); article.className='restaurant-card restaurant-live-card';
-    article.innerHTML=`<div class="restaurant-rank">#${i+1}</div><div class="restaurant-live-main"><div class="restaurant-photo restaurant-photo-fallback">🍽️</div><div class="restaurant-live-info"><div class="restaurant-title-row"><h3>${escapeHtml(p.name)}</h3></div><div class="restaurant-rating">${Number.isFinite(dist)?`<strong>📍 ${dist.toFixed(1)} km</strong>`:'<strong>📍 Distancia no disponible</strong>'}<span>· ${escapeHtml(cuisine)}</span></div><p>${escapeHtml(p.address)}</p><div class="restaurant-actions"><button class="button primary" type="button" data-map-lat="${p.lat}" data-map-lng="${p.lng}" data-map-label="${escapeHtml(p.name)}">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="${route}">Cómo llegar ↗</a><a class="button secondary" target="_blank" rel="noopener" href="${osm}">OpenStreetMap ↗</a></div></div></div>`;
-    article.querySelector('[data-map-lat]')?.addEventListener('click',e=>showRestaurantMap(e.currentTarget.dataset.mapLat,e.currentTarget.dataset.mapLng,e.currentTarget.dataset.mapLabel)); list.appendChild(article);
+function clearRestaurantMarkers(){ restaurantMarkers.forEach(m=>{try{m.remove();}catch(_){}}); restaurantMarkers=[]; }
+function getGeoapifyKey(){ return String(window.RUTARENTABLE_GEOAPIFY_KEY||'').trim(); }
+function geoapifyConfigured(){ const k=getGeoapifyKey(); return !!k && !/PEGA_AQUI|YOUR_|TU_CLAVE|API_KEY/i.test(k); }
+function showGeoapifyConfigError(){
+  const list=document.getElementById('restaurantList'),summary=document.getElementById('restaurantSummaryText');
+  if(list)list.innerHTML='<div class="restaurant-empty restaurant-api-help"><strong>Falta configurar Geoapify.</strong><span>Abre el archivo <b>geoapify-config.js</b> del paquete y pega tu API key gratuita de Geoapify.</span></div>';
+  if(summary)summary.textContent='Geoapify aún no está configurado.';
+  setPlacesStatus('⚠ Configurar Geoapify','error');
+}
+async function initRestaurantGeoapifyMap(){
+  if(geoapifyRestaurantReady&&restaurantMapInstance) return true;
+  if(!geoapifyConfigured()){ showGeoapifyConfigError(); return false; }
+  if(typeof L==='undefined'){
+    const list=document.getElementById('restaurantList');
+    if(list)list.innerHTML='<div class="restaurant-empty"><strong>No se pudo cargar el mapa.</strong><br>Comprueba tu conexión a Internet y vuelve a abrir Restaurantes.</div>';
+    setPlacesStatus('Mapa no disponible','error'); return false;
+  }
+  const province=getSelectedRestaurantProvince();
+  const el=document.getElementById('restaurantMap'); if(!el)return false;
+  restaurantMapInstance=L.map(el,{zoomControl:true,scrollWheelZoom:true}).setView([province.lat,province.lng],province.zoom);
+  const key=getGeoapifyKey();
+  const base='https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey={apiKey}';
+  const retina='https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}@2x.png?apiKey={apiKey}';
+  L.tileLayer(L.Browser.retina?retina:base,{
+    apiKey:key,maxZoom:20,
+    attribution:'Powered by <a href="https://www.geoapify.com/" target="_blank" rel="noopener">Geoapify</a> | © OpenStreetMap contributors'
+  }).addTo(restaurantMapInstance);
+  geoapifyRestaurantReady=true;
+  setPlacesStatus('🗺 Geoapify listo','ok');
+  setTimeout(()=>restaurantMapInstance.invalidateSize(),80);
+  return true;
+}
+function updateRestaurantProvinceMap(province){
+  const title=document.getElementById('restaurantZoneTitle'),label=document.getElementById('restaurantMapLabel');
+  if(title)title.textContent=province.name; if(label)label.textContent='Provincia de '+province.name;
+  if(restaurantMapInstance){restaurantMapInstance.setView([province.lat,province.lng],province.zoom);setTimeout(()=>restaurantMapInstance.invalidateSize(),80);}
+}
+function escapeAttr(v){return String(v??'').replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');}
+function renderGeoapifyRestaurantList(){
+  const list=document.getElementById('restaurantList'),summary=document.getElementById('restaurantSummaryText'); if(!list)return;
+  list.innerHTML='';
+  if(!restaurantPlaces.length){list.innerHTML='<div class="restaurant-empty">No se encontraron restaurantes en la zona visible. Acerca el mapa a un área con más actividad y pulsa Actualizar esta zona.</div>';if(summary)summary.textContent='Sin restaurantes en esta zona visible.';return;}
+  if(summary)summary.innerHTML=`<span class="restaurant-list-count">${restaurantPlaces.length}</span> restaurantes visibles en el mapa`;
+  restaurantPlaces.forEach((place,i)=>{
+    const p=place.properties||{};
+    const name=p.name||p.address_line1||'Restaurante';
+    const addr=p.formatted||p.address_line2||'Dirección no disponible';
+    const distance=Number(p.distance);
+    const distanceText=Number.isFinite(distance)?(distance<1000?`${Math.round(distance)} m`:`${(distance/1000).toFixed(1)} km`):'';
+    const cuisine=Array.isArray(p.catering?.cuisine)?p.catering.cuisine.join(', '):(p.catering?.cuisine||'');
+    const lat=Number(p.lat ?? place.geometry?.coordinates?.[1]);
+    const lon=Number(p.lon ?? place.geometry?.coordinates?.[0]);
+    const mapsUrl=Number.isFinite(lat)&&Number.isFinite(lon)?`https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`:`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name+' '+addr)}`;
+    const article=document.createElement('article');article.className='restaurant-card restaurant-live-card';
+    article.innerHTML=`<div class="restaurant-rank">#${i+1}</div><div class="restaurant-live-main"><div class="restaurant-photo restaurant-photo-fallback">🍽️</div><div class="restaurant-live-info"><div class="restaurant-title-row"><h3>${escapeHtml(name)}</h3></div><div class="restaurant-rating">${distanceText?`<strong>${escapeHtml(distanceText)}</strong><span>desde el centro del mapa</span>`:'<span>Restaurante de la zona visible</span>'}</div><p>${escapeHtml(addr)}</p>${cuisine?`<div class="restaurant-meta"><span class="restaurant-tag">${escapeHtml(cuisine)}</span></div>`:''}<div class="restaurant-actions"><button class="button primary" type="button" data-place-index="${i}">📍 Ver en mapa</button><a class="button secondary restaurant-google-link" target="_blank" rel="noopener" href="${escapeAttr(mapsUrl)}">Cómo llegar ↗</a></div></div></div>`;
+    article.querySelector('[data-place-index]')?.addEventListener('click',()=>focusGeoapifyRestaurant(i)); list.appendChild(article);
   });
 }
-function getCurrentPositionPromise(){ return new Promise((resolve,reject)=>{ if(!navigator.geolocation)return reject(new Error('NO_GEO')); navigator.geolocation.getCurrentPosition(pos=>resolve({lat:pos.coords.latitude,lng:pos.coords.longitude}),reject,{enableHighAccuracy:false,timeout:9000,maximumAge:300000}); }); }
-function buildOverpassQuery(province){ const [s,w,n,e]=province.bbox; return `[out:json][timeout:25];(node["amenity"="restaurant"](${s},${w},${n},${e});way["amenity"="restaurant"](${s},${w},${n},${e});relation["amenity"="restaurant"](${s},${w},${n},${e}););out center tags;`; }
-async function fetchOverpassRestaurants(province){ const query=buildOverpassQuery(province); let lastErr=null; for(const endpoint of OVERPASS_ENDPOINTS){ try{ const controller=new AbortController(); const timer=setTimeout(()=>controller.abort(),30000); const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},body:'data='+encodeURIComponent(query),signal:controller.signal}); clearTimeout(timer); if(!res.ok)throw new Error('HTTP '+res.status); const data=await res.json(); return (data.elements||[]).map(normalizeOverpassElement).filter(Boolean); }catch(err){lastErr=err;} } throw lastErr||new Error('OVERPASS_FAILED'); }
-async function loadNearestRestaurants(customOrigin){
-  const province=getSelectedRestaurantProvince(); updateRestaurantProvinceMap(province); const list=document.getElementById('restaurantList'); if(list)list.innerHTML='<div class="restaurant-empty restaurant-loading">Buscando restaurantes en OpenStreetMap…</div>'; setPlacesStatus('🗺 Consultando OpenStreetMap…');
-  try{
-    if(customOrigin) restaurantSearchOrigin=customOrigin;
-    if(!restaurantSearchOrigin){ try{restaurantSearchOrigin=await getCurrentPositionPromise();}catch{restaurantSearchOrigin={lat:province.lat,lng:province.lng}; toast('No pude obtener tu ubicación. Se usará el centro de la provincia como referencia.');} }
-    restaurantResults=await fetchOverpassRestaurants(province); renderRestaurants(); setPlacesStatus('📍 10 más cercanos · OSM','ok');
-  }catch(err){ restaurantResults=[]; if(list)list.innerHTML='<div class="restaurant-empty restaurant-api-help"><strong>No pude consultar OpenStreetMap ahora mismo.</strong><span>El servicio público de Overpass puede estar ocupado temporalmente. Pulsa Actualizar para intentar de nuevo.</span></div>'; const summary=document.getElementById('restaurantSummaryText'); if(summary)summary.textContent='Servicio temporalmente no disponible.'; setPlacesStatus('OpenStreetMap no disponible','error'); }
+function focusGeoapifyRestaurant(index){
+  const place=restaurantPlaces[index],marker=restaurantMarkers[index]; if(!place||!restaurantMapInstance)return;
+  const p=place.properties||{}; const lat=Number(p.lat ?? place.geometry?.coordinates?.[1]),lon=Number(p.lon ?? place.geometry?.coordinates?.[0]);
+  if(!Number.isFinite(lat)||!Number.isFinite(lon))return;
+  restaurantMapInstance.setView([lat,lon],Math.max(16,restaurantMapInstance.getZoom()||16));
+  if(marker){marker.openPopup();}
 }
-async function openRestaurantsNearMe(){ const btn=document.getElementById('restaurantsNearMe'),old=btn?.textContent;if(btn)btn.textContent='Ubicando…'; try{const origin=await getCurrentPositionPromise(); restaurantSearchOrigin=origin; const frame=document.getElementById('restaurantMap'),label=document.getElementById('restaurantMapLabel'); if(frame)frame.src=osmEmbedUrl(origin.lat,origin.lng,14); if(label)label.textContent='Tu ubicación'; await loadNearestRestaurants(origin);}catch{toast('No pude obtener tu ubicación. Revisa el permiso del navegador.');}finally{if(btn)btn.textContent=old||'📍 Cerca de mí';} }
-document.getElementById('restaurantSearch')?.addEventListener('input',renderRestaurants);
-document.getElementById('restaurantProvince')?.addEventListener('change',()=>{restaurantSearchOrigin=null;loadNearestRestaurants();});
-document.getElementById('refreshRestaurants')?.addEventListener('click',()=>loadNearestRestaurants());
-document.getElementById('restaurantsNearMe')?.addEventListener('click',openRestaurantsNearMe);
-setTimeout(()=>{if(document.getElementById('restaurantList'))loadNearestRestaurants();},600);
+async function loadRestaurantsForVisibleMap(){
+  const ok=await initRestaurantGeoapifyMap(); if(!ok)return;
+  const list=document.getElementById('restaurantList'),summary=document.getElementById('restaurantSummaryText');
+  if(list)list.innerHTML='<div class="restaurant-empty restaurant-loading">Buscando restaurantes en la zona visible…</div>'; if(summary)summary.textContent='Consultando Geoapify Places…'; setPlacesStatus('🍽 Consultando Geoapify…');
+  try{
+    const bounds=restaurantMapInstance.getBounds(); const center=restaurantMapInstance.getCenter();
+    const sw=bounds.getSouthWest(),ne=bounds.getNorthEast();
+    const params=new URLSearchParams({
+      categories:'catering.restaurant',
+      filter:`rect:${sw.lng},${sw.lat},${ne.lng},${ne.lat}`,
+      bias:`proximity:${center.lng},${center.lat}`,
+      limit:'20',lang:'es',apiKey:getGeoapifyKey()
+    });
+    const res=await fetch('https://api.geoapify.com/v2/places?'+params.toString(),{headers:{Accept:'application/json'}});
+    if(!res.ok) throw new Error('GEOAPIFY_HTTP_'+res.status);
+    const data=await res.json();
+    clearRestaurantMarkers(); restaurantPlaces=Array.isArray(data.features)?data.features:[];
+    restaurantPlaces.forEach((place,i)=>{
+      const p=place.properties||{}; const lat=Number(p.lat ?? place.geometry?.coordinates?.[1]),lon=Number(p.lon ?? place.geometry?.coordinates?.[0]);
+      if(!Number.isFinite(lat)||!Number.isFinite(lon))return;
+      const name=p.name||p.address_line1||'Restaurante';
+      const marker=L.marker([lat,lon],{title:name}).addTo(restaurantMapInstance).bindPopup(`<strong>${escapeHtml(name)}</strong><br><span>${escapeHtml(p.formatted||'')}</span>`);
+      marker.on('click',()=>focusGeoapifyRestaurant(i)); restaurantMarkers.push(marker);
+    });
+    renderGeoapifyRestaurantList();setPlacesStatus(`📍 ${restaurantPlaces.length} restaurantes · Geoapify`,'ok');
+  }catch(err){
+    console.warn('Geoapify Places:',err);restaurantPlaces=[];clearRestaurantMarkers();
+    if(list)list.innerHTML='<div class="restaurant-empty restaurant-api-help"><strong>No pude consultar Geoapify.</strong><span>Comprueba tu API key, tu conexión y que no hayas superado el límite gratuito diario.</span></div>';
+    if(summary)summary.textContent='No fue posible consultar restaurantes.';setPlacesStatus('Geoapify no disponible','error');
+  }
+}
+async function changeRestaurantProvince(){
+  const ok=await initRestaurantGeoapifyMap(); if(!ok)return; const province=getSelectedRestaurantProvince();updateRestaurantProvinceMap(province);setTimeout(loadRestaurantsForVisibleMap,350);
+}
+document.getElementById('restaurantProvince')?.addEventListener('change',changeRestaurantProvince);
+document.getElementById('refreshRestaurants')?.addEventListener('click',loadRestaurantsForVisibleMap);
+setTimeout(changeRestaurantProvince,700);
 
 document.querySelectorAll(".nav-button").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
 document.getElementById("supportForm")?.addEventListener("submit", async e=>{
