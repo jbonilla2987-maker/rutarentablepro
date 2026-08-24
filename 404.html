@@ -1345,6 +1345,20 @@ table tbody tr:hover{background:#fbfefc}
 .restaurant-map-card{position:sticky;top:18px;padding:14px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow)}
 .restaurant-map-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:2px 2px 10px}.restaurant-map-head h3{margin:0;font-size:16px}.restaurant-map-frame{width:100%;height:520px;border:0;border-radius:14px;background:#eef3f8}
 .restaurant-empty{grid-column:1/-1;padding:24px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:16px}
+
+/* RutaRentable PRO 4.5 — restaurantes nacionales con OpenStreetMap + Overpass */
+.restaurant-status-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.restaurant-tools-dynamic{grid-template-columns:minmax(220px,.85fr) minmax(260px,1.2fr) auto auto}
+.restaurant-summary-strip{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 15px;margin:-2px 0 14px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(135deg,#f8fbff,#f6fff9)}
+.restaurant-summary-strip>div{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}.restaurant-summary-strip strong{font-size:15px}.restaurant-summary-strip span{font-size:12px;color:var(--muted)}.restaurant-rank-note{font-weight:800!important;color:#2d6cdf!important}
+.restaurant-list.dynamic{grid-template-columns:1fr;gap:10px}.restaurant-live-card{padding:13px 14px 13px 46px}.restaurant-live-card:before{width:5px;background:linear-gradient(180deg,#22c55e,#2d6cdf)}
+.restaurant-rank{position:absolute;left:13px;top:16px;width:24px;height:24px;border-radius:8px;display:grid;place-items:center;background:#eef4ff;color:#2459c4;font-size:11px;font-weight:900}
+.restaurant-live-main{display:flex;gap:13px;align-items:center}.restaurant-photo{width:72px;height:72px;border-radius:15px;object-fit:cover;flex:0 0 72px;border:1px solid var(--line);box-shadow:0 7px 18px rgba(25,45,76,.08)}.restaurant-photo-fallback{display:grid;place-items:center;background:linear-gradient(145deg,#fff8ed,#eff7ff);font-size:26px}
+.restaurant-live-info{min-width:0;flex:1}.restaurant-title-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.restaurant-title-row h3{font-size:15px;margin:0}.restaurant-rating{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:4px;font-size:12px;color:var(--muted)}.restaurant-rating strong{font-size:16px;color:#17243a}.restaurant-rating .stars{letter-spacing:1px;color:#f5a623;font-size:14px}.restaurant-live-info p{margin:5px 0 8px}.restaurant-open,.restaurant-closed{font-size:10px;font-weight:900;padding:4px 7px;border-radius:999px}.restaurant-open{background:#e8f8ee;color:#16864b}.restaurant-closed{background:#fff0f1;color:#c83747}
+.restaurant-api-help{display:flex;flex-direction:column;align-items:center;gap:9px}.restaurant-api-help span{max-width:650px;line-height:1.5}.restaurant-loading{font-weight:800}.restaurant-map-actions{margin-top:10px;display:flex}.restaurant-map-actions .button{width:100%;justify-content:center}
+#placesStatusBadge[data-tone="warn"]{background:#fff7df;color:#986a00}#placesStatusBadge[data-tone="error"]{background:#fff0f1;color:#b42335}#placesStatusBadge[data-tone="ok"]{background:#e9f9ef;color:#157a43}
+@media(max-width:1180px){.restaurant-tools-dynamic{grid-template-columns:1fr 1fr 1fr}.restaurant-tools-dynamic .button{min-height:44px}}
+@media(max-width:700px){.restaurant-live-main{align-items:flex-start}.restaurant-photo{width:58px;height:58px;flex-basis:58px}.restaurant-live-card{padding-left:42px}.restaurant-summary-strip{align-items:flex-start;flex-direction:column}.restaurant-status-row{width:100%}.restaurant-status-row .button{flex:1}.restaurant-tools-dynamic{grid-template-columns:1fr}}
 @media(max-width:1050px){.restaurant-layout{grid-template-columns:1fr}.restaurant-map-card{position:relative;top:auto}.restaurant-map-frame{height:420px}}
 @media(max-width:760px){.restaurant-tools{grid-template-columns:1fr}.restaurant-list{grid-template-columns:1fr}.restaurants-intro{align-items:flex-start;flex-direction:column}.restaurant-map-frame{height:360px}}
 
@@ -2161,70 +2175,47 @@ table tbody tr:hover{background:#fafcfe}
         <div class="section-heading restaurants-intro">
           <div>
             <h2>🍽️ Restaurantes de Panamá</h2>
-            <p class="restaurants-intro-note">Consulta una selección de restaurantes de Ciudad de Panamá, filtra por zona y ábrelos directamente en el mapa para planificar mejor tus recorridos.</p>
+            <p class="restaurants-intro-note">Selecciona una provincia y RutaRentable mostrará los 10 restaurantes más cercanos a tu ubicación disponibles en esa provincia.</p>
           </div>
-          <span class="admin-badge">📍 Mapa integrado</span>
+          <div class="restaurant-status-row">
+            <span class="admin-badge" id="placesStatusBadge">🗺 OpenStreetMap · sin clave</span>
+          </div>
         </div>
 
-        <div class="restaurant-tools">
-          <input id="restaurantSearch" type="search" placeholder="Buscar restaurante o tipo de comida…" aria-label="Buscar restaurante">
-          <select id="restaurantZone" aria-label="Filtrar por zona">
-            <option value="all">Todas las zonas</option>
-            <option value="casco">Casco Antiguo</option>
-            <option value="calle50">Calle 50</option>
-            <option value="amador">Amador</option>
-            <option value="ciudad">Ciudad de Panamá</option>
+        <div class="restaurant-tools restaurant-tools-dynamic">
+          <select id="restaurantProvince" aria-label="Seleccionar provincia">
+            <option value="panama">Panamá</option>
+            <option value="panama_oeste">Panamá Oeste</option>
+            <option value="colon">Colón</option>
+            <option value="cocle">Coclé</option>
+            <option value="veraguas">Veraguas</option>
+            <option value="chiriqui">Chiriquí</option>
+            <option value="herrera">Herrera</option>
+            <option value="los_santos">Los Santos</option>
+            <option value="bocas">Bocas del Toro</option>
+            <option value="darien">Darién</option>
           </select>
-          <button class="button primary" type="button" id="restaurantsNearMe">📍 Cerca de mí</button>
+          <input id="restaurantSearch" type="search" placeholder="Filtrar por nombre…" aria-label="Filtrar restaurantes">
+          <button class="button primary" type="button" id="refreshRestaurants">↻ Actualizar</button>
+          <button class="button secondary" type="button" id="restaurantsNearMe">📍 Cerca de mí</button>
+        </div>
+
+        <div class="restaurant-summary-strip">
+          <div><strong id="restaurantZoneTitle">Panamá</strong><span id="restaurantSummaryText">Obteniendo tu ubicación para encontrar los restaurantes más cercanos…</span></div>
+          <span class="restaurant-rank-note">Orden: distancia desde tu ubicación</span>
         </div>
 
         <div class="restaurant-layout">
-          <div class="restaurant-list" id="restaurantList">
-            <article class="restaurant-card" data-zone="casco" data-search="la pulperia casco antiguo latina panamena">
-              <div class="restaurant-head"><div class="restaurant-icon">🍴</div><div><h3>La Pulpería - Casco Antiguo</h3><span class="muted">Casco Antiguo</span><div class="restaurant-meta"><span class="restaurant-tag">Latina</span><span class="restaurant-tag">Casco</span></div></div></div>
-              <p>Opción céntrica para zonas turísticas y movimiento nocturno del Casco.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('La Pulpería Casco Antiguo, Panama')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=La+Pulperia+Casco+Antiguo+Panama">Abrir Maps</a></div>
-            </article>
-            <article class="restaurant-card" data-zone="casco" data-search="fonda lo que hay casco antiguo panamena">
-              <div class="restaurant-head"><div class="restaurant-icon">🥘</div><div><h3>Fonda Lo Que Hay</h3><span class="muted">Casco Antiguo</span><div class="restaurant-meta"><span class="restaurant-tag">Panameña</span><span class="restaurant-tag">Casco</span></div></div></div>
-              <p>Cocina panameña contemporánea en una zona de alto movimiento turístico.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('Fonda Lo Que Hay, Panama City')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Fonda+Lo+Que+Hay+Panama">Abrir Maps</a></div>
-            </article>
-            <article class="restaurant-card" data-zone="casco" data-search="santa rita casco viejo steakhouse espanola">
-              <div class="restaurant-head"><div class="restaurant-icon">🥩</div><div><h3>Santa Rita</h3><span class="muted">Casco Antiguo</span><div class="restaurant-meta"><span class="restaurant-tag">Steakhouse</span><span class="restaurant-tag">Española</span></div></div></div>
-              <p>Restaurante reconocido del Casco, útil como punto de referencia para viajes.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('Restaurante Santa Rita, Panama City')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Restaurante+Santa+Rita+Panama">Abrir Maps</a></div>
-            </article>
-            <article class="restaurant-card" data-zone="casco" data-search="casa catedral casco antiguo restaurante">
-              <div class="restaurant-head"><div class="restaurant-icon">🏛️</div><div><h3>Casa Catedral</h3><span class="muted">Casco Antiguo</span><div class="restaurant-meta"><span class="restaurant-tag">Internacional</span><span class="restaurant-tag">Casco</span></div></div></div>
-              <p>Ubicado en el área histórica, con acceso rápido al mapa desde RutaRentable.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('Casa Catedral Restaurante, Panama')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Casa+Catedral+Restaurante+Panama">Abrir Maps</a></div>
-            </article>
-            <article class="restaurant-card" data-zone="calle50" data-search="maito calle 50 panamena contemporanea">
-              <div class="restaurant-head"><div class="restaurant-icon">🌿</div><div><h3>Maito</h3><span class="muted">Calle 50</span><div class="restaurant-meta"><span class="restaurant-tag">Panameña</span><span class="restaurant-tag">Contemporánea</span></div></div></div>
-              <p>Restaurante de alta gastronomía panameña, útil para recorridos en el eje de Calle 50.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('Maito Restaurante, Calle 50, Panama')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Maito+Restaurante+Panama">Abrir Maps</a></div>
-            </article>
-            <article class="restaurant-card" data-zone="amador" data-search="sabroso panama amador caribena latina">
-              <div class="restaurant-head"><div class="restaurant-icon">🌴</div><div><h3>Sabroso Panamá</h3><span class="muted">Amador</span><div class="restaurant-meta"><span class="restaurant-tag">Caribeña</span><span class="restaurant-tag">Latina</span></div></div></div>
-              <p>Alternativa para el área de Amador y viajes turísticos hacia la Calzada.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('Sabroso Panama restaurante, Amador, Panama')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Sabroso+Panama+Amador">Abrir Maps</a></div>
-            </article>
-            <article class="restaurant-card" data-zone="amador" data-search="mi ranchito amador mariscos panamena">
-              <div class="restaurant-head"><div class="restaurant-icon">🦐</div><div><h3>Mi Ranchito</h3><span class="muted">Amador</span><div class="restaurant-meta"><span class="restaurant-tag">Mariscos</span><span class="restaurant-tag">Amador</span></div></div></div>
-              <p>Punto conocido de la Calzada de Amador con movimiento de visitantes.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('Mi Ranchito Amador, Panama')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Mi+Ranchito+Amador+Panama">Abrir Maps</a></div>
-            </article>
-            <article class="restaurant-card" data-zone="ciudad" data-search="la vespa vista mare italiana panama city">
-              <div class="restaurant-head"><div class="restaurant-icon">🍝</div><div><h3>La Vespa Vista Mare</h3><span class="muted">Ciudad de Panamá</span><div class="restaurant-meta"><span class="restaurant-tag">Italiana</span><span class="restaurant-tag">Vista al mar</span></div></div></div>
-              <p>Opción italiana en la ciudad para complementar zonas de restaurantes y hoteles.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('La Vespa Vista Mare, Panama City')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=La+Vespa+Vista+Mare+Panama">Abrir Maps</a></div>
-            </article>
-            <article class="restaurant-card" data-zone="ciudad" data-search="filomena italiana panama city">
-              <div class="restaurant-head"><div class="restaurant-icon">🍷</div><div><h3>Filomena</h3><span class="muted">Ciudad de Panamá</span><div class="restaurant-meta"><span class="restaurant-tag">Italiana</span><span class="restaurant-tag">Cena</span></div></div></div>
-              <p>Restaurante de cena y reuniones, agregado como punto de referencia de movilidad.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('Filomena Restaurant, Panama City')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Filomena+Restaurant+Panama">Abrir Maps</a></div>
-            </article>
-            <article class="restaurant-card" data-zone="ciudad" data-search="cielo rooftop bar caribena panama city">
-              <div class="restaurant-head"><div class="restaurant-icon">🌇</div><div><h3>Cielo Rooftop Bar</h3><span class="muted">Ciudad de Panamá</span><div class="restaurant-meta"><span class="restaurant-tag">Rooftop</span><span class="restaurant-tag">Caribeña</span></div></div></div>
-              <p>Alternativa de rooftop para identificar zonas de actividad nocturna.</p><div class="restaurant-actions"><button class="button primary" type="button" onclick="showRestaurantMap('Cielo Rooftop Bar, Panama City')">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Cielo+Rooftop+Bar+Panama">Abrir Maps</a></div>
-            </article>
+          <div>
+            <div class="restaurant-list dynamic" id="restaurantList">
+              <div class="restaurant-empty" id="restaurantEmpty">Permite tu ubicación para mostrar los 10 restaurantes más cercanos con datos de OpenStreetMap.</div>
+            </div>
           </div>
 
           <aside class="restaurant-map-card">
-            <div class="restaurant-map-head"><div><h3>Mapa de restaurantes</h3><span class="muted" id="restaurantMapLabel">Ciudad de Panamá</span></div><span class="restaurant-tag">Google Maps</span></div>
-            <iframe id="restaurantMap" class="restaurant-map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=restaurants%20Panama%20City%20Panama&output=embed" title="Mapa de restaurantes de Panamá"></iframe>
+            <div class="restaurant-map-head"><div><h3>Mapa de restaurantes</h3><span class="muted" id="restaurantMapLabel">Provincia de Panamá</span></div><span class="restaurant-tag">OpenStreetMap</span></div>
+            <iframe id="restaurantMap" class="restaurant-map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.openstreetmap.org/export/embed.html?bbox=-79.75%2C8.85%2C-79.25%2C9.25&amp;layer=mapnik" title="Mapa de restaurantes de Panamá"></iframe>
+            <div class="restaurant-map-actions"><a id="restaurantZoneMapsLink" class="button secondary" target="_blank" rel="noopener" href="https://www.openstreetmap.org/#map=10/9.1012/-79.4029">🗺 Abrir zona en OSM</a></div>
           </aside>
         </div>
       </section>
@@ -4202,41 +4193,66 @@ function exportSessionsCsv() {
 
 
 
-function showRestaurantMap(query){
-  const frame=document.getElementById('restaurantMap');
-  const label=document.getElementById('restaurantMapLabel');
-  if(!frame) return;
-  frame.src='https://www.google.com/maps?q='+encodeURIComponent(query)+'&output=embed';
-  if(label) label.textContent=query.replace(/,?\s*Panama( City)?$/i,'');
-  if(window.innerWidth<1050) frame.scrollIntoView({behavior:'smooth',block:'center'});
-}
-function filterRestaurants(){
+const RESTAURANT_PROVINCES={
+  panama:{name:'Panamá',lat:9.1012,lng:-79.4029,bbox:[8.73,-79.72,9.38,-79.10]},
+  panama_oeste:{name:'Panamá Oeste',lat:8.8803,lng:-79.7833,bbox:[8.45,-80.20,9.08,-79.55]},
+  colon:{name:'Colón',lat:9.1850,lng:-80.0535,bbox:[8.82,-80.55,9.65,-79.55]},
+  cocle:{name:'Coclé',lat:8.5080,lng:-80.4277,bbox:[8.05,-80.90,8.90,-79.95]},
+  veraguas:{name:'Veraguas',lat:8.1231,lng:-81.0755,bbox:[7.15,-81.85,8.65,-80.55]},
+  chiriqui:{name:'Chiriquí',lat:8.4273,lng:-82.4309,bbox:[7.95,-83.10,8.95,-81.55]},
+  herrera:{name:'Herrera',lat:7.8650,lng:-80.6770,bbox:[7.45,-80.95,8.20,-80.35]},
+  los_santos:{name:'Los Santos',lat:7.5844,lng:-80.3538,bbox:[7.15,-80.75,8.05,-79.95]},
+  bocas:{name:'Bocas del Toro',lat:9.3403,lng:-82.2415,bbox:[8.70,-83.10,9.75,-81.70]},
+  darien:{name:'Darién',lat:8.4200,lng:-77.8700,bbox:[7.20,-78.55,9.15,-77.10]}
+};
+let restaurantResults=[];
+let restaurantSearchOrigin=null;
+const OVERPASS_ENDPOINTS=['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter'];
+
+function setPlacesStatus(text,tone=''){ const el=document.getElementById('placesStatusBadge'); if(!el)return; el.textContent=text; el.dataset.tone=tone; }
+function getSelectedRestaurantProvince(){ const key=document.getElementById('restaurantProvince')?.value||'panama'; return RESTAURANT_PROVINCES[key]||RESTAURANT_PROVINCES.panama; }
+function distanceKm(a,b){ if(!a||!b)return Infinity; const R=6371,toRad=x=>x*Math.PI/180,dLat=toRad(b.lat-a.lat),dLon=toRad(b.lng-a.lng); const q=Math.sin(dLat/2)**2+Math.cos(toRad(a.lat))*Math.cos(toRad(b.lat))*Math.sin(dLon/2)**2; return 2*R*Math.asin(Math.sqrt(q)); }
+function placeLatLng(p){ return Number.isFinite(Number(p.lat))&&Number.isFinite(Number(p.lng))?{lat:Number(p.lat),lng:Number(p.lng)}:null; }
+function osmEmbedUrl(lat,lng,zoom=16){ const d=zoom>=16?.010:zoom>=13?.06:.25; const left=lng-d,right=lng+d,bottom=lat-d,top=lat+d; return `https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(left+','+bottom+','+right+','+top)}&layer=mapnik&marker=${encodeURIComponent(lat+','+lng)}`; }
+function showRestaurantMap(lat,lng,labelText){ const frame=document.getElementById('restaurantMap'),label=document.getElementById('restaurantMapLabel'); if(!frame)return; frame.src=osmEmbedUrl(Number(lat),Number(lng),16); if(label)label.textContent=labelText||'Restaurante'; if(window.innerWidth<1050)frame.scrollIntoView({behavior:'smooth',block:'center'}); }
+function updateRestaurantProvinceMap(province){ const frame=document.getElementById('restaurantMap'),label=document.getElementById('restaurantMapLabel'),link=document.getElementById('restaurantZoneMapsLink'); if(frame)frame.src=osmEmbedUrl(province.lat,province.lng,10); if(label)label.textContent='Provincia de '+province.name; if(link)link.href=`https://www.openstreetmap.org/#map=10/${province.lat}/${province.lng}`; const title=document.getElementById('restaurantZoneTitle'); if(title)title.textContent=province.name; }
+function restaurantAddress(tags={}){ return [tags['addr:street'],tags['addr:housenumber'],tags['addr:suburb']||tags['addr:city']||tags['addr:place']].filter(Boolean).join(' ') || tags['contact:street'] || 'Ubicación registrada en OpenStreetMap'; }
+function normalizeOverpassElement(el){ const tags=el.tags||{},center=el.center||{}; const lat=Number(el.lat??center.lat),lng=Number(el.lon??center.lon); if(!Number.isFinite(lat)||!Number.isFinite(lng))return null; return {id:`${el.type}/${el.id}`,name:tags.name||tags['name:es']||'Restaurante',lat,lng,cuisine:tags.cuisine||'',phone:tags.phone||tags['contact:phone']||'',website:tags.website||tags['contact:website']||'',opening_hours:tags.opening_hours||'',address:restaurantAddress(tags),tags}; }
+function renderRestaurants(){
+  const list=document.getElementById('restaurantList'); if(!list)return;
   const q=(document.getElementById('restaurantSearch')?.value||'').trim().toLowerCase();
-  const zone=document.getElementById('restaurantZone')?.value||'all';
-  let shown=0;
-  document.querySelectorAll('#restaurantList .restaurant-card').forEach(card=>{
-    const matchQ=!q||(card.dataset.search||'').includes(q)||card.textContent.toLowerCase().includes(q);
-    const matchZ=zone==='all'||card.dataset.zone===zone;
-    const ok=matchQ&&matchZ; card.hidden=!ok; if(ok) shown++;
+  let arr=restaurantResults.filter(p=>!q||String(p.name||'').toLowerCase().includes(q)||String(p.address||'').toLowerCase().includes(q)||String(p.cuisine||'').toLowerCase().includes(q));
+  arr.sort((a,b)=>distanceKm(restaurantSearchOrigin,placeLatLng(a))-distanceKm(restaurantSearchOrigin,placeLatLng(b)));
+  arr=arr.slice(0,10); list.innerHTML='';
+  const summary=document.getElementById('restaurantSummaryText'); if(summary) summary.textContent=arr.length?`${arr.length} restaurantes más cercanos a tu ubicación`:'No se encontraron resultados para este filtro.';
+  if(!arr.length){list.innerHTML='<div class="restaurant-empty">No se encontraron restaurantes para esta búsqueda.</div>';return;}
+  arr.forEach((p,i)=>{
+    const loc=placeLatLng(p),dist=distanceKm(restaurantSearchOrigin,loc);
+    const osm=`https://www.openstreetmap.org/?mlat=${encodeURIComponent(p.lat)}&mlon=${encodeURIComponent(p.lng)}#map=18/${encodeURIComponent(p.lat)}/${encodeURIComponent(p.lng)}`;
+    const route=restaurantSearchOrigin?`https://www.openstreetmap.org/directions?engine=fossgis_osrm_car&route=${restaurantSearchOrigin.lat}%2C${restaurantSearchOrigin.lng}%3B${p.lat}%2C${p.lng}`:osm;
+    const cuisine=p.cuisine?String(p.cuisine).split(';').map(x=>x.replaceAll('_',' ')).join(', '):'Restaurante';
+    const article=document.createElement('article'); article.className='restaurant-card restaurant-live-card';
+    article.innerHTML=`<div class="restaurant-rank">#${i+1}</div><div class="restaurant-live-main"><div class="restaurant-photo restaurant-photo-fallback">🍽️</div><div class="restaurant-live-info"><div class="restaurant-title-row"><h3>${escapeHtml(p.name)}</h3></div><div class="restaurant-rating">${Number.isFinite(dist)?`<strong>📍 ${dist.toFixed(1)} km</strong>`:'<strong>📍 Distancia no disponible</strong>'}<span>· ${escapeHtml(cuisine)}</span></div><p>${escapeHtml(p.address)}</p><div class="restaurant-actions"><button class="button primary" type="button" data-map-lat="${p.lat}" data-map-lng="${p.lng}" data-map-label="${escapeHtml(p.name)}">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="${route}">Cómo llegar ↗</a><a class="button secondary" target="_blank" rel="noopener" href="${osm}">OpenStreetMap ↗</a></div></div></div>`;
+    article.querySelector('[data-map-lat]')?.addEventListener('click',e=>showRestaurantMap(e.currentTarget.dataset.mapLat,e.currentTarget.dataset.mapLng,e.currentTarget.dataset.mapLabel)); list.appendChild(article);
   });
-  let empty=document.getElementById('restaurantEmpty');
-  if(!empty){empty=document.createElement('div');empty.id='restaurantEmpty';empty.className='restaurant-empty';empty.textContent='No hay restaurantes que coincidan con ese filtro.';document.getElementById('restaurantList')?.appendChild(empty);}
-  empty.hidden=shown>0;
 }
-function openRestaurantsNearMe(){
-  if(!navigator.geolocation){toast('Este navegador no permite usar tu ubicación.');return;}
-  const btn=document.getElementById('restaurantsNearMe'); const old=btn?.textContent; if(btn) btn.textContent='Buscando…';
-  navigator.geolocation.getCurrentPosition(pos=>{
-    const {latitude,longitude}=pos.coords;
-    const frame=document.getElementById('restaurantMap'); const label=document.getElementById('restaurantMapLabel');
-    if(frame) frame.src=`https://www.google.com/maps?q=restaurants+near+${latitude},${longitude}&output=embed`;
-    if(label) label.textContent='Restaurantes cerca de tu ubicación';
-    if(btn) btn.textContent=old||'📍 Cerca de mí';
-  },()=>{if(btn) btn.textContent=old||'📍 Cerca de mí';toast('No pude obtener tu ubicación. Revisa el permiso del navegador.');},{enableHighAccuracy:false,timeout:8000,maximumAge:300000});
+function getCurrentPositionPromise(){ return new Promise((resolve,reject)=>{ if(!navigator.geolocation)return reject(new Error('NO_GEO')); navigator.geolocation.getCurrentPosition(pos=>resolve({lat:pos.coords.latitude,lng:pos.coords.longitude}),reject,{enableHighAccuracy:false,timeout:9000,maximumAge:300000}); }); }
+function buildOverpassQuery(province){ const [s,w,n,e]=province.bbox; return `[out:json][timeout:25];(node["amenity"="restaurant"](${s},${w},${n},${e});way["amenity"="restaurant"](${s},${w},${n},${e});relation["amenity"="restaurant"](${s},${w},${n},${e}););out center tags;`; }
+async function fetchOverpassRestaurants(province){ const query=buildOverpassQuery(province); let lastErr=null; for(const endpoint of OVERPASS_ENDPOINTS){ try{ const controller=new AbortController(); const timer=setTimeout(()=>controller.abort(),30000); const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},body:'data='+encodeURIComponent(query),signal:controller.signal}); clearTimeout(timer); if(!res.ok)throw new Error('HTTP '+res.status); const data=await res.json(); return (data.elements||[]).map(normalizeOverpassElement).filter(Boolean); }catch(err){lastErr=err;} } throw lastErr||new Error('OVERPASS_FAILED'); }
+async function loadNearestRestaurants(customOrigin){
+  const province=getSelectedRestaurantProvince(); updateRestaurantProvinceMap(province); const list=document.getElementById('restaurantList'); if(list)list.innerHTML='<div class="restaurant-empty restaurant-loading">Buscando restaurantes en OpenStreetMap…</div>'; setPlacesStatus('🗺 Consultando OpenStreetMap…');
+  try{
+    if(customOrigin) restaurantSearchOrigin=customOrigin;
+    if(!restaurantSearchOrigin){ try{restaurantSearchOrigin=await getCurrentPositionPromise();}catch{restaurantSearchOrigin={lat:province.lat,lng:province.lng}; toast('No pude obtener tu ubicación. Se usará el centro de la provincia como referencia.');} }
+    restaurantResults=await fetchOverpassRestaurants(province); renderRestaurants(); setPlacesStatus('📍 10 más cercanos · OSM','ok');
+  }catch(err){ restaurantResults=[]; if(list)list.innerHTML='<div class="restaurant-empty restaurant-api-help"><strong>No pude consultar OpenStreetMap ahora mismo.</strong><span>El servicio público de Overpass puede estar ocupado temporalmente. Pulsa Actualizar para intentar de nuevo.</span></div>'; const summary=document.getElementById('restaurantSummaryText'); if(summary)summary.textContent='Servicio temporalmente no disponible.'; setPlacesStatus('OpenStreetMap no disponible','error'); }
 }
-document.getElementById('restaurantSearch')?.addEventListener('input',filterRestaurants);
-document.getElementById('restaurantZone')?.addEventListener('change',filterRestaurants);
+async function openRestaurantsNearMe(){ const btn=document.getElementById('restaurantsNearMe'),old=btn?.textContent;if(btn)btn.textContent='Ubicando…'; try{const origin=await getCurrentPositionPromise(); restaurantSearchOrigin=origin; const frame=document.getElementById('restaurantMap'),label=document.getElementById('restaurantMapLabel'); if(frame)frame.src=osmEmbedUrl(origin.lat,origin.lng,14); if(label)label.textContent='Tu ubicación'; await loadNearestRestaurants(origin);}catch{toast('No pude obtener tu ubicación. Revisa el permiso del navegador.');}finally{if(btn)btn.textContent=old||'📍 Cerca de mí';} }
+document.getElementById('restaurantSearch')?.addEventListener('input',renderRestaurants);
+document.getElementById('restaurantProvince')?.addEventListener('change',()=>{restaurantSearchOrigin=null;loadNearestRestaurants();});
+document.getElementById('refreshRestaurants')?.addEventListener('click',()=>loadNearestRestaurants());
 document.getElementById('restaurantsNearMe')?.addEventListener('click',openRestaurantsNearMe);
+setTimeout(()=>{if(document.getElementById('restaurantList'))loadNearestRestaurants();},600);
 
 document.querySelectorAll(".nav-button").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
 document.getElementById("supportForm")?.addEventListener("submit", async e=>{
@@ -4645,7 +4661,7 @@ renderAll();
     const CLOUD_COLLECTION = "users";
     const ACCESS_COLLECTION = "accessRequests";
     const LIVE_LOCATION_COLLECTION = "liveLocations";
-    const WEB_BUILD = "4.0.0";
+    const WEB_BUILD = "4.5.0";
     const ADMIN_EMAIL = "jbonilla2987@gmail.com";
     const STORAGE_VERSION = 4;
     const LOCAL_MODIFIED_KEY = "rutaRentableCloudLocalModifiedAtV1";
@@ -4660,6 +4676,7 @@ renderAll();
     let currentUser = null;
     let userDocRef = null;
     let currentAccessStatus = null;
+    let currentAccessRole = "user";
     let unsubscribeCloud = null;
     let unsubscribeAccess = null;
     let unsubscribeAdminUsers = null;
@@ -4721,6 +4738,10 @@ renderAll();
     }
 
     function isAdminUser(user = currentUser) {
+      return normalizeEmail(user?.email) === ADMIN_EMAIL || currentAccessRole === "admin";
+    }
+
+    function isMasterAdmin(user = currentUser) {
       return normalizeEmail(user?.email) === ADMIN_EMAIL;
     }
 
@@ -4794,13 +4815,23 @@ renderAll();
       }
       body.innerHTML = rows.map(user => {
         const status = user.status || "pending";
-        const isSelf = normalizeEmail(user.email) === ADMIN_EMAIL;
+        const isSelf = normalizeEmail(user.email) === normalizeEmail(currentUser?.email);
+        const isMaster = normalizeEmail(user.email) === ADMIN_EMAIL;
+        const isRoleAdmin = user.role === "admin" || isMaster;
         const jsonButton = `<button class="button secondary admin-download-json" data-uid="${escapeHtml(user.uid)}" data-email="${escapeHtml(user.email || "")}" data-name="${escapeHtml(user.displayName || "Usuario")}" title="Descargar respaldo JSON de este usuario">⬇ JSON</button>`;
         const viewJsonButton = `<button class="button secondary admin-view-json" data-uid="${escapeHtml(user.uid)}" data-email="${escapeHtml(user.email || "")}" data-name="${escapeHtml(user.displayName || "Usuario")}" title="Ver resumen de este usuario">👁 Ver resumen</button>`;
-        const buttons = isSelf ? `<div class="user-actions">${viewJsonButton}${jsonButton}<span class="muted">Administrador</span></div>` : `
+        let roleButton = "";
+        if (!isMaster && !isSelf) {
+          roleButton = isRoleAdmin
+            ? `<button class="button secondary admin-role-action" data-uid="${escapeHtml(user.uid)}" data-role="user" data-name="${escapeHtml(user.displayName || user.email || "Usuario")}">Quitar admin</button>`
+            : `<button class="button secondary admin-role-action" data-uid="${escapeHtml(user.uid)}" data-role="admin" data-name="${escapeHtml(user.displayName || user.email || "Usuario")}">⭐ Hacer admin</button>`;
+        }
+        const roleBadge = isRoleAdmin ? `<span class="admin-badge">⭐ Administrador</span>` : "";
+        const buttons = isSelf ? `<div class="user-actions">${viewJsonButton}${jsonButton}${roleBadge}</div>` : `
           <div class="user-actions">
             ${viewJsonButton}
             ${jsonButton}
+            ${roleButton}
             <button class="button primary admin-user-action" data-uid="${escapeHtml(user.uid)}" data-action="approved">Aprobar</button>
             <button class="button secondary admin-user-action" data-uid="${escapeHtml(user.uid)}" data-action="rejected">Rechazar</button>
             <button class="button secondary danger-button admin-user-action" data-uid="${escapeHtml(user.uid)}" data-action="blocked">Bloquear</button>
@@ -5209,6 +5240,19 @@ renderAll();
 
     window.RutaRentableTracking = { open: openTrackingModule };
 
+    async function setUserRole(uid, role) {
+      if (!isAdminUser() || !uid || !["admin","user"].includes(role)) return;
+      const ref = doc(db, ACCESS_COLLECTION, uid);
+      await setDoc(ref, {
+        role,
+        status:"approved",
+        updatedAt:serverTimestamp(),
+        updatedAtClient:Date.now(),
+        roleUpdatedBy:currentUser?.email || ADMIN_EMAIL
+      }, { merge:true });
+      appBridge.notify(role === "admin" ? "Usuario convertido en administrador." : "Permisos de administrador retirados.");
+    }
+
     async function setAccessStatus(uid, status) {
       if (!isAdminUser() || !uid) return;
       const ref = doc(db, ACCESS_COLLECTION, uid);
@@ -5266,8 +5310,11 @@ renderAll();
       if (unsubscribeAccess) unsubscribeAccess();
       unsubscribeAccess = onSnapshot(accessRef, async snap => {
         if (!snap.exists() || isAdminUser(user)) return;
-        const status = snap.data()?.status || "pending";
-        if (status === "approved" && currentAccessStatus !== "approved") {
+        const accessData = snap.data() || {};
+        const status = accessData.status || "pending";
+        const previousRole = currentAccessRole;
+        currentAccessRole = accessData.role || "user";
+        if (status === "approved" && (currentAccessStatus !== "approved" || previousRole !== currentAccessRole)) {
           currentAccessStatus = "approved";
           showAccessGate("approved", user);
           try {
@@ -5644,6 +5691,7 @@ Cancelar: subir los datos de este dispositivo.`
       if (unsubscribeSupportMessages) { unsubscribeSupportMessages(); unsubscribeSupportMessages = null; }
       setTrackingNavVisible(false);
       currentAccessStatus = null;
+      currentAccessRole = "user";
       userDocRef = null;
       shadowInitialized = false;
       await signOut(auth);
@@ -5684,6 +5732,21 @@ Cancelar: subir los datos de este dispositivo.`
           jsonButton.disabled = false;
           jsonButton.textContent = original;
         }
+        return;
+      }
+      const roleButton = event.target.closest(".admin-role-action");
+      if (roleButton) {
+        const uid = roleButton.dataset.uid;
+        const role = roleButton.dataset.role;
+        const name = roleButton.dataset.name || "este usuario";
+        const message = role === "admin"
+          ? `¿Deseas convertir a ${name} en administrador? Tendrá acceso a Usuarios, respaldos JSON, resúmenes y Rastreo.`
+          : `¿Deseas quitar los permisos de administrador a ${name}?`;
+        if (!window.confirm(message)) return;
+        roleButton.disabled = true;
+        try { await setUserRole(uid, role); }
+        catch (error) { console.error(error); appBridge.notify(error.message || "No se pudo cambiar el rol del usuario."); }
+        finally { roleButton.disabled = false; }
         return;
       }
       const button = event.target.closest(".admin-user-action");
@@ -5844,8 +5907,9 @@ onAuthStateChanged(auth, async user => {
       try {
         $("authGateStatus").textContent = "Comprobando autorización…";
         const access = await ensureAccessRequest(user);
+        currentAccessRole = access.role || (normalizeEmail(user.email) === ADMIN_EMAIL ? "admin" : "user");
         currentAccessStatus = isAdminUser(user) ? "approved" : access.status;
-        if (!isAdminUser(user)) listenForOwnAccess(user, access.ref);
+        if (!isMasterAdmin(user)) listenForOwnAccess(user, access.ref);
         if (access.status !== "approved" && !isAdminUser(user)) {
           showAccessGate(access.status, user);
           setSyncStatus("offline", "Acceso pendiente", "El administrador debe aprobar esta cuenta.");
