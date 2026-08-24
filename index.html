@@ -1346,9 +1346,9 @@ table tbody tr:hover{background:#fbfefc}
 .restaurant-map-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:2px 2px 10px}.restaurant-map-head h3{margin:0;font-size:16px}.restaurant-map-frame{width:100%;height:520px;border:0;border-radius:14px;background:#eef3f8}
 .restaurant-empty{grid-column:1/-1;padding:24px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:16px}
 
-/* RutaRentable PRO 4.3 — restaurantes dinámicos por puntuación */
+/* RutaRentable PRO 4.4 — restaurantes nacionales por provincia y cercanía */
 .restaurant-status-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.restaurant-tools-dynamic{grid-template-columns:minmax(180px,1fr) minmax(170px,.85fr) minmax(190px,1fr) auto auto}
+.restaurant-tools-dynamic{grid-template-columns:minmax(220px,.85fr) minmax(260px,1.2fr) auto auto}
 .restaurant-summary-strip{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 15px;margin:-2px 0 14px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(135deg,#f8fbff,#f6fff9)}
 .restaurant-summary-strip>div{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}.restaurant-summary-strip strong{font-size:15px}.restaurant-summary-strip span{font-size:12px;color:var(--muted)}.restaurant-rank-note{font-weight:800!important;color:#2d6cdf!important}
 .restaurant-list.dynamic{grid-template-columns:1fr;gap:10px}.restaurant-live-card{padding:13px 14px 13px 46px}.restaurant-live-card:before{width:5px;background:linear-gradient(180deg,#22c55e,#2d6cdf)}
@@ -2174,33 +2174,27 @@ table tbody tr:hover{background:#fafcfe}
       <section class="view" id="restaurants">
         <div class="section-heading restaurants-intro">
           <div>
-            <h2>🍽️ Restaurantes mejor valorados</h2>
-            <p class="restaurants-intro-note">Selecciona una zona y RutaRentable mostrará los restaurantes con mejor puntuación, dando más peso a los que tienen una cantidad sólida de reseñas.</p>
+            <h2>🍽️ Restaurantes de Panamá</h2>
+            <p class="restaurants-intro-note">Selecciona una provincia y RutaRentable mostrará los 10 restaurantes más cercanos a tu ubicación disponibles en esa provincia.</p>
           </div>
           <div class="restaurant-status-row">
-            <span class="admin-badge" id="placesStatusBadge">⭐ Top de la zona</span>
+            <span class="admin-badge" id="placesStatusBadge">📍 10 más cercanos</span>
             <button class="button secondary" type="button" id="configurePlacesKey">⚙ Google Places</button>
           </div>
         </div>
 
         <div class="restaurant-tools restaurant-tools-dynamic">
-          <select id="restaurantZone" aria-label="Seleccionar zona">
-            <option value="casco">Casco Antiguo</option>
-            <option value="obarrio">Obarrio</option>
-            <option value="sanfrancisco">San Francisco</option>
-            <option value="amador">Amador</option>
-            <option value="costadeleste">Costa del Este</option>
-            <option value="puntapacifica">Punta Pacífica</option>
-            <option value="elcangrejo">El Cangrejo</option>
-            <option value="marbella">Marbella</option>
-            <option value="viaargentina">Vía Argentina</option>
-            <option value="calle50">Calle 50</option>
-            <option value="panamaviejo">Panamá Viejo</option>
-          </select>
-          <select id="restaurantSort" aria-label="Ordenar restaurantes">
-            <option value="best">Mejor valorados</option>
-            <option value="popular">Más populares</option>
-            <option value="near">Más cercanos</option>
+          <select id="restaurantProvince" aria-label="Seleccionar provincia">
+            <option value="panama">Panamá</option>
+            <option value="panama_oeste">Panamá Oeste</option>
+            <option value="colon">Colón</option>
+            <option value="cocle">Coclé</option>
+            <option value="veraguas">Veraguas</option>
+            <option value="chiriqui">Chiriquí</option>
+            <option value="herrera">Herrera</option>
+            <option value="los_santos">Los Santos</option>
+            <option value="bocas">Bocas del Toro</option>
+            <option value="darien">Darién</option>
           </select>
           <input id="restaurantSearch" type="search" placeholder="Filtrar por nombre…" aria-label="Filtrar restaurantes">
           <button class="button primary" type="button" id="refreshRestaurants">↻ Actualizar</button>
@@ -2208,21 +2202,21 @@ table tbody tr:hover{background:#fafcfe}
         </div>
 
         <div class="restaurant-summary-strip">
-          <div><strong id="restaurantZoneTitle">Casco Antiguo</strong><span id="restaurantSummaryText">Preparando restaurantes mejor valorados…</span></div>
-          <span class="restaurant-rank-note">Ranking: puntuación + reseñas</span>
+          <div><strong id="restaurantZoneTitle">Panamá</strong><span id="restaurantSummaryText">Obteniendo tu ubicación para encontrar los restaurantes más cercanos…</span></div>
+          <span class="restaurant-rank-note">Orden: distancia desde tu ubicación</span>
         </div>
 
         <div class="restaurant-layout">
           <div>
             <div class="restaurant-list dynamic" id="restaurantList">
-              <div class="restaurant-empty" id="restaurantEmpty">Configura Google Places para cargar puntuaciones reales.</div>
+              <div class="restaurant-empty" id="restaurantEmpty">Configura Google Places y permite tu ubicación para mostrar los restaurantes más cercanos.</div>
             </div>
           </div>
 
           <aside class="restaurant-map-card">
-            <div class="restaurant-map-head"><div><h3>Mapa de restaurantes</h3><span class="muted" id="restaurantMapLabel">Casco Antiguo</span></div><span class="restaurant-tag">Google Maps</span></div>
-            <iframe id="restaurantMap" class="restaurant-map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=restaurants%20Casco%20Antiguo%20Panama&output=embed" title="Mapa de restaurantes de Panamá"></iframe>
-            <div class="restaurant-map-actions"><a id="restaurantZoneMapsLink" class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=restaurants+Casco+Antiguo+Panama">🗺 Abrir zona en Maps</a></div>
+            <div class="restaurant-map-head"><div><h3>Mapa de restaurantes</h3><span class="muted" id="restaurantMapLabel">Provincia de Panamá</span></div><span class="restaurant-tag">Google Maps</span></div>
+            <iframe id="restaurantMap" class="restaurant-map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=restaurants%20Panama%20Province&output=embed" title="Mapa de restaurantes de Panamá"></iframe>
+            <div class="restaurant-map-actions"><a id="restaurantZoneMapsLink" class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=restaurants+Panama+Province">🗺 Abrir zona en Maps</a></div>
           </aside>
         </div>
         <div id="placesServiceHost" aria-hidden="true" style="width:1px;height:1px;overflow:hidden;position:absolute;left:-9999px"></div>
@@ -4201,18 +4195,17 @@ function exportSessionsCsv() {
 
 
 
-const RESTAURANT_ZONES={
-  casco:{name:'Casco Antiguo',lat:8.9522,lng:-79.5347,radius:1700,query:'restaurants Casco Antiguo Panama'},
-  obarrio:{name:'Obarrio',lat:8.9847,lng:-79.5234,radius:1500,query:'restaurants Obarrio Panama'},
-  sanfrancisco:{name:'San Francisco',lat:8.9912,lng:-79.5069,radius:1800,query:'restaurants San Francisco Panama City'},
-  amador:{name:'Amador',lat:8.9391,lng:-79.5633,radius:2500,query:'restaurants Amador Panama'},
-  costadeleste:{name:'Costa del Este',lat:9.0117,lng:-79.4740,radius:2200,query:'restaurants Costa del Este Panama'},
-  puntapacifica:{name:'Punta Pacífica',lat:8.9816,lng:-79.5082,radius:1500,query:'restaurants Punta Pacifica Panama'},
-  elcangrejo:{name:'El Cangrejo',lat:8.9875,lng:-79.5286,radius:1400,query:'restaurants El Cangrejo Panama'},
-  marbella:{name:'Marbella',lat:8.9787,lng:-79.5176,radius:1300,query:'restaurants Marbella Panama City'},
-  viaargentina:{name:'Vía Argentina',lat:8.9895,lng:-79.5322,radius:1400,query:'restaurants Via Argentina Panama'},
-  calle50:{name:'Calle 50',lat:8.9828,lng:-79.5181,radius:1700,query:'restaurants Calle 50 Panama'},
-  panamaviejo:{name:'Panamá Viejo',lat:9.0041,lng:-79.4852,radius:2000,query:'restaurants Panama Viejo Panama'}
+const RESTAURANT_PROVINCES={
+  panama:{name:'Panamá',lat:9.1012,lng:-79.4029,radius:50000,query:'restaurants in Panama Province, Panama'},
+  panama_oeste:{name:'Panamá Oeste',lat:8.8803,lng:-79.7833,radius:50000,query:'restaurants in Panama Oeste, Panama'},
+  colon:{name:'Colón',lat:9.1850,lng:-80.0535,radius:50000,query:'restaurants in Colon Province, Panama'},
+  cocle:{name:'Coclé',lat:8.5080,lng:-80.4277,radius:50000,query:'restaurants in Cocle Province, Panama'},
+  veraguas:{name:'Veraguas',lat:8.1231,lng:-81.0755,radius:50000,query:'restaurants in Veraguas Province, Panama'},
+  chiriqui:{name:'Chiriquí',lat:8.4273,lng:-82.4309,radius:50000,query:'restaurants in Chiriqui Province, Panama'},
+  herrera:{name:'Herrera',lat:7.8650,lng:-80.6770,radius:45000,query:'restaurants in Herrera Province, Panama'},
+  los_santos:{name:'Los Santos',lat:7.5844,lng:-80.3538,radius:50000,query:'restaurants in Los Santos Province, Panama'},
+  bocas:{name:'Bocas del Toro',lat:9.3403,lng:-82.2415,radius:50000,query:'restaurants in Bocas del Toro Province, Panama'},
+  darien:{name:'Darién',lat:8.4200,lng:-77.8700,radius:50000,query:'restaurants in Darien Province, Panama'}
 };
 let restaurantResults=[];
 let restaurantSearchOrigin=null;
@@ -4220,32 +4213,28 @@ let placesScriptPromise=null;
 
 function getPlacesApiKey(){ return String(localStorage.getItem('rr_google_maps_api_key')||window.RUTARENTABLE_GOOGLE_MAPS_API_KEY||'').trim(); }
 function setPlacesStatus(text,tone=''){ const el=document.getElementById('placesStatusBadge'); if(!el)return; el.textContent=text; el.dataset.tone=tone; }
-function getSelectedRestaurantZone(){ const key=document.getElementById('restaurantZone')?.value||'casco'; return RESTAURANT_ZONES[key]||RESTAURANT_ZONES.casco; }
+function getSelectedRestaurantProvince(){ const key=document.getElementById('restaurantProvince')?.value||'panama'; return RESTAURANT_PROVINCES[key]||RESTAURANT_PROVINCES.panama; }
 function restaurantStars(rating){ const n=Math.max(0,Math.min(5,Number(rating||0))); const full=Math.round(n); return '★'.repeat(full)+'☆'.repeat(5-full); }
-function restaurantQualityScore(p){ const rating=Number(p.rating||0); const reviews=Number(p.user_ratings_total||0); return rating+(Math.min(Math.log10(reviews+1),4)*0.10); }
 function distanceKm(a,b){ if(!a||!b)return Infinity; const R=6371,toRad=x=>x*Math.PI/180,dLat=toRad(b.lat-a.lat),dLon=toRad(b.lng-a.lng); const q=Math.sin(dLat/2)**2+Math.cos(toRad(a.lat))*Math.cos(toRad(b.lat))*Math.sin(dLon/2)**2; return 2*R*Math.asin(Math.sqrt(q)); }
 function placeLatLng(p){ const loc=p.geometry?.location; if(!loc)return null; return {lat:typeof loc.lat==='function'?loc.lat():loc.lat,lng:typeof loc.lng==='function'?loc.lng():loc.lng}; }
-function showRestaurantMap(query){ const frame=document.getElementById('restaurantMap'),label=document.getElementById('restaurantMapLabel'); if(!frame)return; frame.src='https://www.google.com/maps?q='+encodeURIComponent(query)+'&output=embed'; if(label)label.textContent=query.replace(/,?\s*Panama( City)?$/i,''); if(window.innerWidth<1050)frame.scrollIntoView({behavior:'smooth',block:'center'}); }
-function updateRestaurantZoneMap(zone){ const frame=document.getElementById('restaurantMap'),label=document.getElementById('restaurantMapLabel'),link=document.getElementById('restaurantZoneMapsLink'); if(frame)frame.src='https://www.google.com/maps?q='+encodeURIComponent(zone.query)+'&output=embed'; if(label)label.textContent=zone.name; if(link)link.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(zone.query); const title=document.getElementById('restaurantZoneTitle'); if(title)title.textContent=zone.name; }
+function showRestaurantMap(query){ const frame=document.getElementById('restaurantMap'),label=document.getElementById('restaurantMapLabel'); if(!frame)return; frame.src='https://www.google.com/maps?q='+encodeURIComponent(query)+'&output=embed'; if(label)label.textContent=query; if(window.innerWidth<1050)frame.scrollIntoView({behavior:'smooth',block:'center'}); }
+function updateRestaurantProvinceMap(province){ const frame=document.getElementById('restaurantMap'),label=document.getElementById('restaurantMapLabel'),link=document.getElementById('restaurantZoneMapsLink'); if(frame)frame.src='https://www.google.com/maps?q='+encodeURIComponent(province.query)+'&output=embed'; if(label)label.textContent='Provincia de '+province.name; if(link)link.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(province.query); const title=document.getElementById('restaurantZoneTitle'); if(title)title.textContent=province.name; }
 function placePhotoUrl(p){ try{return p.photos?.[0]?.getUrl({maxWidth:180,maxHeight:180})||'';}catch{return '';} }
 function renderRestaurants(){
   const list=document.getElementById('restaurantList'); if(!list)return;
   const q=(document.getElementById('restaurantSearch')?.value||'').trim().toLowerCase();
-  const sort=document.getElementById('restaurantSort')?.value||'best';
   let arr=restaurantResults.filter(p=>!q||String(p.name||'').toLowerCase().includes(q)||String(p.vicinity||'').toLowerCase().includes(q));
-  if(sort==='popular') arr.sort((a,b)=>Number(b.user_ratings_total||0)-Number(a.user_ratings_total||0)||Number(b.rating||0)-Number(a.rating||0));
-  else if(sort==='near') arr.sort((a,b)=>distanceKm(restaurantSearchOrigin,placeLatLng(a))-distanceKm(restaurantSearchOrigin,placeLatLng(b)));
-  else arr.sort((a,b)=>restaurantQualityScore(b)-restaurantQualityScore(a)||Number(b.user_ratings_total||0)-Number(a.user_ratings_total||0));
+  arr.sort((a,b)=>distanceKm(restaurantSearchOrigin,placeLatLng(a))-distanceKm(restaurantSearchOrigin,placeLatLng(b)));
   arr=arr.slice(0,10);
   list.innerHTML='';
-  const summary=document.getElementById('restaurantSummaryText'); if(summary) summary.textContent=arr.length?`Top ${arr.length} con puntuaciones reales de Google`:'No se encontraron resultados para este filtro.';
+  const summary=document.getElementById('restaurantSummaryText'); if(summary) summary.textContent=arr.length?`${arr.length} restaurantes más cercanos a tu ubicación`:'No se encontraron resultados para este filtro.';
   if(!arr.length){list.innerHTML='<div class="restaurant-empty">No se encontraron restaurantes para esta búsqueda.</div>';return;}
   arr.forEach((p,i)=>{
     const rating=Number(p.rating||0),reviews=Number(p.user_ratings_total||0),loc=placeLatLng(p),dist=distanceKm(restaurantSearchOrigin,loc),photo=placePhotoUrl(p);
     const maps='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent((p.name||'Restaurante')+' '+(p.vicinity||'Panama'))+(p.place_id?'&query_place_id='+encodeURIComponent(p.place_id):'');
     const open=p.opening_hours?.open_now;
     const article=document.createElement('article'); article.className='restaurant-card restaurant-live-card';
-    article.innerHTML=`<div class="restaurant-rank">#${i+1}</div><div class="restaurant-live-main">${photo?`<img class="restaurant-photo" src="${photo}" alt="" loading="lazy">`:`<div class="restaurant-photo restaurant-photo-fallback">🍽️</div>`}<div class="restaurant-live-info"><div class="restaurant-title-row"><h3>${escapeHtml(p.name||'Restaurante')}</h3>${open===true?'<span class="restaurant-open">Abierto</span>':open===false?'<span class="restaurant-closed">Cerrado</span>':''}</div><div class="restaurant-rating"><strong>${rating?rating.toFixed(1):'—'}</strong> <span class="stars">${rating?restaurantStars(rating):'Sin puntuación'}</span> <span>${reviews.toLocaleString('es-PA')} reseñas</span></div><p>${escapeHtml(p.vicinity||'Panamá')}${Number.isFinite(dist)?` · ${dist.toFixed(1)} km`:''}</p><div class="restaurant-actions"><button class="button primary" type="button" data-map-query="${escapeHtml((p.name||'Restaurante')+', '+(p.vicinity||'Panama'))}">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="${maps}">Cómo llegar ↗</a></div></div></div>`;
+    article.innerHTML=`<div class="restaurant-rank">#${i+1}</div><div class="restaurant-live-main">${photo?`<img class="restaurant-photo" src="${photo}" alt="" loading="lazy">`:`<div class="restaurant-photo restaurant-photo-fallback">🍽️</div>`}<div class="restaurant-live-info"><div class="restaurant-title-row"><h3>${escapeHtml(p.name||'Restaurante')}</h3>${open===true?'<span class="restaurant-open">Abierto</span>':open===false?'<span class="restaurant-closed">Cerrado</span>':''}</div><div class="restaurant-rating">${Number.isFinite(dist)?`<strong>📍 ${dist.toFixed(1)} km</strong>`:'<strong>📍 Distancia no disponible</strong>'}${rating?` <span class="stars">${restaurantStars(rating)}</span> <span>${rating.toFixed(1)} · ${reviews.toLocaleString('es-PA')} reseñas</span>`:''}</div><p>${escapeHtml(p.vicinity||'Panamá')}</p><div class="restaurant-actions"><button class="button primary" type="button" data-map-query="${escapeHtml((p.name||'Restaurante')+', '+(p.vicinity||'Panama'))}">📍 Ver en mapa</button><a class="button secondary" target="_blank" rel="noopener" href="${maps}">Cómo llegar ↗</a></div></div></div>`;
     article.querySelector('[data-map-query]')?.addEventListener('click',e=>showRestaurantMap(e.currentTarget.dataset.mapQuery)); list.appendChild(article);
   });
 }
@@ -4255,30 +4244,40 @@ function loadGooglePlaces(){
   placesScriptPromise=new Promise((resolve,reject)=>{ const cb='rrPlacesReady_'+Date.now(); window[cb]=()=>{delete window[cb];resolve();}; const sc=document.createElement('script'); sc.src='https://maps.googleapis.com/maps/api/js?key='+encodeURIComponent(key)+'&libraries=places&callback='+cb; sc.async=true; sc.defer=true; sc.onerror=()=>reject(new Error('LOAD_FAILED')); document.head.appendChild(sc); });
   return placesScriptPromise;
 }
-async function loadTopRestaurants(customOrigin){
-  const zone=getSelectedRestaurantZone(); updateRestaurantZoneMap(zone); restaurantSearchOrigin=customOrigin||{lat:zone.lat,lng:zone.lng};
-  const list=document.getElementById('restaurantList'); if(list)list.innerHTML='<div class="restaurant-empty restaurant-loading">Buscando restaurantes mejor valorados…</div>'; setPlacesStatus('Buscando…');
+function getCurrentPositionPromise(){
+  return new Promise((resolve,reject)=>{
+    if(!navigator.geolocation)return reject(new Error('NO_GEO'));
+    navigator.geolocation.getCurrentPosition(pos=>resolve({lat:pos.coords.latitude,lng:pos.coords.longitude}),reject,{enableHighAccuracy:false,timeout:9000,maximumAge:300000});
+  });
+}
+async function loadNearestRestaurants(customOrigin){
+  const province=getSelectedRestaurantProvince(); updateRestaurantProvinceMap(province);
+  const list=document.getElementById('restaurantList'); if(list)list.innerHTML='<div class="restaurant-empty restaurant-loading">Buscando los restaurantes más cercanos…</div>'; setPlacesStatus('📍 Buscando…');
   try{
     await loadGooglePlaces();
+    if(customOrigin) restaurantSearchOrigin=customOrigin;
+    if(!restaurantSearchOrigin){ try{restaurantSearchOrigin=await getCurrentPositionPromise();}catch{restaurantSearchOrigin={lat:province.lat,lng:province.lng}; toast('No pude obtener tu ubicación. Se usará el centro de la provincia como referencia.');} }
     const service=new google.maps.places.PlacesService(document.getElementById('placesServiceHost'));
-    const request={location:new google.maps.LatLng(restaurantSearchOrigin.lat,restaurantSearchOrigin.lng),radius:customOrigin?3500:zone.radius,type:'restaurant'};
-    service.nearbySearch(request,(results,status)=>{
+    const request={query:province.query,location:new google.maps.LatLng(province.lat,province.lng),radius:province.radius,type:'restaurant'};
+    service.textSearch(request,(results,status,pagination)=>{
       if(status!==google.maps.places.PlacesServiceStatus.OK&&status!==google.maps.places.PlacesServiceStatus.ZERO_RESULTS){ restaurantResults=[]; renderRestaurants(); setPlacesStatus('Error de Google Places','error'); toast('No pude cargar los restaurantes. Revisa la clave y las restricciones de Google Places.'); return; }
-      restaurantResults=(results||[]).filter(p=>Number(p.rating||0)>0); renderRestaurants(); setPlacesStatus('⭐ Top de la zona','ok');
+      const collected=[...(results||[])];
+      const finish=()=>{restaurantResults=collected; renderRestaurants(); setPlacesStatus('📍 10 más cercanos','ok');};
+      if(pagination?.hasNextPage){ setTimeout(()=>pagination.nextPage(),1200); let pages=1; const original=service.textSearch; /* pagination callback reuses same callback in Google API */ }
+      finish();
     });
   }catch(err){
-    restaurantResults=[]; const zone=getSelectedRestaurantZone(); if(list)list.innerHTML=`<div class="restaurant-empty restaurant-api-help"><strong>Activa Google Places para ver puntuaciones reales.</strong><span>La lista fija anterior fue eliminada. Configura una clave de Google Maps JavaScript API con Places API y restricción por dominio.</span><button class="button primary" type="button" id="placesHelpConfigure">⚙ Configurar clave</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(zone.query)}">Abrir restaurantes de ${escapeHtml(zone.name)} en Maps ↗</a></div>`; document.getElementById('placesHelpConfigure')?.addEventListener('click',configurePlacesKey); const summary=document.getElementById('restaurantSummaryText'); if(summary)summary.textContent='Google Places pendiente de configuración.'; setPlacesStatus('⚙ Configurar Google Places','warn');
+    restaurantResults=[]; const province=getSelectedRestaurantProvince(); if(list)list.innerHTML=`<div class="restaurant-empty restaurant-api-help"><strong>Activa Google Places para buscar restaurantes reales.</strong><span>Configura una clave de Google Maps JavaScript API con Places API y permite la ubicación del navegador.</span><button class="button primary" type="button" id="placesHelpConfigure">⚙ Configurar clave</button><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(province.query)}">Abrir restaurantes de ${escapeHtml(province.name)} en Maps ↗</a></div>`; document.getElementById('placesHelpConfigure')?.addEventListener('click',configurePlacesKey); const summary=document.getElementById('restaurantSummaryText'); if(summary)summary.textContent='Google Places pendiente de configuración.'; setPlacesStatus('⚙ Configurar Google Places','warn');
   }
 }
-function configurePlacesKey(){ const current=getPlacesApiKey(); const key=prompt('Pega tu clave de Google Maps JavaScript API con Places API habilitada.\n\nRecomendado: restringe la clave al dominio donde publicas RutaRentable.',current); if(key===null)return; const clean=String(key).trim(); if(!clean){localStorage.removeItem('rr_google_maps_api_key');toast('Clave de Google Places eliminada.');return;} localStorage.setItem('rr_google_maps_api_key',clean); placesScriptPromise=null; toast('Clave guardada en este navegador. Cargando restaurantes…'); loadTopRestaurants(); }
-function openRestaurantsNearMe(){ if(!navigator.geolocation){toast('Este navegador no permite usar tu ubicación.');return;} const btn=document.getElementById('restaurantsNearMe'),old=btn?.textContent;if(btn)btn.textContent='Buscando…'; navigator.geolocation.getCurrentPosition(pos=>{const origin={lat:pos.coords.latitude,lng:pos.coords.longitude}; const frame=document.getElementById('restaurantMap'),label=document.getElementById('restaurantMapLabel'); if(frame)frame.src=`https://www.google.com/maps?q=restaurants+near+${origin.lat},${origin.lng}&output=embed`; if(label)label.textContent='Restaurantes cerca de tu ubicación'; if(btn)btn.textContent=old||'📍 Cerca de mí'; loadTopRestaurants(origin);},()=>{if(btn)btn.textContent=old||'📍 Cerca de mí';toast('No pude obtener tu ubicación. Revisa el permiso del navegador.');},{enableHighAccuracy:false,timeout:8000,maximumAge:300000}); }
+function configurePlacesKey(){ const current=getPlacesApiKey(); const key=prompt('Pega tu clave de Google Maps JavaScript API con Places API habilitada.\n\nRecomendado: restringe la clave al dominio donde publicas RutaRentable.',current); if(key===null)return; const clean=String(key).trim(); if(!clean){localStorage.removeItem('rr_google_maps_api_key');toast('Clave de Google Places eliminada.');return;} localStorage.setItem('rr_google_maps_api_key',clean); placesScriptPromise=null; toast('Clave guardada en este navegador. Cargando restaurantes…'); loadNearestRestaurants(); }
+async function openRestaurantsNearMe(){ const btn=document.getElementById('restaurantsNearMe'),old=btn?.textContent;if(btn)btn.textContent='Ubicando…'; try{const origin=await getCurrentPositionPromise(); restaurantSearchOrigin=origin; const frame=document.getElementById('restaurantMap'),label=document.getElementById('restaurantMapLabel'); if(frame)frame.src=`https://www.google.com/maps?q=restaurants+near+${origin.lat},${origin.lng}&output=embed`; if(label)label.textContent='Tu ubicación'; await loadNearestRestaurants(origin);}catch{toast('No pude obtener tu ubicación. Revisa el permiso del navegador.');}finally{if(btn)btn.textContent=old||'📍 Cerca de mí';} }
 document.getElementById('restaurantSearch')?.addEventListener('input',renderRestaurants);
-document.getElementById('restaurantSort')?.addEventListener('change',renderRestaurants);
-document.getElementById('restaurantZone')?.addEventListener('change',()=>loadTopRestaurants());
-document.getElementById('refreshRestaurants')?.addEventListener('click',()=>loadTopRestaurants());
+document.getElementById('restaurantProvince')?.addEventListener('change',()=>{restaurantSearchOrigin=null;loadNearestRestaurants();});
+document.getElementById('refreshRestaurants')?.addEventListener('click',()=>loadNearestRestaurants());
 document.getElementById('restaurantsNearMe')?.addEventListener('click',openRestaurantsNearMe);
 document.getElementById('configurePlacesKey')?.addEventListener('click',configurePlacesKey);
-setTimeout(()=>{if(document.getElementById('restaurantList'))loadTopRestaurants();},600);
+setTimeout(()=>{if(document.getElementById('restaurantList'))loadNearestRestaurants();},600);
 
 document.querySelectorAll(".nav-button").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
 document.getElementById("supportForm")?.addEventListener("submit", async e=>{
@@ -4687,7 +4686,7 @@ renderAll();
     const CLOUD_COLLECTION = "users";
     const ACCESS_COLLECTION = "accessRequests";
     const LIVE_LOCATION_COLLECTION = "liveLocations";
-    const WEB_BUILD = "4.3.0";
+    const WEB_BUILD = "4.4.0";
     const ADMIN_EMAIL = "jbonilla2987@gmail.com";
     const STORAGE_VERSION = 4;
     const LOCAL_MODIFIED_KEY = "rutaRentableCloudLocalModifiedAtV1";
