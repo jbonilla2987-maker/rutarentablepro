@@ -1754,11 +1754,16 @@ table tbody tr:hover{background:#fafcfe}
             Periodo
             <select id="periodFilter">
               <option value="week" selected>Esta semana</option>
+              <option value="specific_week">Semana anterior / específica</option>
               <option value="month">Este mes</option>
               <option value="specific_month">Mes específico</option>
               <option value="year">Este año</option>
               <option value="all">Todo</option>
             </select>
+          </label>
+          <label id="dashboardWeekLabel" hidden>
+            Semana
+            <select id="dashboardWeekFilter"></select>
           </label>
           <label id="dashboardMonthLabel" hidden>
             Mes
@@ -3224,8 +3229,64 @@ function getRange(period) {
   }
   return { start, end };
 }
+function startOfWeek(dateValue) {
+  const d = new Date(dateValue);
+  d.setHours(0,0,0,0);
+  const day = d.getDay() || 7;
+  d.setDate(d.getDate() - day + 1);
+  return d;
+}
+function weekKey(dateValue) {
+  const d = startOfWeek(dateValue);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+function weekLabel(key) {
+  const [y,m,d] = String(key||"").split("-").map(Number);
+  if (!y || !m || !d) return "Semana";
+  const start = new Date(y,m-1,d);
+  const end = new Date(start); end.setDate(start.getDate()+6);
+  const fmt = new Intl.DateTimeFormat("es-PA", {day:"2-digit", month:"short"});
+  const yFmt = new Intl.DateTimeFormat("es-PA", {year:"numeric"});
+  return `${fmt.format(start)} – ${fmt.format(end)} ${yFmt.format(end)}`;
+}
+function availableWeekKeys() {
+  const keys = [];
+  const now = startOfWeek(new Date());
+  for (let i=0;i<16;i++) {
+    const d = new Date(now); d.setDate(now.getDate() - i*7);
+    keys.push(weekKey(d));
+  }
+  closedSessions().forEach(session => {
+    const raw = session.endDate || session.startDate;
+    if (raw) keys.push(weekKey(localDateTime(raw, session.endTime || session.startTime || "12:00")));
+  });
+  return [...new Set(keys)].sort().reverse();
+}
+function populateDashboardWeekFilter() {
+  const select = document.getElementById("dashboardWeekFilter");
+  if (!select) return;
+  const previous = select.value;
+  const sorted = availableWeekKeys();
+  select.innerHTML = sorted.map(key => `<option value="${key}">${weekLabel(key)}</option>`).join("");
+  const fallback = sorted[1] || sorted[0] || weekKey(new Date());
+  select.value = sorted.includes(previous) ? previous : fallback;
+}
+function selectedSpecificWeekRange() {
+  const key = document.getElementById("dashboardWeekFilter")?.value || weekKey(new Date());
+  const [y,m,d] = key.split("-").map(Number);
+  const start = new Date(y,m-1,d); start.setHours(0,0,0,0);
+  const end = new Date(start); end.setDate(start.getDate()+6); end.setHours(23,59,59,999);
+  return {start,end};
+}
 function filteredClosedSessions() {
   const period = document.getElementById("periodFilter").value;
+  if (period === "specific_week") {
+    const {start,end} = selectedSpecificWeekRange();
+    return closedSessions().filter(session => {
+      const d = localDateTime(session.endDate || session.startDate, session.endTime || session.startTime);
+      return d >= start && d <= end;
+    });
+  }
   if (period === "specific_month") {
     const selected = document.getElementById("dashboardMonthFilter")?.value || currentMonthKey();
     return closedSessions().filter(session => monthKey(session.endDate || session.startDate) === selected);
@@ -3238,6 +3299,13 @@ function filteredClosedSessions() {
 }
 function filteredManualExpenses() {
   const period = document.getElementById("periodFilter").value;
+  if (period === "specific_week") {
+    const {start,end} = selectedSpecificWeekRange();
+    return state.expenses.filter(expense => {
+      const d = localDateTime(expense.date, "12:00");
+      return d >= start && d <= end;
+    });
+  }
   if (period === "specific_month") {
     const selected = document.getElementById("dashboardMonthFilter")?.value || currentMonthKey();
     return state.expenses.filter(expense => monthKey(expense.date) === selected);
@@ -3286,8 +3354,11 @@ function populateDashboardMonthFilter() {
 }
 function updateDashboardPeriodControls() {
   const period = document.getElementById("periodFilter")?.value;
-  const label = document.getElementById("dashboardMonthLabel");
-  if (label) label.hidden = period !== "specific_month";
+  const weekLabelEl = document.getElementById("dashboardWeekLabel");
+  const monthLabelEl = document.getElementById("dashboardMonthLabel");
+  if (weekLabelEl) weekLabelEl.hidden = period !== "specific_week";
+  if (monthLabelEl) monthLabelEl.hidden = period !== "specific_month";
+  if (period === "specific_week") populateDashboardWeekFilter();
   if (period === "specific_month") populateDashboardMonthFilter();
 }
 function reportClosedSessions() {
@@ -4218,7 +4289,7 @@ let geoapifyRestaurantReady=false;
 function setPlacesStatus(text,tone=''){ const el=document.getElementById('placesStatusBadge'); if(!el)return; el.textContent=text; el.dataset.tone=tone; }
 function getSelectedRestaurantProvince(){ const key=document.getElementById('restaurantProvince')?.value||'panama'; return RESTAURANT_PROVINCES[key]||RESTAURANT_PROVINCES.panama; }
 function clearRestaurantMarkers(){ restaurantMarkers.forEach(m=>{try{m.remove();}catch(_){}}); restaurantMarkers=[]; }
-function getGeoapifyKey(){ return String(window.RUTARENTABLE_GEOAPIFY_KEY||'').trim(); }
+function getGeoapifyKey(){ return String(window.RUTARENTABLE_GEOAPIFY_KEY||window.RUTARENTABLE_GEOAPIFY_API_KEY||'').trim(); }
 function geoapifyConfigured(){ const k=getGeoapifyKey(); return !!k && !/PEGA_AQUI|YOUR_|TU_CLAVE|API_KEY/i.test(k); }
 function showGeoapifyConfigError(){
   const list=document.getElementById('restaurantList'),summary=document.getElementById('restaurantSummaryText');
@@ -4347,6 +4418,7 @@ window.addEventListener("rutarentable:support-updated", renderSupportMessagesLoc
 document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.go)));
 document.getElementById("menuButton").addEventListener("click",()=>document.getElementById("sidebar").classList.toggle("open"));
 document.getElementById("periodFilter").addEventListener("change",()=>{updateDashboardPeriodControls();renderDashboard();});
+document.getElementById("dashboardWeekFilter").addEventListener("change",()=>{renderDashboard();});
 document.getElementById("dashboardMonthFilter").addEventListener("change",()=>{renderDashboard();});
 document.getElementById("reportMonthFilter").addEventListener("change",()=>{renderReports();});
 document.getElementById("mainActionButton").addEventListener("click",startAction);
@@ -4727,7 +4799,7 @@ renderAll();
     const CLOUD_COLLECTION = "users";
     const ACCESS_COLLECTION = "accessRequests";
     const LIVE_LOCATION_COLLECTION = "liveLocations";
-    const WEB_BUILD = "5.1.0";
+    const WEB_BUILD = "5.1.1";
     const ADMIN_EMAIL = "jbonilla2987@gmail.com";
     const STORAGE_VERSION = 4;
     const LOCAL_MODIFIED_KEY = "rutaRentableCloudLocalModifiedAtV1";
@@ -6157,7 +6229,9 @@ table tbody tr:hover{background:#f8fbff}
 /* Ajuste WEB: filtros superiores más amplios y columnas de jornadas alineadas */
 @media (min-width:851px){
   .header-actions label{min-width:168px}
-  .header-actions #periodFilter{width:168px;min-width:168px}
+  .header-actions #periodFilter{width:220px;min-width:220px}
+  .header-actions #dashboardWeekFilter{width:210px;min-width:210px}
+  .header-actions #dashboardMonthFilter{width:190px;min-width:190px}
   .header-actions #dashboardMonthLabel{min-width:178px}
   .header-actions #dashboardMonthFilter{width:178px;min-width:178px}
 }
