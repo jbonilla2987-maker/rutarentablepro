@@ -1346,7 +1346,7 @@ table tbody tr:hover{background:#fbfefc}
 .restaurant-map-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:2px 2px 10px}.restaurant-map-head h3{margin:0;font-size:16px}.restaurant-map-frame{width:100%;height:520px;border:0;border-radius:14px;background:#eef3f8}
 .restaurant-empty{grid-column:1/-1;padding:24px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:16px}
 
-/* RutaRentable PRO 4.5 — restaurantes nacionales con OpenStreetMap + Overpass */
+/* RutaRentable PRO 5.0 — Restaurantes Google Maps por provincia */
 .restaurant-status-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .restaurant-tools-dynamic{grid-template-columns:minmax(220px,.85fr) minmax(260px,1.2fr) auto auto}
 .restaurant-summary-strip{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 15px;margin:-2px 0 14px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(135deg,#f8fbff,#f6fff9)}
@@ -1357,6 +1357,11 @@ table tbody tr:hover{background:#fbfefc}
 .restaurant-live-info{min-width:0;flex:1}.restaurant-title-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.restaurant-title-row h3{font-size:15px;margin:0}.restaurant-rating{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:4px;font-size:12px;color:var(--muted)}.restaurant-rating strong{font-size:16px;color:#17243a}.restaurant-rating .stars{letter-spacing:1px;color:#f5a623;font-size:14px}.restaurant-live-info p{margin:5px 0 8px}.restaurant-open,.restaurant-closed{font-size:10px;font-weight:900;padding:4px 7px;border-radius:999px}.restaurant-open{background:#e8f8ee;color:#16864b}.restaurant-closed{background:#fff0f1;color:#c83747}
 .restaurant-api-help{display:flex;flex-direction:column;align-items:center;gap:9px}.restaurant-api-help span{max-width:650px;line-height:1.5}.restaurant-loading{font-weight:800}.restaurant-map-actions{margin-top:10px;display:flex}.restaurant-map-actions .button{width:100%;justify-content:center}
 #placesStatusBadge[data-tone="warn"]{background:#fff7df;color:#986a00}#placesStatusBadge[data-tone="error"]{background:#fff0f1;color:#b42335}#placesStatusBadge[data-tone="ok"]{background:#e9f9ef;color:#157a43}
+
+/* RutaRentable PRO 5.0 — Google Maps / Places: provincia + mapa + listado sincronizado */
+.restaurant-tools-google{display:grid;grid-template-columns:minmax(240px,360px) auto;gap:10px;align-items:center;margin:0 0 16px}.restaurant-tools-google select{min-height:48px;border:1px solid var(--line);border-radius:14px;padding:0 14px;background:#fff;color:var(--text);font:inherit;font-weight:800}.restaurant-google-map{width:100%;height:500px;border-radius:14px;background:#eef3f8;overflow:hidden}.restaurant-map-card.google-map-card{position:sticky;top:18px}.restaurant-list.map-visible-list{grid-template-columns:1fr;gap:10px}.restaurant-map-hint{font-size:12px;color:var(--muted);line-height:1.45;margin-top:8px}.restaurant-list-count{font-weight:900;color:#2d6cdf}.restaurant-rating-stars{color:#f5a623;letter-spacing:.5px}.restaurant-card .restaurant-google-link{white-space:nowrap}.gm-style .gm-style-iw-c{border-radius:14px!important}
+@media(max-width:1050px){.restaurant-map-card.google-map-card{position:relative;top:auto}.restaurant-google-map{height:460px}}
+@media(max-width:700px){.restaurant-tools-google{grid-template-columns:1fr}.restaurant-google-map{height:390px}}
 @media(max-width:1180px){.restaurant-tools-dynamic{grid-template-columns:1fr 1fr 1fr}.restaurant-tools-dynamic .button{min-height:44px}}
 @media(max-width:700px){.restaurant-live-main{align-items:flex-start}.restaurant-photo{width:58px;height:58px;flex-basis:58px}.restaurant-live-card{padding-left:42px}.restaurant-summary-strip{align-items:flex-start;flex-direction:column}.restaurant-status-row{width:100%}.restaurant-status-row .button{flex:1}.restaurant-tools-dynamic{grid-template-columns:1fr}}
 @media(max-width:1050px){.restaurant-layout{grid-template-columns:1fr}.restaurant-map-card{position:relative;top:auto}.restaurant-map-frame{height:420px}}
@@ -1615,6 +1620,7 @@ table tbody tr:hover{background:#fafcfe}
 @media(max-width:620px){#reports .platform-profit-section{padding:15px!important}#reports .platform-profit-layout{grid-template-columns:1fr!important}.platform-profit-heading{align-items:flex-start}.platform-profit-heading-icon{flex:0 0 40px;width:40px;height:40px;border-radius:12px;font-size:21px}#reports .platform-profit-title h3{font-size:20px!important}#reports .profit-legend-row{grid-template-columns:50px minmax(0,1fr) 82px!important;gap:10px!important;min-height:94px;padding:12px!important}.profit-platform-icon{width:48px;height:48px;border-radius:13px;font-size:18px}.profit-legend-main strong{font-size:15px!important}.profit-legend-main small{font-size:10px!important;gap:5px}.profit-legend-side{padding-left:10px}.profit-legend-side strong{font-size:19px}.profit-legend-side small{font-size:10px}}
 </style>
 
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
 </head>
 <body>
   <div class="auth-gate" id="authGate">
@@ -1749,11 +1755,16 @@ table tbody tr:hover{background:#fafcfe}
             Periodo
             <select id="periodFilter">
               <option value="week" selected>Esta semana</option>
+              <option value="specific_week">Semana anterior / específica</option>
               <option value="month">Este mes</option>
               <option value="specific_month">Mes específico</option>
               <option value="year">Este año</option>
               <option value="all">Todo</option>
             </select>
+          </label>
+          <label id="dashboardWeekLabel" hidden>
+            Semana
+            <select id="dashboardWeekFilter"></select>
           </label>
           <label id="dashboardMonthLabel" hidden>
             Mes
@@ -2174,15 +2185,15 @@ table tbody tr:hover{background:#fafcfe}
       <section class="view" id="restaurants">
         <div class="section-heading restaurants-intro">
           <div>
-            <h2>🍽️ Restaurantes de Panamá</h2>
-            <p class="restaurants-intro-note">Selecciona una provincia y RutaRentable mostrará los 10 restaurantes más cercanos a tu ubicación disponibles en esa provincia.</p>
+            <h2>🍽️ Restaurantes por provincia</h2>
+            <p class="restaurants-intro-note">Selecciona una provincia para ver directamente en Google Maps los restaurantes de esa zona. No requiere API ni configuración adicional.</p>
           </div>
           <div class="restaurant-status-row">
-            <span class="admin-badge" id="placesStatusBadge">🗺 OpenStreetMap · sin clave</span>
+            <span class="admin-badge" id="placesStatusBadge">🗺 Google Maps</span>
           </div>
         </div>
 
-        <div class="restaurant-tools restaurant-tools-dynamic">
+        <div class="restaurant-tools-google">
           <select id="restaurantProvince" aria-label="Seleccionar provincia">
             <option value="panama">Panamá</option>
             <option value="panama_oeste">Panamá Oeste</option>
@@ -2195,28 +2206,21 @@ table tbody tr:hover{background:#fafcfe}
             <option value="bocas">Bocas del Toro</option>
             <option value="darien">Darién</option>
           </select>
-          <input id="restaurantSearch" type="search" placeholder="Filtrar por nombre…" aria-label="Filtrar restaurantes">
-          <button class="button primary" type="button" id="refreshRestaurants">↻ Actualizar</button>
-          <button class="button secondary" type="button" id="restaurantsNearMe">📍 Cerca de mí</button>
+          <a class="button primary" id="openRestaurantsGoogleMaps" target="_blank" rel="noopener">📍 Abrir zona en Google Maps</a>
         </div>
 
         <div class="restaurant-summary-strip">
-          <div><strong id="restaurantZoneTitle">Panamá</strong><span id="restaurantSummaryText">Obteniendo tu ubicación para encontrar los restaurantes más cercanos…</span></div>
-          <span class="restaurant-rank-note">Orden: distancia desde tu ubicación</span>
+          <div><strong id="restaurantZoneTitle">Panamá</strong><span id="restaurantSummaryText">Restaurantes visibles directamente en Google Maps</span></div>
+          <span class="restaurant-rank-note">Selecciona un restaurante en el mapa y usa Ruta / Cómo llegar</span>
         </div>
 
-        <div class="restaurant-layout">
-          <div>
-            <div class="restaurant-list dynamic" id="restaurantList">
-              <div class="restaurant-empty" id="restaurantEmpty">Permite tu ubicación para mostrar los 10 restaurantes más cercanos con datos de OpenStreetMap.</div>
-            </div>
+        <div class="restaurant-google-viewer-card" style="background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:var(--shadow);">
+          <div class="restaurant-map-head" style="margin-bottom:10px;display:flex;justify-content:space-between;gap:12px;align-items:center;">
+            <div><h3 style="margin:0;">Mapa de restaurantes</h3><span class="muted" id="restaurantMapLabel">Provincia de Panamá</span></div>
+            <span class="restaurant-tag">Google Maps</span>
           </div>
-
-          <aside class="restaurant-map-card">
-            <div class="restaurant-map-head"><div><h3>Mapa de restaurantes</h3><span class="muted" id="restaurantMapLabel">Provincia de Panamá</span></div><span class="restaurant-tag">OpenStreetMap</span></div>
-            <iframe id="restaurantMap" class="restaurant-map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.openstreetmap.org/export/embed.html?bbox=-79.75%2C8.85%2C-79.25%2C9.25&amp;layer=mapnik" title="Mapa de restaurantes de Panamá"></iframe>
-            <div class="restaurant-map-actions"><a id="restaurantZoneMapsLink" class="button secondary" target="_blank" rel="noopener" href="https://www.openstreetmap.org/#map=10/9.1012/-79.4029">🗺 Abrir zona en OSM</a></div>
-          </aside>
+          <iframe id="restaurantGoogleViewer" title="Restaurantes en Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width:100%;height:610px;border:0;border-radius:14px;background:#eef3f8;" allowfullscreen></iframe>
+          <div class="restaurant-map-hint" style="margin-top:10px;">Toca un restaurante dentro del mapa para ver su información. Al seleccionar <b>Ruta</b> o <b>Cómo llegar</b>, Google Maps abrirá la navegación.</div>
         </div>
       </section>
 
@@ -2814,7 +2818,6 @@ table tbody tr:hover{background:#fafcfe}
 
   <div class="mobile-work-bar" id="mobileWorkBar" aria-live="polite"></div>
   <div class="toast" id="toast"></div>
-  <script src="./geoapify-config.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script>
 (() => {
@@ -3221,8 +3224,64 @@ function getRange(period) {
   }
   return { start, end };
 }
+function startOfWeek(dateValue) {
+  const d = new Date(dateValue);
+  d.setHours(0,0,0,0);
+  const day = d.getDay() || 7;
+  d.setDate(d.getDate() - day + 1);
+  return d;
+}
+function weekKey(dateValue) {
+  const d = startOfWeek(dateValue);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+function weekLabel(key) {
+  const [y,m,d] = String(key||"").split("-").map(Number);
+  if (!y || !m || !d) return "Semana";
+  const start = new Date(y,m-1,d);
+  const end = new Date(start); end.setDate(start.getDate()+6);
+  const fmt = new Intl.DateTimeFormat("es-PA", {day:"2-digit", month:"short"});
+  const yFmt = new Intl.DateTimeFormat("es-PA", {year:"numeric"});
+  return `${fmt.format(start)} – ${fmt.format(end)} ${yFmt.format(end)}`;
+}
+function availableWeekKeys() {
+  const keys = [];
+  const now = startOfWeek(new Date());
+  for (let i=0;i<16;i++) {
+    const d = new Date(now); d.setDate(now.getDate() - i*7);
+    keys.push(weekKey(d));
+  }
+  closedSessions().forEach(session => {
+    const raw = session.endDate || session.startDate;
+    if (raw) keys.push(weekKey(localDateTime(raw, session.endTime || session.startTime || "12:00")));
+  });
+  return [...new Set(keys)].sort().reverse();
+}
+function populateDashboardWeekFilter() {
+  const select = document.getElementById("dashboardWeekFilter");
+  if (!select) return;
+  const previous = select.value;
+  const sorted = availableWeekKeys();
+  select.innerHTML = sorted.map(key => `<option value="${key}">${weekLabel(key)}</option>`).join("");
+  const fallback = sorted[1] || sorted[0] || weekKey(new Date());
+  select.value = sorted.includes(previous) ? previous : fallback;
+}
+function selectedSpecificWeekRange() {
+  const key = document.getElementById("dashboardWeekFilter")?.value || weekKey(new Date());
+  const [y,m,d] = key.split("-").map(Number);
+  const start = new Date(y,m-1,d); start.setHours(0,0,0,0);
+  const end = new Date(start); end.setDate(start.getDate()+6); end.setHours(23,59,59,999);
+  return {start,end};
+}
 function filteredClosedSessions() {
   const period = document.getElementById("periodFilter").value;
+  if (period === "specific_week") {
+    const {start,end} = selectedSpecificWeekRange();
+    return closedSessions().filter(session => {
+      const d = localDateTime(session.endDate || session.startDate, session.endTime || session.startTime);
+      return d >= start && d <= end;
+    });
+  }
   if (period === "specific_month") {
     const selected = document.getElementById("dashboardMonthFilter")?.value || currentMonthKey();
     return closedSessions().filter(session => monthKey(session.endDate || session.startDate) === selected);
@@ -3235,6 +3294,13 @@ function filteredClosedSessions() {
 }
 function filteredManualExpenses() {
   const period = document.getElementById("periodFilter").value;
+  if (period === "specific_week") {
+    const {start,end} = selectedSpecificWeekRange();
+    return state.expenses.filter(expense => {
+      const d = localDateTime(expense.date, "12:00");
+      return d >= start && d <= end;
+    });
+  }
   if (period === "specific_month") {
     const selected = document.getElementById("dashboardMonthFilter")?.value || currentMonthKey();
     return state.expenses.filter(expense => monthKey(expense.date) === selected);
@@ -3283,8 +3349,11 @@ function populateDashboardMonthFilter() {
 }
 function updateDashboardPeriodControls() {
   const period = document.getElementById("periodFilter")?.value;
-  const label = document.getElementById("dashboardMonthLabel");
-  if (label) label.hidden = period !== "specific_month";
+  const weekLabelEl = document.getElementById("dashboardWeekLabel");
+  const monthLabelEl = document.getElementById("dashboardMonthLabel");
+  if (weekLabelEl) weekLabelEl.hidden = period !== "specific_week";
+  if (monthLabelEl) monthLabelEl.hidden = period !== "specific_month";
+  if (period === "specific_week") populateDashboardWeekFilter();
   if (period === "specific_month") populateDashboardMonthFilter();
 }
 function reportClosedSessions() {
@@ -4196,126 +4265,39 @@ function exportSessionsCsv() {
 
 
 const RESTAURANT_PROVINCES={
-  panama:{name:'Panamá',lat:9.1012,lng:-79.4029,zoom:10},
-  panama_oeste:{name:'Panamá Oeste',lat:8.8803,lng:-79.7833,zoom:10},
-  colon:{name:'Colón',lat:9.1850,lng:-80.0535,zoom:10},
-  cocle:{name:'Coclé',lat:8.5080,lng:-80.4277,zoom:10},
-  veraguas:{name:'Veraguas',lat:8.1231,lng:-81.0755,zoom:9},
-  chiriqui:{name:'Chiriquí',lat:8.4273,lng:-82.4309,zoom:9},
-  herrera:{name:'Herrera',lat:7.8650,lng:-80.6770,zoom:10},
-  los_santos:{name:'Los Santos',lat:7.5844,lng:-80.3538,zoom:9},
-  bocas:{name:'Bocas del Toro',lat:9.3403,lng:-82.2415,zoom:9},
-  darien:{name:'Darién',lat:8.4200,lng:-77.8700,zoom:8}
+  panama:{name:'Panamá',query:'restaurantes en Panamá, Panamá'},
+  panama_oeste:{name:'Panamá Oeste',query:'restaurantes en Panamá Oeste, Panamá'},
+  colon:{name:'Colón',query:'restaurantes en Colón, Panamá'},
+  cocle:{name:'Coclé',query:'restaurantes en Coclé, Panamá'},
+  veraguas:{name:'Veraguas',query:'restaurantes en Veraguas, Panamá'},
+  chiriqui:{name:'Chiriquí',query:'restaurantes en Chiriquí, Panamá'},
+  herrera:{name:'Herrera',query:'restaurantes en Herrera, Panamá'},
+  los_santos:{name:'Los Santos',query:'restaurantes en Los Santos, Panamá'},
+  bocas:{name:'Bocas del Toro',query:'restaurantes en Bocas del Toro, Panamá'},
+  darien:{name:'Darién',query:'restaurantes en Darién, Panamá'}
 };
-let restaurantMapInstance=null;
-let restaurantMarkers=[];
-let restaurantPlaces=[];
-let geoapifyRestaurantReady=false;
-
-function setPlacesStatus(text,tone=''){ const el=document.getElementById('placesStatusBadge'); if(!el)return; el.textContent=text; el.dataset.tone=tone; }
-function getSelectedRestaurantProvince(){ const key=document.getElementById('restaurantProvince')?.value||'panama'; return RESTAURANT_PROVINCES[key]||RESTAURANT_PROVINCES.panama; }
-function clearRestaurantMarkers(){ restaurantMarkers.forEach(m=>{try{m.remove();}catch(_){}}); restaurantMarkers=[]; }
-function getGeoapifyKey(){ return String(window.RUTARENTABLE_GEOAPIFY_KEY||'').trim(); }
-function geoapifyConfigured(){ const k=getGeoapifyKey(); return !!k && !/PEGA_AQUI|YOUR_|TU_CLAVE|API_KEY/i.test(k); }
-function showGeoapifyConfigError(){
-  const list=document.getElementById('restaurantList'),summary=document.getElementById('restaurantSummaryText');
-  if(list)list.innerHTML='<div class="restaurant-empty restaurant-api-help"><strong>Falta configurar Geoapify.</strong><span>Abre el archivo <b>geoapify-config.js</b> del paquete y pega tu API key gratuita de Geoapify.</span></div>';
-  if(summary)summary.textContent='Geoapify aún no está configurado.';
-  setPlacesStatus('⚠ Configurar Geoapify','error');
+function getSelectedRestaurantProvince(){
+  const key=document.getElementById('restaurantProvince')?.value||'panama';
+  return RESTAURANT_PROVINCES[key]||RESTAURANT_PROVINCES.panama;
 }
-async function initRestaurantGeoapifyMap(){
-  if(geoapifyRestaurantReady&&restaurantMapInstance) return true;
-  if(!geoapifyConfigured()){ showGeoapifyConfigError(); return false; }
-  if(typeof L==='undefined'){
-    const list=document.getElementById('restaurantList');
-    if(list)list.innerHTML='<div class="restaurant-empty"><strong>No se pudo cargar el mapa.</strong><br>Comprueba tu conexión a Internet y vuelve a abrir Restaurantes.</div>';
-    setPlacesStatus('Mapa no disponible','error'); return false;
-  }
+function updateRestaurantGoogleViewer(){
   const province=getSelectedRestaurantProvince();
-  const el=document.getElementById('restaurantMap'); if(!el)return false;
-  restaurantMapInstance=L.map(el,{zoomControl:true,scrollWheelZoom:true}).setView([province.lat,province.lng],province.zoom);
-  const key=getGeoapifyKey();
-  const base='https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey={apiKey}';
-  const retina='https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}@2x.png?apiKey={apiKey}';
-  L.tileLayer(L.Browser.retina?retina:base,{
-    apiKey:key,maxZoom:20,
-    attribution:'Powered by <a href="https://www.geoapify.com/" target="_blank" rel="noopener">Geoapify</a> | © OpenStreetMap contributors'
-  }).addTo(restaurantMapInstance);
-  geoapifyRestaurantReady=true;
-  setPlacesStatus('🗺 Geoapify listo','ok');
-  setTimeout(()=>restaurantMapInstance.invalidateSize(),80);
-  return true;
+  const frame=document.getElementById('restaurantGoogleViewer');
+  const title=document.getElementById('restaurantZoneTitle');
+  const label=document.getElementById('restaurantMapLabel');
+  const summary=document.getElementById('restaurantSummaryText');
+  const open=document.getElementById('openRestaurantsGoogleMaps');
+  const badge=document.getElementById('placesStatusBadge');
+  const q=encodeURIComponent(province.query);
+  if(title)title.textContent=province.name;
+  if(label)label.textContent='Provincia de '+province.name;
+  if(summary)summary.textContent='Restaurantes de '+province.name+' mostrados por Google Maps';
+  if(badge)badge.textContent='🗺 Google Maps · '+province.name;
+  if(frame)frame.src='https://www.google.com/maps?q='+q+'&output=embed';
+  if(open)open.href='https://www.google.com/maps/search/?api=1&query='+q;
 }
-function updateRestaurantProvinceMap(province){
-  const title=document.getElementById('restaurantZoneTitle'),label=document.getElementById('restaurantMapLabel');
-  if(title)title.textContent=province.name; if(label)label.textContent='Provincia de '+province.name;
-  if(restaurantMapInstance){restaurantMapInstance.setView([province.lat,province.lng],province.zoom);setTimeout(()=>restaurantMapInstance.invalidateSize(),80);}
-}
-function escapeAttr(v){return String(v??'').replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');}
-function renderGeoapifyRestaurantList(){
-  const list=document.getElementById('restaurantList'),summary=document.getElementById('restaurantSummaryText'); if(!list)return;
-  list.innerHTML='';
-  if(!restaurantPlaces.length){list.innerHTML='<div class="restaurant-empty">No se encontraron restaurantes en la zona visible. Acerca el mapa a un área con más actividad y pulsa Actualizar esta zona.</div>';if(summary)summary.textContent='Sin restaurantes en esta zona visible.';return;}
-  if(summary)summary.innerHTML=`<span class="restaurant-list-count">${restaurantPlaces.length}</span> restaurantes visibles en el mapa`;
-  restaurantPlaces.forEach((place,i)=>{
-    const p=place.properties||{};
-    const name=p.name||p.address_line1||'Restaurante';
-    const addr=p.formatted||p.address_line2||'Dirección no disponible';
-    const distance=Number(p.distance);
-    const distanceText=Number.isFinite(distance)?(distance<1000?`${Math.round(distance)} m`:`${(distance/1000).toFixed(1)} km`):'';
-    const cuisine=Array.isArray(p.catering?.cuisine)?p.catering.cuisine.join(', '):(p.catering?.cuisine||'');
-    const lat=Number(p.lat ?? place.geometry?.coordinates?.[1]);
-    const lon=Number(p.lon ?? place.geometry?.coordinates?.[0]);
-    const mapsUrl=Number.isFinite(lat)&&Number.isFinite(lon)?`https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`:`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name+' '+addr)}`;
-    const article=document.createElement('article');article.className='restaurant-card restaurant-live-card';
-    article.innerHTML=`<div class="restaurant-rank">#${i+1}</div><div class="restaurant-live-main"><div class="restaurant-photo restaurant-photo-fallback">🍽️</div><div class="restaurant-live-info"><div class="restaurant-title-row"><h3>${escapeHtml(name)}</h3></div><div class="restaurant-rating">${distanceText?`<strong>${escapeHtml(distanceText)}</strong><span>desde el centro del mapa</span>`:'<span>Restaurante de la zona visible</span>'}</div><p>${escapeHtml(addr)}</p>${cuisine?`<div class="restaurant-meta"><span class="restaurant-tag">${escapeHtml(cuisine)}</span></div>`:''}<div class="restaurant-actions"><button class="button primary" type="button" data-place-index="${i}">📍 Ver en mapa</button><a class="button secondary restaurant-google-link" target="_blank" rel="noopener" href="${escapeAttr(mapsUrl)}">Cómo llegar ↗</a></div></div></div>`;
-    article.querySelector('[data-place-index]')?.addEventListener('click',()=>focusGeoapifyRestaurant(i)); list.appendChild(article);
-  });
-}
-function focusGeoapifyRestaurant(index){
-  const place=restaurantPlaces[index],marker=restaurantMarkers[index]; if(!place||!restaurantMapInstance)return;
-  const p=place.properties||{}; const lat=Number(p.lat ?? place.geometry?.coordinates?.[1]),lon=Number(p.lon ?? place.geometry?.coordinates?.[0]);
-  if(!Number.isFinite(lat)||!Number.isFinite(lon))return;
-  restaurantMapInstance.setView([lat,lon],Math.max(16,restaurantMapInstance.getZoom()||16));
-  if(marker){marker.openPopup();}
-}
-async function loadRestaurantsForVisibleMap(){
-  const ok=await initRestaurantGeoapifyMap(); if(!ok)return;
-  const list=document.getElementById('restaurantList'),summary=document.getElementById('restaurantSummaryText');
-  if(list)list.innerHTML='<div class="restaurant-empty restaurant-loading">Buscando restaurantes en la zona visible…</div>'; if(summary)summary.textContent='Consultando Geoapify Places…'; setPlacesStatus('🍽 Consultando Geoapify…');
-  try{
-    const bounds=restaurantMapInstance.getBounds(); const center=restaurantMapInstance.getCenter();
-    const sw=bounds.getSouthWest(),ne=bounds.getNorthEast();
-    const params=new URLSearchParams({
-      categories:'catering.restaurant',
-      filter:`rect:${sw.lng},${sw.lat},${ne.lng},${ne.lat}`,
-      bias:`proximity:${center.lng},${center.lat}`,
-      limit:'20',lang:'es',apiKey:getGeoapifyKey()
-    });
-    const res=await fetch('https://api.geoapify.com/v2/places?'+params.toString(),{headers:{Accept:'application/json'}});
-    if(!res.ok) throw new Error('GEOAPIFY_HTTP_'+res.status);
-    const data=await res.json();
-    clearRestaurantMarkers(); restaurantPlaces=Array.isArray(data.features)?data.features:[];
-    restaurantPlaces.forEach((place,i)=>{
-      const p=place.properties||{}; const lat=Number(p.lat ?? place.geometry?.coordinates?.[1]),lon=Number(p.lon ?? place.geometry?.coordinates?.[0]);
-      if(!Number.isFinite(lat)||!Number.isFinite(lon))return;
-      const name=p.name||p.address_line1||'Restaurante';
-      const marker=L.marker([lat,lon],{title:name}).addTo(restaurantMapInstance).bindPopup(`<strong>${escapeHtml(name)}</strong><br><span>${escapeHtml(p.formatted||'')}</span>`);
-      marker.on('click',()=>focusGeoapifyRestaurant(i)); restaurantMarkers.push(marker);
-    });
-    renderGeoapifyRestaurantList();setPlacesStatus(`📍 ${restaurantPlaces.length} restaurantes · Geoapify`,'ok');
-  }catch(err){
-    console.warn('Geoapify Places:',err);restaurantPlaces=[];clearRestaurantMarkers();
-    if(list)list.innerHTML='<div class="restaurant-empty restaurant-api-help"><strong>No pude consultar Geoapify.</strong><span>Comprueba tu API key, tu conexión y que no hayas superado el límite gratuito diario.</span></div>';
-    if(summary)summary.textContent='No fue posible consultar restaurantes.';setPlacesStatus('Geoapify no disponible','error');
-  }
-}
-async function changeRestaurantProvince(){
-  const ok=await initRestaurantGeoapifyMap(); if(!ok)return; const province=getSelectedRestaurantProvince();updateRestaurantProvinceMap(province);setTimeout(loadRestaurantsForVisibleMap,350);
-}
-document.getElementById('restaurantProvince')?.addEventListener('change',changeRestaurantProvince);
-document.getElementById('refreshRestaurants')?.addEventListener('click',loadRestaurantsForVisibleMap);
-setTimeout(changeRestaurantProvince,700);
+document.getElementById('restaurantProvince')?.addEventListener('change',updateRestaurantGoogleViewer);
+setTimeout(updateRestaurantGoogleViewer,300);
 
 document.querySelectorAll(".nav-button").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
 document.getElementById("supportForm")?.addEventListener("submit", async e=>{
@@ -4344,6 +4326,7 @@ window.addEventListener("rutarentable:support-updated", renderSupportMessagesLoc
 document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.go)));
 document.getElementById("menuButton").addEventListener("click",()=>document.getElementById("sidebar").classList.toggle("open"));
 document.getElementById("periodFilter").addEventListener("change",()=>{updateDashboardPeriodControls();renderDashboard();});
+document.getElementById("dashboardWeekFilter").addEventListener("change",()=>{renderDashboard();});
 document.getElementById("dashboardMonthFilter").addEventListener("change",()=>{renderDashboard();});
 document.getElementById("reportMonthFilter").addEventListener("change",()=>{renderReports();});
 document.getElementById("mainActionButton").addEventListener("click",startAction);
@@ -4724,7 +4707,7 @@ renderAll();
     const CLOUD_COLLECTION = "users";
     const ACCESS_COLLECTION = "accessRequests";
     const LIVE_LOCATION_COLLECTION = "liveLocations";
-    const WEB_BUILD = "4.5.0";
+    const WEB_BUILD = "5.1.3";
     const ADMIN_EMAIL = "jbonilla2987@gmail.com";
     const STORAGE_VERSION = 4;
     const LOCAL_MODIFIED_KEY = "rutaRentableCloudLocalModifiedAtV1";
@@ -6154,7 +6137,9 @@ table tbody tr:hover{background:#f8fbff}
 /* Ajuste WEB: filtros superiores más amplios y columnas de jornadas alineadas */
 @media (min-width:851px){
   .header-actions label{min-width:168px}
-  .header-actions #periodFilter{width:168px;min-width:168px}
+  .header-actions #periodFilter{width:220px;min-width:220px}
+  .header-actions #dashboardWeekFilter{width:210px;min-width:210px}
+  .header-actions #dashboardMonthFilter{width:190px;min-width:190px}
   .header-actions #dashboardMonthLabel{min-width:178px}
   .header-actions #dashboardMonthFilter{width:178px;min-width:178px}
 }
