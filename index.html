@@ -1679,6 +1679,20 @@ table tbody tr:hover{background:#fafcfe}
 </style>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+
+<style id="rr-user-chat-css">
+.user-chat-layout{display:grid;grid-template-columns:320px minmax(0,1fr);gap:18px;min-height:560px}
+.user-chat-list,.user-chat-main{padding:0;overflow:hidden}.user-chat-list-head{padding:18px;border-bottom:1px solid var(--line)}
+.user-chat-list-head input{width:100%;margin-top:10px}.user-chat-contacts{max-height:500px;overflow:auto;padding:8px}
+.user-chat-contact{width:100%;display:flex;align-items:center;gap:10px;padding:11px;border:0;background:transparent;border-radius:13px;text-align:left;cursor:pointer;color:inherit}
+.user-chat-contact:hover,.user-chat-contact.active{background:#eef8f3}.user-chat-avatar{width:40px;height:40px;border-radius:50%;object-fit:cover;background:#dfe9e4;display:grid;place-items:center;font-weight:800;color:#17613f;flex:0 0 auto}
+.user-chat-contact-name{font-weight:760}.user-chat-contact-sub{font-size:11px;color:var(--muted);margin-top:2px}.user-chat-empty{padding:24px;color:var(--muted);text-align:center}
+.user-chat-head{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line);min-height:74px}.user-chat-head h3{margin:0}.user-chat-head p{margin:3px 0 0;color:var(--muted);font-size:12px}
+.user-chat-messages{height:420px;overflow:auto;padding:20px;background:linear-gradient(180deg,#f8fafc,#fff);display:flex;flex-direction:column;gap:10px}
+.user-chat-bubble{max-width:76%;padding:10px 12px;border-radius:15px;line-height:1.4}.user-chat-bubble.mine{align-self:flex-end;background:linear-gradient(135deg,#21bf70,#0b9e58);color:white;border-bottom-right-radius:5px}.user-chat-bubble.theirs{align-self:flex-start;background:white;border:1px solid #e4eaf0;border-bottom-left-radius:5px}.user-chat-bubble small{display:block;margin-top:4px;font-size:10px;opacity:.72}
+.user-chat-form{display:grid;grid-template-columns:1fr auto;gap:10px;padding:14px;border-top:1px solid var(--line)}.user-chat-form textarea{min-height:48px;max-height:120px;resize:vertical}.user-chat-status{padding:0 16px 14px;font-size:11px;color:var(--muted)}
+@media(max-width:800px){.user-chat-layout{grid-template-columns:1fr}.user-chat-contacts{max-height:240px}.user-chat-messages{height:360px}}
+</style>
 </head>
 <body>
   <div class="auth-gate" id="authGate">
@@ -1782,6 +1796,7 @@ table tbody tr:hover{background:#fafcfe}
         <button class="nav-button" data-view="reports"><span>▤</span> Reportes</button>
         <button class="nav-button" data-view="airports"><span>✈</span> Aeropuertos</button>
         <button class="nav-button" data-view="restaurants"><span>🍽</span> Restaurantes</button>
+        <button class="nav-button" data-view="messages"><span>✉</span> Mensajes</button>
         <button class="nav-button" data-view="support"><span>◌</span> Soporte</button>
         <button class="nav-button admin-nav-button" id="adminUsersNavButton" data-view="adminUsers" hidden><span>👥</span> Usuarios</button>
         <button class="nav-button admin-nav-button" id="trackingNavButton" data-view="tracking" hidden><span>📍</span> Rastreo</button>
@@ -2400,6 +2415,22 @@ table tbody tr:hover{background:#fafcfe}
             <div class="tracking-list" id="trackingUsersList">
               <div class="tracking-empty">Envía el enlace GPS a un celular y activa la ubicación para comenzar la prueba.</div>
             </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="messages">
+        <div class="section-heading"><div><h2>Mensajes</h2><p>Escribe directamente a otros usuarios aprobados de RutaRentable.</p></div></div>
+        <div class="user-chat-layout">
+          <aside class="panel user-chat-list">
+            <div class="user-chat-list-head"><strong>Usuarios</strong><input id="userChatSearch" type="search" placeholder="Buscar usuario…"></div>
+            <div class="user-chat-contacts" id="userChatContacts"><div class="user-chat-empty">Cargando usuarios…</div></div>
+          </aside>
+          <article class="panel user-chat-main">
+            <div class="user-chat-head"><div class="user-chat-avatar" id="userChatHeaderAvatar">RR</div><div><h3 id="userChatHeaderName">Selecciona un usuario</h3><p id="userChatHeaderSub">Abre una conversación privada.</p></div></div>
+            <div class="user-chat-messages" id="userChatMessages"><div class="user-chat-empty">Selecciona una persona de la lista para comenzar.</div></div>
+            <form class="user-chat-form" id="userChatForm"><textarea id="userChatInput" maxlength="2000" placeholder="Escribe un mensaje…" disabled required></textarea><button class="button primary" id="userChatSend" type="submit" disabled>Enviar</button></form>
+            <div class="user-chat-status" id="userChatStatus">Conversaciones privadas entre participantes.</div>
           </article>
         </div>
       </section>
@@ -4041,6 +4072,7 @@ function showView(id) {
     reports:["Reportes","Compara ingresos, horas y kilómetros."],
     airports:["Aeropuertos","Consulta vuelos para planificar mejor dónde y cuándo trabajar."],
     restaurants:["Restaurantes","Explora restaurantes y ubícalos rápidamente en el mapa."],
+    messages:["Mensajes","Conversaciones privadas entre usuarios aprobados."],
     support:["Soporte","Chat interno para consultas y seguimiento."],
     adminUsers:["Usuarios","Administra solicitudes y accesos a RutaRentable."],
     tracking:["Rastreo","Visualiza en el mapa los celulares que comparten su ubicación."],
@@ -4747,7 +4779,7 @@ renderAll();
     import {
       initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
       doc, getDoc, setDoc, onSnapshot, serverTimestamp, collection, getDocs,
-      writeBatch, deleteField, deleteDoc
+      writeBatch, deleteField, deleteDoc, query, where
     } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
     import {
       initializeAppCheck, ReCaptchaEnterpriseProvider
@@ -4765,7 +4797,7 @@ renderAll();
     const CLOUD_COLLECTION = "users";
     const ACCESS_COLLECTION = "accessRequests";
     const LIVE_LOCATION_COLLECTION = "liveLocations";
-    const WEB_BUILD = "5.1.3";
+    const WEB_BUILD = "5.1.5";
     const ADMIN_EMAIL = "jbonilla2987@gmail.com";
     const STORAGE_VERSION = 4;
     const LOCAL_MODIFIED_KEY = "rutaRentableCloudLocalModifiedAtV1";
@@ -4786,6 +4818,12 @@ renderAll();
     let unsubscribeAdminUsers = null;
     let unsubscribeTrackingLocations = null;
     let unsubscribeSupportMessages = null;
+    let unsubscribePublicProfiles = null;
+    let unsubscribeUserChats = null;
+    let unsubscribeUserChatMessages = null;
+    let selectedChatUser = null;
+    let latestPublicProfiles = [];
+    let latestUserChats = [];
     let trackingMap = null;
     let trackingLayer = null;
     let trackingLeafletPromise = null;
@@ -5793,6 +5831,10 @@ Cancelar: subir los datos de este dispositivo.`
       if (unsubscribeAdminUsers) { unsubscribeAdminUsers(); unsubscribeAdminUsers = null; }
       if (unsubscribeTrackingLocations) { unsubscribeTrackingLocations(); unsubscribeTrackingLocations = null; }
       if (unsubscribeSupportMessages) { unsubscribeSupportMessages(); unsubscribeSupportMessages = null; }
+        if (unsubscribePublicProfiles) { unsubscribePublicProfiles(); unsubscribePublicProfiles = null; }
+        if (unsubscribeUserChats) { unsubscribeUserChats(); unsubscribeUserChats = null; }
+        if (unsubscribeUserChatMessages) { unsubscribeUserChatMessages(); unsubscribeUserChatMessages = null; }
+        selectedChatUser=null; latestPublicProfiles=[]; latestUserChats=[];
       setTrackingNavVisible(false);
       currentAccessStatus = null;
       currentAccessRole = "user";
@@ -5936,6 +5978,61 @@ Cancelar: subir los datos de este dispositivo.`
       } catch {}
     });
 
+    function chatIdFor(a,b){ return [String(a),String(b)].sort().join("__"); }
+    function chatInitial(name){ return String(name||"U").trim().charAt(0).toUpperCase() || "U"; }
+    async function ensurePublicProfile(){
+      if(!currentUser || currentAccessStatus!=="approved") return;
+      const ref=doc(db,"publicProfiles",currentUser.uid);
+      await setDoc(ref,{uid:currentUser.uid,name:currentUser.displayName||currentUser.email||"Usuario",photoURL:currentUser.photoURL||"",role:currentAccessRole||"user",updatedAt:serverTimestamp()},{merge:true});
+    }
+    function renderUserChatContacts(){
+      const box=$("userChatContacts"); if(!box) return;
+      const term=String($("userChatSearch")?.value||"").trim().toLowerCase();
+      const rows=latestPublicProfiles.filter(x=>x.uid!==currentUser?.uid && (!term || String(x.name||"").toLowerCase().includes(term)));
+      if(!rows.length){box.innerHTML='<div class="user-chat-empty">No hay otros usuarios aprobados disponibles.</div>';return;}
+      box.innerHTML=rows.map(x=>`<button class="user-chat-contact ${selectedChatUser?.uid===x.uid?'active':''}" type="button" data-chat-uid="${escapeHtml(x.uid)}"><div class="user-chat-avatar">${x.photoURL?`<img src="${escapeHtml(x.photoURL)}" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover">`:escapeHtml(chatInitial(x.name))}</div><div><div class="user-chat-contact-name">${escapeHtml(x.name||'Usuario')}</div><div class="user-chat-contact-sub">Usuario aprobado</div></div></button>`).join('');
+      box.querySelectorAll('[data-chat-uid]').forEach(b=>b.addEventListener('click',()=>openUserChat(b.dataset.chatUid)));
+    }
+    function startPublicProfilesListener(){
+      if(unsubscribePublicProfiles){unsubscribePublicProfiles();unsubscribePublicProfiles=null;}
+      if(!currentUser || currentAccessStatus!=="approved") return;
+      unsubscribePublicProfiles=onSnapshot(collection(db,"publicProfiles"),snap=>{
+        latestPublicProfiles=snap.docs.map(d=>({uid:d.id,...d.data()})).sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''),'es'));
+        renderUserChatContacts();
+      },err=>{console.warn('Perfiles de chat:',err); if($("userChatContacts")) $("userChatContacts").innerHTML='<div class="user-chat-empty">No se pudieron cargar los usuarios. Revisa las reglas de Firestore.</div>';});
+    }
+    function startUserChatsListener(){
+      if(unsubscribeUserChats){unsubscribeUserChats();unsubscribeUserChats=null;}
+      if(!currentUser || currentAccessStatus!=="approved") return;
+      const q=query(collection(db,"chats"),where("participants","array-contains",currentUser.uid));
+      unsubscribeUserChats=onSnapshot(q,snap=>{latestUserChats=snap.docs.map(d=>({id:d.id,...d.data()}));},err=>console.warn('Conversaciones:',err));
+    }
+    async function openUserChat(uid){
+      if(!currentUser) return;
+      const other=latestPublicProfiles.find(x=>x.uid===uid); if(!other) return;
+      selectedChatUser=other; renderUserChatContacts();
+      $("userChatHeaderName").textContent=other.name||"Usuario"; $("userChatHeaderSub").textContent="Conversación privada";
+      $("userChatHeaderAvatar").textContent=chatInitial(other.name); $("userChatInput").disabled=false; $("userChatSend").disabled=false;
+      const chatId=chatIdFor(currentUser.uid,uid); const chatRef=doc(db,"chats",chatId); const snap=await getDoc(chatRef);
+      if(!snap.exists()) await setDoc(chatRef,{participants:[currentUser.uid,uid].sort(),createdAt:serverTimestamp(),createdAtMs:Date.now(),updatedAt:serverTimestamp(),updatedAtMs:Date.now(),lastMessage:""});
+      if(unsubscribeUserChatMessages){unsubscribeUserChatMessages();unsubscribeUserChatMessages=null;}
+      unsubscribeUserChatMessages=onSnapshot(collection(db,"chats",chatId,"messages"),snap2=>{
+        const rows=snap2.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>Number(a.createdAtMs||0)-Number(b.createdAtMs||0));
+        const box=$("userChatMessages"); if(!box) return;
+        box.innerHTML=rows.length?rows.slice(-200).map(m=>`<div class="user-chat-bubble ${m.senderId===currentUser.uid?'mine':'theirs'}"><div>${escapeHtml(m.text||'')}</div><small>${m.senderId===currentUser.uid?'Tú':escapeHtml(other.name||'Usuario')} · ${new Date(Number(m.createdAtMs||Date.now())).toLocaleString('es-PA',{dateStyle:'short',timeStyle:'short'})}</small></div>`).join(''):'<div class="user-chat-empty">Todavía no hay mensajes. Escribe el primero.</div>';
+        box.scrollTop=box.scrollHeight;
+      },err=>console.warn('Mensajes:',err));
+    }
+    async function sendUserChatMessage(text){
+      if(!currentUser || !selectedChatUser) throw new Error('Selecciona un usuario.');
+      const clean=String(text||'').trim().slice(0,2000); if(!clean) return;
+      const chatId=chatIdFor(currentUser.uid,selectedChatUser.uid); const id=`m_${Date.now()}_${Math.random().toString(36).slice(2,8)}`;
+      await setDoc(doc(db,"chats",chatId,"messages",id),{senderId:currentUser.uid,text:clean,createdAt:serverTimestamp(),createdAtMs:Date.now()});
+      await setDoc(doc(db,"chats",chatId),{participants:[currentUser.uid,selectedChatUser.uid].sort(),updatedAt:serverTimestamp(),updatedAtMs:Date.now(),lastMessage:clean,lastSenderId:currentUser.uid},{merge:true});
+    }
+    $("userChatSearch")?.addEventListener('input',renderUserChatContacts);
+    $("userChatForm")?.addEventListener('submit',async e=>{e.preventDefault(); const input=$("userChatInput"); const text=String(input?.value||'').trim(); if(!text)return; try{$("userChatSend").disabled=true; await sendUserChatMessage(text); input.value=''; $("userChatStatus").textContent='Mensaje enviado.';}catch(err){console.warn(err);$("userChatStatus").textContent='No se pudo enviar. Revisa conexión y reglas de Firestore.';}finally{$("userChatSend").disabled=false;}});
+
     function startSupportMessageListener() {
       if (unsubscribeSupportMessages) { unsubscribeSupportMessages(); unsubscribeSupportMessages = null; }
       if (!currentUser) return;
@@ -6021,6 +6118,9 @@ onAuthStateChanged(auth, async user => {
         }
         $("authGateStatus").textContent = isAdminUser(user) ? "Administrador aprobado. Cargando tus datos…" : "Cargando tus datos…";
         await initializeUserCloud(user);
+        await ensurePublicProfile();
+        startPublicProfilesListener();
+        startUserChatsListener();
         $("authGate")?.classList.add("hidden");
       } catch (error) {
         console.error("Inicialización de usuario:", error);

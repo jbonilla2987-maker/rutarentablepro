@@ -1,116 +1,41 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
     function signedIn() { return request.auth != null; }
-    function isPrimaryAdmin() {
-      return signedIn() && request.auth.token.email == "jbonilla2987@gmail.com";
+    function isAdmin() { return signedIn() && request.auth.token.email == "jbonilla2987@gmail.com"; }
+    function isApproved(userId) { return isAdmin() || (signedIn() && request.auth.uid == userId && exists(/databases/$(database)/documents/accessRequests/$(userId)) && get(/databases/$(database)/documents/accessRequests/$(userId)).data.status == "approved"); }
+    function userIsApproved(userId) { return signedIn() && exists(/databases/$(database)/documents/accessRequests/$(userId)) && get(/databases/$(database)/documents/accessRequests/$(userId)).data.status == "approved"; }
+    function isChatParticipant(chatId) { return signedIn() && exists(/databases/$(database)/documents/chats/$(chatId)) && request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.participants; }
+    match /accessRequests/{userId} {
+      allow list: if isAdmin(); allow get: if isAdmin() || (signedIn() && request.auth.uid == userId);
+      allow create: if isAdmin() || (signedIn() && request.auth.uid == userId && request.resource.data.status == "pending" && request.resource.data.role == "user" && request.resource.data.email == request.auth.token.email);
+      allow update: if isAdmin(); allow delete: if isAdmin() || (signedIn() && request.auth.uid == userId && resource.data.status == "approved");
     }
-    function hasAdminRole() {
-      return signedIn()
-        && exists(/databases/$(database)/documents/accessRequests/$(request.auth.uid))
-        && get(/databases/$(database)/documents/accessRequests/$(request.auth.uid)).data.status == "approved"
-        && get(/databases/$(database)/documents/accessRequests/$(request.auth.uid)).data.role == "admin";
-    }
-    function isAdmin() { return isPrimaryAdmin() || hasAdminRole(); }
-    function own(uid) { return signedIn() && request.auth.uid == uid; }
-    function approved(uid) {
-      return isAdmin() || (
-        own(uid) &&
-        exists(/databases/$(database)/documents/accessRequests/$(uid)) &&
-        get(/databases/$(database)/documents/accessRequests/$(uid)).data.status == "approved"
-      );
-    }
-
-    match /accessRequests/{uid} {
-      allow list: if isAdmin();
-      allow get: if isAdmin() || own(uid);
-      allow create: if isAdmin() || (
-        own(uid) &&
-        request.resource.data.status == "pending" &&
-        request.resource.data.role == "user" &&
-        request.resource.data.email == request.auth.token.email
-      );
-      allow update: if isPrimaryAdmin()
-        || (isAdmin() && request.resource.data.role == resource.data.role);
-      allow delete: if isAdmin() || (
-        own(uid) && resource.data.status == "approved"
-      );
-    }
-
-    match /users/{uid} {
-      allow read: if isAdmin() || approved(uid);
-      allow create, update, delete: if approved(uid) && own(uid);
-      match /{document=**} {
-        allow read: if isAdmin() || approved(uid);
-        allow create, update, delete: if approved(uid) && own(uid);
-      }
-    }
-
-    match /liveLocations/{uid} {
+    match /liveLocations/{userId} {
       allow read: if isAdmin();
-      allow create, update: if approved(uid) && own(uid)
-        && request.resource.data.uid == request.auth.uid
-        && request.resource.data.email == request.auth.token.email;
-      allow delete: if isAdmin() || (approved(uid) && own(uid));
+      allow create, update: if signedIn() && request.auth.uid == userId && isApproved(userId) && request.resource.data.uid == request.auth.uid && request.resource.data.email == request.auth.token.email && request.resource.data.lat is number && request.resource.data.lng is number;
+      allow delete: if isAdmin() || (signedIn() && request.auth.uid == userId && isApproved(userId));
     }
-
-    match /dataExportRequests/{uid} {
-      allow list: if isAdmin();
-      allow read: if isAdmin() || own(uid);
-      allow create: if approved(uid) && own(uid)
-        && request.resource.data.uid == request.auth.uid
-        && request.resource.data.status == "pending";
-      allow update: if isAdmin() || (approved(uid) && own(uid));
-      allow delete: if isAdmin();
+    match /users/{userId} {
+      allow read: if isAdmin() || (signedIn() && request.auth.uid == userId && isApproved(userId));
+      allow create, update, delete: if signedIn() && request.auth.uid == userId && isApproved(userId);
+      match /{document=**} { allow read: if isAdmin() || (signedIn() && request.auth.uid == userId && isApproved(userId)); allow create, update, delete: if signedIn() && request.auth.uid == userId && isApproved(userId); }
     }
-
-    match /dataDeletionRequests/{uid} {
-      allow list: if isAdmin();
-      allow read: if isAdmin() || own(uid);
-      allow create: if approved(uid) && own(uid)
-        && request.resource.data.uid == request.auth.uid
-        && request.resource.data.status == "pending";
-      allow update: if isAdmin() || (approved(uid) && own(uid) && request.resource.data.status == "pending");
-      allow delete: if isAdmin();
+    match /publicProfiles/{userId} {
+      allow read: if signedIn() && userIsApproved(request.auth.uid);
+      allow create, update: if signedIn() && request.auth.uid == userId && userIsApproved(userId) && request.resource.data.uid == request.auth.uid;
+      allow delete: if isAdmin() || (signedIn() && request.auth.uid == userId);
     }
-
-    match /supportThreads/{uid} {
-      allow list: if isAdmin();
-      allow read, create, update: if isAdmin() || (approved(uid) && own(uid));
-      allow delete: if isAdmin();
-      match /messages/{messageId} {
-        allow read: if isAdmin() || (approved(uid) && own(uid));
-        allow create: if isAdmin() || (
-          approved(uid) && own(uid) && request.resource.data.senderUid == request.auth.uid
-        );
-        allow update, delete: if isAdmin();
-      }
-    }
-
-    match /chatDirectory/{uid} {
-      allow read: if signedIn();
-      allow create, update: if approved(uid) && own(uid)
-        && request.resource.data.uid == request.auth.uid;
-      allow delete: if isAdmin() || (approved(uid) && own(uid));
-    }
-
-    match /userChats/{chatId} {
+    match /chats/{chatId} {
       allow read: if signedIn() && request.auth.uid in resource.data.participants;
-      allow create: if signedIn()
-        && request.resource.data.participants.size() == 2
-        && request.auth.uid in request.resource.data.participants;
-      allow update: if signedIn()
-        && request.auth.uid in resource.data.participants
-        && request.resource.data.participants == resource.data.participants;
+      allow create: if signedIn() && userIsApproved(request.auth.uid) && request.resource.data.participants is list && request.resource.data.participants.size() == 2 && request.auth.uid in request.resource.data.participants && userIsApproved(request.resource.data.participants[0]) && userIsApproved(request.resource.data.participants[1]);
+      allow update: if signedIn() && request.auth.uid in resource.data.participants && request.resource.data.participants == resource.data.participants;
       allow delete: if isAdmin();
-
       match /messages/{messageId} {
-        function parentChat() { return get(/databases/$(database)/documents/userChats/$(chatId)); }
-        allow read: if signedIn() && request.auth.uid in parentChat().data.participants;
-        allow create: if signedIn()
-          && request.auth.uid in parentChat().data.participants
-          && request.resource.data.senderUid == request.auth.uid;
-        allow update, delete: if isAdmin();
+        allow read: if isChatParticipant(chatId);
+        allow create: if isChatParticipant(chatId) && request.resource.data.senderId == request.auth.uid && request.resource.data.text is string && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 2000;
+        allow update: if false; allow delete: if isAdmin();
       }
     }
   }
